@@ -7,13 +7,13 @@ addpath(genpath(folder));
 %% EuRoC MAV results
 
 % [1] Set paths:
-gt_dir = '~/LSV-SLAM/results_and_matlab/gtFiles/';
-our_vo_dir = '~/LSV-SLAM/results_and_matlab/results/EuRoC_MAV/results_our_vo/';
-our_slam_dir = '~/LSV-SLAM/results_and_matlab/results/EuRoC_MAV/results_our_slam/';
-dso_default_dir = '~/LSV-SLAM/results_and_matlab/results/EuRoC_MAV/results_dso_default/';
-dso_reduced_dir = '~/LSV-SLAM/results_and_matlab/results/EuRoC_MAV/results_dso_reduced/';
-orb_vo_dir = '~/LSV-SLAM/results_and_matlab/results/EuRoC_MAV/results_orb_vo/';
-orb_slam_dir = '~/LSV-SLAM/results_and_matlab/results/EuRoC_MAV/results_orb_slam/';
+gt_dir = '~/LCSD-SLAM/results_and_matlab/gtFiles/';
+our_vo_dir = '~/LCSD-SLAM/results_and_matlab/results/EuRoC_MAV/results_our_vo/';
+our_slam_dir = '~/LCSD-SLAM/results_and_matlab/results/EuRoC_MAV/results_our_slam/';
+dso_default_dir = '~/LCSD-SLAM/results_and_matlab/results/EuRoC_MAV/results_dso_default/';
+dso_reduced_dir = '~/LCSD-SLAM/results_and_matlab/results/EuRoC_MAV/results_dso_reduced/';
+orb_vo_dir = '~/LCSD-SLAM/results_and_matlab/results/EuRoC_MAV/results_orb_vo/';
+orb_slam_dir = '~/LCSD-SLAM/results_and_matlab/results/EuRoC_MAV/results_orb_slam/';
 
 % [2] Select mode:
 % - 1: Plot pre-evaluated results to make the same figures in the paper.
@@ -64,12 +64,12 @@ end
 
 % [1] Set paths
 FILEPATH_gt = gt_dir;
-FILEPATH_our_vo= '~/LSV-SLAM/results_and_matlab/results/TUM_monoVO/results_our_vo/';
-FILEPATH_our_slam= '~/LSV-SLAM/results_and_matlab/results/TUM_monoVO/results_our_slam/';
-FILEPATH_dso_default = '~/LSV-SLAM/results_and_matlab/results/TUM_monoVO/results_dso_default/';
-FILEPATH_dso_reduced = '~/LSV-SLAM/results_and_matlab/results/TUM_monoVO/results_dso_reduced/';
-FILEPATH_orb_vo = '~/LSV-SLAM/results_and_matlab/results/TUM_monoVO/results_orb_vo/';
-FILEPATH_orb_slam = '~/LSV-SLAM/results_and_matlab/results/TUM_monoVO/results_orb_slam/';
+FILEPATH_our_vo= '~/LCSD-SLAM/results_and_matlab/results/TUM_monoVO/results_our_vo/';
+FILEPATH_our_slam= '~/LCSD-SLAM/results_and_matlab/results/TUM_monoVO/results_our_slam/';
+FILEPATH_dso_default = '~/LCSD-SLAM/results_and_matlab/results/TUM_monoVO/results_dso_default/';
+FILEPATH_dso_reduced = '~/LCSD-SLAM/results_and_matlab/results/TUM_monoVO/results_dso_reduced/';
+FILEPATH_orb_vo = '~/LCSD-SLAM/results_and_matlab/results/TUM_monoVO/results_orb_vo/';
+FILEPATH_orb_slam = '~/LCSD-SLAM/results_and_matlab/results/TUM_monoVO/results_orb_slam/';
 
 
 % [2] Select mode:
