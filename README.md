@@ -15,7 +15,7 @@ Our implementation is based on [ORB-SLAM2](https://github.com/raulmur/ORB_SLAM2)
 So please install the required (and recommended) dependencies for each project first.
 These are: ROS, C++11 compiler, suitesparse, eigen3, Pangolin, and OpenCV. 
 The instructions can be found in their original project pages.
-We tested our code using Ubuntu 14.04 and ROS Indigo.
+We tested our code using Ubuntu 14.04 (ROS Indigo) and Ubuntu 16.04 (ROS Kinetic).
 
 ### 2.3. How to build:
 
