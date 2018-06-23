@@ -1,0 +1,2073 @@
+Map.cc:2:* This file is part of ORB-SLAM2.
+Map.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+Map.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+Map.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+Map.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+Map.cc:36:    if(pKF->mnId>mnMaxKFid)
+Map.cc:37:        mnMaxKFid=pKF->mnId;
+Map.cc:135:        if (!(*it)->isBad())
+Map.cc:160:            if (!(*it)->isBad())
+Map.cc:163:                good_orb_poses.push_back((*it)->GetTranslation());
+Map.cc:164:                good_dso_poses.push_back((*it)->GetDsoTranslation());
+FrameDrawer.cc:2:* This file is part of ORB-SLAM2.
+FrameDrawer.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+FrameDrawer.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+FrameDrawer.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+FrameDrawer.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+FrameDrawer.cc:80:    } // destroy scoped mutex -> release mutex
+FrameDrawer.cc:108:                pt1.x=vCurrentKeys[i].pt.x-r;
+FrameDrawer.cc:109:                pt1.y=vCurrentKeys[i].pt.y-r;
+FrameDrawer.cc:121:                        //cv::circle(im,vCurrentKeys[i].pt,2,cv::Scalar(0,255,0),-1);
+FrameDrawer.cc:128:                    //cv::circle(im,vCurrentKeys[i].pt,2,cv::Scalar(0,0,255),-1);
+FrameDrawer.cc:142:        cv::circle(im,pt,1,cv::Scalar(255,0,0),-1);
+FrameDrawer.cc:165:        int nKFs = mpMap->KeyFramesInMap();
+FrameDrawer.cc:166:        int nMPs = mpMap->MapPointsInMap();
+FrameDrawer.cc:188:    cv::putText(imText,s.str(),cv::Point(5,imText.rows-17),cv::FONT_HERSHEY_PLAIN,1,cv::Scalar(255,255,255),1,8);
+FrameDrawer.cc:189:    cv::putText(imText,s2.str(),cv::Point(5,imText.rows-5),cv::FONT_HERSHEY_PLAIN,1,cv::Scalar(255,255,255),1,8);
+FrameDrawer.cc:196:    pTracker->mImGray.copyTo(mIm);
+FrameDrawer.cc:197:    mvCurrentKeys=pTracker->mCurrentFrame.mvKeys;
+FrameDrawer.cc:202:    mbOnlyTracking = pTracker->mbOnlyTracking;
+FrameDrawer.cc:205:    uvzDSO = pTracker->uvzvar_from_DSO;
+FrameDrawer.cc:207:    if(pTracker->mLastProcessedState==Tracking::NOT_INITIALIZED)
+FrameDrawer.cc:209:        mvIniKeys=pTracker->mInitialFrame.mvKeys;
+FrameDrawer.cc:210:        mvIniMatches=pTracker->mvIniMatches;
+FrameDrawer.cc:212:    else if(pTracker->mLastProcessedState==Tracking::OK)
+FrameDrawer.cc:216:            MapPoint* pMP = pTracker->mCurrentFrame.mvpMapPoints[i];
+FrameDrawer.cc:219:                if(!pTracker->mCurrentFrame.mvbOutlier[i])
+FrameDrawer.cc:221:                    if(pMP->Observations()>0)
+FrameDrawer.cc:224:                        if(pMP->isFromDSO)
+FrameDrawer.cc:236:    mState=static_cast<int>(pTracker->mLastProcessedState);
+MapPoint.cc:2:* This file is part of ORB-SLAM2.
+MapPoint.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+MapPoint.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+MapPoint.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+MapPoint.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+MapPoint.cc:33:    mnFirstKFid(pRefKF->mnId), mnFirstFrame(pRefKF->mnFrameId), nObs(0), mnTrackReferenceForFrame(0),
+MapPoint.cc:43:    unique_lock<mutex> lock(mpMap->mMutexPointCreation);
+MapPoint.cc:48:    mnFirstKFid(-1), mnFirstFrame(pFrame->mnId), nObs(0), mnTrackReferenceForFrame(0), mnLastFrameSeen(0),
+MapPoint.cc:55:    cv::Mat Ow = pFrame->GetCameraCenter();
+MapPoint.cc:56:    mNormalVector = mWorldPos - Ow;
+MapPoint.cc:59:    cv::Mat PC = Pos - Ow;
+MapPoint.cc:61:    const int level = pFrame->mvKeysUn[idxF].octave;
+MapPoint.cc:62:    const float levelScaleFactor =  pFrame->mvScaleFactors[level];
+MapPoint.cc:63:    const int nLevels = pFrame->mnScaleLevels;
+MapPoint.cc:66:    mfMinDistance = mfMaxDistance/pFrame->mvScaleFactors[nLevels-1];
+MapPoint.cc:68:    pFrame->mDescriptors.row(idxF).copyTo(mDescriptor);
+MapPoint.cc:71:    unique_lock<mutex> lock(mpMap->mMutexPointCreation);
+MapPoint.cc:107:    if(pKF->mvuRight[idx]>=0)
+MapPoint.cc:121:            if(pKF->mvuRight[idx]>=0)
+MapPoint.cc:122:                nObs-=2;
+MapPoint.cc:124:                nObs--;
+MapPoint.cc:129:                mpRefKF=mObservations.begin()->first;
+MapPoint.cc:165:        KeyFrame* pKF = mit->first;
+MapPoint.cc:166:        pKF->EraseMapPointMatch(mit->second);
+MapPoint.cc:169:    mpMap->EraseMapPoint(this);
+MapPoint.cc:181:    if(pMP->mnId==this->mnId)
+MapPoint.cc:200:        KeyFrame* pKF = mit->first;
+MapPoint.cc:202:        if(!pMP->IsInKeyFrame(pKF))
+MapPoint.cc:204:            pKF->ReplaceMapPointMatch(mit->second, pMP);
+MapPoint.cc:205:            pMP->AddObservation(pKF,mit->second);
+MapPoint.cc:209:            pKF->EraseMapPointMatch(mit->second);
+MapPoint.cc:212:    pMP->IncreaseFound(nfound);
+MapPoint.cc:213:    pMP->IncreaseVisible(nvisible);
+MapPoint.cc:214:    pMP->ComputeDistinctiveDescriptors();
+MapPoint.cc:216:    mpMap->EraseMapPoint(this);
+MapPoint.cc:265:        KeyFrame* pKF = mit->first;
+MapPoint.cc:267:        if(!pKF->isBad())
+MapPoint.cc:268:            vDescriptors.push_back(pKF->mDescriptors.row(mit->second));
+MapPoint.cc:296:        int median = vDists[0.5*(N-1)];
+MapPoint.cc:323:        return -1;
+MapPoint.cc:354:        KeyFrame* pKF = mit->first;
+MapPoint.cc:355:        cv::Mat Owi = pKF->GetCameraCenter();
+MapPoint.cc:356:        cv::Mat normali = mWorldPos - Owi;
+MapPoint.cc:361:    cv::Mat PC = Pos - pRefKF->GetCameraCenter();
+MapPoint.cc:363:    const int level = pRefKF->mvKeysUn[observations[pRefKF]].octave;
+MapPoint.cc:364:    const float levelScaleFactor =  pRefKF->mvScaleFactors[level];
+MapPoint.cc:365:    const int nLevels = pRefKF->mnScaleLevels;
+MapPoint.cc:370:        mfMinDistance = mfMaxDistance/pRefKF->mvScaleFactors[nLevels-1];
+MapPoint.cc:395:    int nScale = ceil(log(ratio)/pKF->mfLogScaleFactor);
+MapPoint.cc:398:    else if(nScale>=pKF->mnScaleLevels)
+MapPoint.cc:399:        nScale = pKF->mnScaleLevels-1;
+MapPoint.cc:412:    int nScale = ceil(log(ratio)/pF->mfLogScaleFactor);
+MapPoint.cc:415:    else if(nScale>=pF->mnScaleLevels)
+MapPoint.cc:416:        nScale = pF->mnScaleLevels-1;
+Initializer.cc:2:* This file is part of ORB-SLAM2.
+Initializer.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+Initializer.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+Initializer.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+Initializer.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+Initializer.cc:89:            int randi = DUtils::Random::RandomInt(0,vAvailableIndices.size()-1);
+Initializer.cc:114:    // Try to reconstruct from homography or fundamental depending on the ratio (0.40-0.45)
+Initializer.cc:242:        A.at<float>(2*i,3) = -u1;
+Initializer.cc:243:        A.at<float>(2*i,4) = -v1;
+Initializer.cc:244:        A.at<float>(2*i,5) = -1;
+Initializer.cc:255:        A.at<float>(2*i+1,6) = -u2*u1;
+Initializer.cc:256:        A.at<float>(2*i+1,7) = -u2*v1;
+Initializer.cc:257:        A.at<float>(2*i+1,8) = -u2;
+Initializer.cc:356:        const float squareDist1 = (u1-u2in1)*(u1-u2in1)+(v1-v2in1)*(v1-v2in1);
+Initializer.cc:363:            score += th - chiSquare1;
+Initializer.cc:372:        const float squareDist2 = (u2-u1in2)*(u2-u1in2)+(v2-v1in2)*(v2-v1in2);
+Initializer.cc:379:            score += th - chiSquare2;
+Initializer.cc:441:            score += thScore - chiSquare1;
+Initializer.cc:459:            score += thScore - chiSquare2;
+Initializer.cc:487:    cv::Mat t2=-t;
+Initializer.cc:607:    //n'=[x1 0 x3] 4 posibilities e1=e3=1, e1=1 e3=-1, e1=-1 e3=1, e1=e3=-1
+Initializer.cc:608:    float aux1 = sqrt((d1*d1-d2*d2)/(d1*d1-d3*d3));
+Initializer.cc:609:    float aux3 = sqrt((d2*d2-d3*d3)/(d1*d1-d3*d3));
+Initializer.cc:610:    float x1[] = {aux1,aux1,-aux1,-aux1};
+Initializer.cc:611:    float x3[] = {aux3,-aux3,aux3,-aux3};
+Initializer.cc:614:    float aux_stheta = sqrt((d1*d1-d2*d2)*(d2*d2-d3*d3))/((d1+d3)*d2);
+Initializer.cc:617:    float stheta[] = {aux_stheta, -aux_stheta, -aux_stheta, aux_stheta};
+Initializer.cc:623:        Rp.at<float>(0,2)=-stheta[i];
+Initializer.cc:633:        tp.at<float>(2)=-x3[i];
+Initializer.cc:634:        tp*=d1-d3;
+Initializer.cc:647:            n=-n;
+Initializer.cc:651:    //case d'=-d2
+Initializer.cc:652:    float aux_sphi = sqrt((d1*d1-d2*d2)*(d2*d2-d3*d3))/((d1-d3)*d2);
+Initializer.cc:654:    float cphi = (d1*d3-d2*d2)/((d1-d3)*d2);
+Initializer.cc:655:    float sphi[] = {aux_sphi, -aux_sphi, -aux_sphi, aux_sphi};
+Initializer.cc:662:        Rp.at<float>(1,1)=-1;
+Initializer.cc:664:        Rp.at<float>(2,2)=-cphi;
+Initializer.cc:686:            n=-n;
+Initializer.cc:693:    int bestSolutionIdx = -1;
+Initializer.cc:694:    float bestParallax = -1;
+Initializer.cc:740:    A.row(0) = kp1.pt.x*P1.row(2)-P1.row(0);
+Initializer.cc:741:    A.row(1) = kp1.pt.y*P1.row(2)-P1.row(1);
+Initializer.cc:742:    A.row(2) = kp2.pt.x*P2.row(2)-P2.row(0);
+Initializer.cc:743:    A.row(3) = kp2.pt.y*P2.row(2)-P2.row(1);
+Initializer.cc:773:        vNormalizedPoints[i].x = vKeys[i].pt.x - meanX;
+Initializer.cc:774:        vNormalizedPoints[i].y = vKeys[i].pt.y - meanY;
+Initializer.cc:795:    T.at<float>(0,2) = -meanX*sX;
+Initializer.cc:796:    T.at<float>(1,2) = -meanY*sY;
+Initializer.cc:828:    cv::Mat O2 = -R.t()*t;
+Initializer.cc:850:        cv::Mat normal1 = p3dC1 - O1;
+Initializer.cc:853:        cv::Mat normal2 = p3dC1 - O2;
+Initializer.cc:874:        float squareError1 = (im1x-kp1.pt.x)*(im1x-kp1.pt.x)+(im1y-kp1.pt.y)*(im1y-kp1.pt.y);
+Initializer.cc:885:        float squareError2 = (im2x-kp2.pt.x)*(im2x-kp2.pt.x)+(im2y-kp2.pt.y)*(im2y-kp2.pt.y);
+Initializer.cc:902:        size_t idx = min(50,int(vCosParallax.size()-1));
+Initializer.cc:920:    W.at<float>(0,1)=-1;
+Initializer.cc:926:        R1=-R1;
+Initializer.cc:930:        R2=-R2;
+Tracking.cc:2:* This file is part of ORB-SLAM2.
+Tracking.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+Tracking.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+Tracking.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+Tracking.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+Tracking.cc:95:    cout << "- fx: " << fx << endl;
+Tracking.cc:96:    cout << "- fy: " << fy << endl;
+Tracking.cc:97:    cout << "- cx: " << cx << endl;
+Tracking.cc:98:    cout << "- cy: " << cy << endl;
+Tracking.cc:99:    cout << "- k1: " << DistCoef.at<float>(0) << endl;
+Tracking.cc:100:    cout << "- k2: " << DistCoef.at<float>(1) << endl;
+Tracking.cc:102:        cout << "- k3: " << DistCoef.at<float>(4) << endl;
+Tracking.cc:103:    cout << "- p1: " << DistCoef.at<float>(2) << endl;
+Tracking.cc:104:    cout << "- p2: " << DistCoef.at<float>(3) << endl;
+Tracking.cc:105:    cout << "- fps: " << fps << endl;
+Tracking.cc:112:        cout << "- color order: RGB (ignored if grayscale)" << endl;
+Tracking.cc:114:        cout << "- color order: BGR (ignored if grayscale)" << endl;
+Tracking.cc:133:    cout << "- Number of Features: " << nFeatures << endl;
+Tracking.cc:134:    cout << "- Scale Levels: " << nLevels << endl;
+Tracking.cc:135:    cout << "- Scale Factor: " << fScaleFactor << endl;
+Tracking.cc:136:    cout << "- Initial Fast Threshold: " << fIniThFAST << endl;
+Tracking.cc:137:    cout << "- Minimum Fast Threshold: " << fMinThFAST << endl;
+Tracking.cc:148:        if(fabs(mDepthMapFactor)<1e-5)
+Tracking.cc:232:    if((fabs(mDepthMapFactor-1.0f)>1e-5) || imDepth.type()!=CV_32F)
+Tracking.cc:328:    // Get Map Mutex -> Map cannot be changed
+Tracking.cc:329:    unique_lock<mutex> lock(mpMap->mMutexMapUpdate);
+Tracking.cc:339:        mpFrameDrawer->Update(this);
+Tracking.cc:434:                                    mCurrentFrame.mvpMapPoints[i]->IncreaseFound();
+Tracking.cc:472:        mpFrameDrawer->Update(this);
+Tracking.cc:489:            mpMapDrawer->SetCurrentCameraPose(mCurrentFrame.mTcw);
+Tracking.cc:496:                    if(pMP->Observations()<1)
+Tracking.cc:529:            if(mpMap->KeyFramesInMap()<=5)
+Tracking.cc:532:                mpSystem->Reset();
+Tracking.cc:546:        cv::Mat Tcr = mCurrentFrame.mTcw*mCurrentFrame.mpReferenceKF->GetPoseInverse();
+Tracking.cc:572:    // Get Map Mutex -> Map cannot be changed
+Tracking.cc:573:    unique_lock<mutex> lock(mpMap->mMutexMapUpdate);
+Tracking.cc:584:        mpFrameDrawer->Update(this);
+Tracking.cc:723:                                    mCurrentFrame.mvpMapPoints[i]->IncreaseFound();
+Tracking.cc:774:        mpFrameDrawer->Update(this);
+Tracking.cc:795:            mpMapDrawer->SetCurrentCameraPose(mCurrentFrame.mTcw);
+Tracking.cc:802:                    if(pMP->Observations()<1)
+Tracking.cc:819:            for (int i=0; i<mCurrentFrame.N;i++) // For all ORB-features
+Tracking.cc:823:                    pMP->isFromDSO = false;
+Tracking.cc:848:            if(mpMap->KeyFramesInMap()<=20)
+Tracking.cc:851:                mpSystem->Reset();
+Tracking.cc:866:        cv::Mat Tcr = mCurrentFrame.mTcw*mCurrentFrame.mpReferenceKF->GetPoseInverse();
+Tracking.cc:898:        mpMap->AddKeyFrame(pKFini);
+Tracking.cc:908:                pNewMP->AddObservation(pKFini,i);
+Tracking.cc:909:                pKFini->AddMapPoint(pNewMP,i);
+Tracking.cc:910:                pNewMP->ComputeDistinctiveDescriptors();
+Tracking.cc:911:                pNewMP->UpdateNormalAndDepth();
+Tracking.cc:912:                mpMap->AddMapPoint(pNewMP);
+Tracking.cc:918:        cout << "New map created with " << mpMap->MapPointsInMap() << " points" << endl;
+Tracking.cc:920:        mpLocalMapper->InsertKeyFrame(pKFini);
+Tracking.cc:927:        mvpLocalMapPoints=mpMap->GetAllMapPoints();
+Tracking.cc:931:        mpMap->SetReferenceMapPoints(mvpLocalMapPoints);
+Tracking.cc:933:        mpMap->mvpKeyFrameOrigins.push_back(pKFini);
+Tracking.cc:935:        mpMapDrawer->SetCurrentCameraPose(mCurrentFrame.mTcw);
+Tracking.cc:956:            cv::Mat t_inc_dso = -R_inc_dso*(T_cw_dso_LastGoodFrame.rowRange(0,3).col(3)) + tcw_dso;
+Tracking.cc:970:        mpMap->AddKeyFrame(pKFini);
+Tracking.cc:985:            pNewMP->AddObservation(pKFini,i);
+Tracking.cc:986:            pKFini->AddMapPoint(pNewMP,i);
+Tracking.cc:987:            pNewMP->ComputeDistinctiveDescriptors();
+Tracking.cc:988:            pNewMP->UpdateNormalAndDepth();
+Tracking.cc:989:            mpMap->AddMapPoint(pNewMP);
+Tracking.cc:1001:                for (unsigned j=0; j<mpLastKeyFrame->GetMapPoints().size(); j++)
+Tracking.cc:1004:                    MapPoint* pMP = mpLastKeyFrame->GetMapPoint(j);
+Tracking.cc:1008:                    else if (pMP->Observations() < 1)
+Tracking.cc:1011:                        mpLastKeyFrame->EraseMapPointMatch(j);
+Tracking.cc:1016:                        pNewMP->AddObservation(mpLastKeyFrame,j);
+Tracking.cc:1017:                        mpLastKeyFrame->AddMapPoint(pNewMP,j);
+Tracking.cc:1040:        mpLocalMapper->InsertKeyFrame(pKFini);
+Tracking.cc:1048:        mvpLocalMapPoints=mpMap->GetAllMapPoints();
+Tracking.cc:1053:        mpMap->SetReferenceMapPoints(mvpLocalMapPoints);
+Tracking.cc:1056:            mpMap->mvpKeyFrameOrigins.push_back(pKFini);
+Tracking.cc:1058:        mpMapDrawer->SetCurrentCameraPose(mCurrentFrame.mTcw);
+Tracking.cc:1087:            fill(mvIniMatches.begin(),mvIniMatches.end(),-1);
+Tracking.cc:1099:            fill(mvIniMatches.begin(),mvIniMatches.end(),-1);
+Tracking.cc:1119:        if(mpInitializer->Initialize(mCurrentFrame, mvIniMatches, Rcw, tcw, mvIniP3D, vbTriangulated))
+Tracking.cc:1125:                    mvIniMatches[i]=-1;
+Tracking.cc:1126:                    nmatches--;
+Tracking.cc:1150:    pKFini->ComputeBoW();
+Tracking.cc:1151:    pKFcur->ComputeBoW();
+Tracking.cc:1154:    mpMap->AddKeyFrame(pKFini);
+Tracking.cc:1155:    mpMap->AddKeyFrame(pKFcur);
+Tracking.cc:1168:        pKFini->AddMapPoint(pMP,i);
+Tracking.cc:1169:        pKFcur->AddMapPoint(pMP,mvIniMatches[i]);
+Tracking.cc:1171:        pMP->AddObservation(pKFini,i);
+Tracking.cc:1172:        pMP->AddObservation(pKFcur,mvIniMatches[i]);
+Tracking.cc:1174:        pMP->ComputeDistinctiveDescriptors();
+Tracking.cc:1175:        pMP->UpdateNormalAndDepth();
+Tracking.cc:1182:        mpMap->AddMapPoint(pMP);
+Tracking.cc:1186:    pKFini->UpdateConnections();
+Tracking.cc:1187:    pKFcur->UpdateConnections();
+Tracking.cc:1190:    cout << "New Map created with " << mpMap->MapPointsInMap() << " points" << endl;
+Tracking.cc:1195:    float medianDepth = pKFini->ComputeSceneMedianDepth(2);
+Tracking.cc:1198:    if(medianDepth<0 || pKFcur->TrackedMapPoints(1)<100)
+Tracking.cc:1206:    cv::Mat Tc2w = pKFcur->GetPose();
+Tracking.cc:1208:    pKFcur->SetPose(Tc2w);
+Tracking.cc:1211:    vector<MapPoint*> vpAllMapPoints = pKFini->GetMapPointMatches();
+Tracking.cc:1217:            const cv::Mat worldPos = pMP->GetWorldPos()*invMedianDepth;
+Tracking.cc:1218:            pMP->SetWorldPos(worldPos);
+Tracking.cc:1222:    mpLocalMapper->InsertKeyFrame(pKFini);
+Tracking.cc:1223:    mpLocalMapper->InsertKeyFrame(pKFcur);
+Tracking.cc:1225:    mCurrentFrame.SetPose(pKFcur->GetPose());
+Tracking.cc:1231:    mvpLocalMapPoints=mpMap->GetAllMapPoints();
+Tracking.cc:1237:    mpMap->SetReferenceMapPoints(mvpLocalMapPoints);
+Tracking.cc:1239:    mpMapDrawer->SetCurrentCameraPose(pKFcur->GetPose());
+Tracking.cc:1241:    mpMap->mvpKeyFrameOrigins.push_back(pKFini);
+Tracking.cc:1254:            MapPoint* pRep = pMP->GetReplaced();
+Tracking.cc:1293://    if (mVelocity.empty() /*|| mpMap->KeyFramesInMap() < 30*/)
+Tracking.cc:1315:                pMP->mbTrackInView = false;
+Tracking.cc:1316:                pMP->mnLastFrameSeen = mCurrentFrame.mnId;
+Tracking.cc:1317:                nmatches--;
+Tracking.cc:1319:            else if(mCurrentFrame.mvpMapPoints[i]->Observations()>0)
+Tracking.cc:1333:    cv::Mat lastPose = Tlr*pRef->GetPose();
+Tracking.cc:1342:    if (mpMap->KeyFramesInMap() < 3 || !add_DSO_points_nonKF)
+Tracking.cc:1346:    for (int i=0; i<mLastFrame.N;i++) // For all ORB-features
+Tracking.cc:1353:        else if(pMP->Observations()<1)
+Tracking.cc:1380://    // We sort points according to their measured depth by the stereo/RGB-D sensor
+Tracking.cc:1409://        else if(pMP->Observations()<1)
+Tracking.cc:1467:    // Optimize frame pose with all matches (Seong: for original ORB-SLAM)
+Tracking.cc:1483:                pMP->mbTrackInView = false;
+Tracking.cc:1484:                pMP->mnLastFrameSeen = mCurrentFrame.mnId;
+Tracking.cc:1485://                nmatches--;
+Tracking.cc:1487://            else if(mCurrentFrame.mvpMapPoints[i]->Observations()>0)
+Tracking.cc:1524:                mCurrentFrame.mvpMapPoints[i]->IncreaseFound();
+Tracking.cc:1527:                    if(mCurrentFrame.mvpMapPoints[i]->Observations()>0)
+Tracking.cc:1557:    if(mpLocalMapper->isStopped() || mpLocalMapper->stopRequested())
+Tracking.cc:1560:    const int nKFs = mpMap->KeyFramesInMap();
+Tracking.cc:1570:    int nRefMatches = mpReferenceKF->TrackedMapPoints(nMinObs);
+Tracking.cc:1573:    bool bLocalMappingIdle = mpLocalMapper->AcceptKeyFrames();
+Tracking.cc:1621:            mpLocalMapper->InterruptBA();
+Tracking.cc:1624:                if(mpLocalMapper->KeyframesInQueue()<3)
+Tracking.cc:1642:    if(mpLocalMapper->isStopped() || mpLocalMapper->stopRequested())
+Tracking.cc:1645://    const int nKFs = mpMap->KeyFramesInMap();
+Tracking.cc:1655://    int nRefMatches = mpReferenceKF->TrackedMapPoints(nMinObs);
+Tracking.cc:1658:    bool bLocalMappingIdle = mpLocalMapper->AcceptKeyFrames();
+Tracking.cc:1706:            /*|| (mpMap->KeyFramesInMap() > 10 && mpMap->GetAllKeyFrames().back()->GetCovisiblesByWeight(100).size() < 4)
+Tracking.cc:1707:            || n_emptyBlocks >= imgblock_n-1*/)
+Tracking.cc:1720:            mpLocalMapper->InterruptBA();
+Tracking.cc:1723:                if(mpLocalMapper->KeyframesInQueue()<3)
+Tracking.cc:1738:    if(!mpLocalMapper->SetNotStop(true))
+Tracking.cc:1758:        for (int i=0; i<mCurrentFrame.N;i++) // For all ORB-features
+Tracking.cc:1766:            else if(pMP->Observations()<1)
+Tracking.cc:1779:                pNewMP->isFromDSO = true;
+Tracking.cc:1780:                pNewMP->AddObservation(pKF,i);
+Tracking.cc:1781:                pKF->AddMapPoint(pNewMP,i);
+Tracking.cc:1782:                pNewMP->ComputeDistinctiveDescriptors();
+Tracking.cc:1783:                pNewMP->UpdateNormalAndDepth();
+Tracking.cc:1784:                mpMap->AddMapPoint(pNewMP);
+Tracking.cc:1838://                else if(pMP->Observations()<1)
+Tracking.cc:1848://                    pNewMP->AddObservation(pKF,i);
+Tracking.cc:1849://                    pKF->AddMapPoint(pNewMP,i);
+Tracking.cc:1850://                    pNewMP->ComputeDistinctiveDescriptors();
+Tracking.cc:1851://                    pNewMP->UpdateNormalAndDepth();
+Tracking.cc:1852://                    mpMap->AddMapPoint(pNewMP);
+Tracking.cc:1868:    mpLocalMapper->InsertKeyFrame(pKF);
+Tracking.cc:1870:    mpLocalMapper->SetNotStop(false);
+Tracking.cc:1883://        mpMap->ClearDsoMapPoints();
+Tracking.cc:1890://            float x_c = (u-mCurrentFrame.cx)*z_c/mCurrentFrame.fx;
+Tracking.cc:1891://            float y_c = (v-mCurrentFrame.cy)*z_c/mCurrentFrame.fy;
+Tracking.cc:1895://            mpMap->AddDsoMapPoint(pNewMP);
+Tracking.cc:1908:            if(pMP->isBad())
+Tracking.cc:1914:                pMP->IncreaseVisible();
+Tracking.cc:1915:                pMP->mnLastFrameSeen = mCurrentFrame.mnId;
+Tracking.cc:1916:                pMP->mbTrackInView = false;
+Tracking.cc:1927:        if(pMP->mnLastFrameSeen == mCurrentFrame.mnId)
+Tracking.cc:1929:        if(pMP->isBad())
+Tracking.cc:1934:            pMP->IncreaseVisible();
+Tracking.cc:1959:    mpMap->SetReferenceMapPoints(mvpLocalMapPoints);
+Tracking.cc:1973:        const vector<MapPoint*> vpMPs = pKF->GetMapPointMatches();
+Tracking.cc:1980:            if(pMP->mnTrackReferenceForFrame==mCurrentFrame.mnId)
+Tracking.cc:1982:            if(!pMP->isBad())
+Tracking.cc:1985:                pMP->mnTrackReferenceForFrame=mCurrentFrame.mnId;
+Tracking.cc:2001:            if(!pMP->isBad())
+Tracking.cc:2003:                const map<KeyFrame*,size_t> observations = pMP->GetObservations();
+Tracking.cc:2005:                    keyframeCounter[it->first]++;
+Tracking.cc:2026:        KeyFrame* pKF = it->first;
+Tracking.cc:2028:        if(pKF->isBad())
+Tracking.cc:2031:        if(it->second>max)
+Tracking.cc:2033:            max=it->second;
+Tracking.cc:2037:        mvpLocalKeyFrames.push_back(it->first);
+Tracking.cc:2038:        pKF->mnTrackReferenceForFrame = mCurrentFrame.mnId;
+Tracking.cc:2041:    // Include also some not-already-included keyframes that are neighbors to already-included keyframes
+Tracking.cc:2050:        const vector<KeyFrame*> vNeighs = pKF->GetBestCovisibilityKeyFrames(10);
+Tracking.cc:2055:            if(!pNeighKF->isBad())
+Tracking.cc:2057:                if(pNeighKF->mnTrackReferenceForFrame!=mCurrentFrame.mnId)
+Tracking.cc:2060:                    pNeighKF->mnTrackReferenceForFrame=mCurrentFrame.mnId;
+Tracking.cc:2066:        const set<KeyFrame*> spChilds = pKF->GetChilds();
+Tracking.cc:2070:            if(!pChildKF->isBad())
+Tracking.cc:2072:                if(pChildKF->mnTrackReferenceForFrame!=mCurrentFrame.mnId)
+Tracking.cc:2075:                    pChildKF->mnTrackReferenceForFrame=mCurrentFrame.mnId;
+Tracking.cc:2081:        KeyFrame* pParent = pKF->GetParent();
+Tracking.cc:2084:            if(pParent->mnTrackReferenceForFrame!=mCurrentFrame.mnId)
+Tracking.cc:2087:                pParent->mnTrackReferenceForFrame=mCurrentFrame.mnId;
+Tracking.cc:2115:    vector<KeyFrame*> vpCandidateKFs = mpKeyFrameDB->DetectRelocalizationCandidates(&mCurrentFrame);
+Tracking.cc:2140:        if(pKF->isBad())
+Tracking.cc:2153:                pSolver->SetRansacParameters(0.99,10,300,4,0.5,5.991);
+Tracking.cc:2178:            cv::Mat Tcw = pSolver->iterate(5,bNoMore,vbInliers,nInliers);
+Tracking.cc:2184:                nCandidates--;
+Tracking.cc:2276:        mpViewer->RequestStop();
+Tracking.cc:2277:        while(!mpViewer->isStopped())
+Tracking.cc:2283:    mpLocalMapper->RequestReset();
+Tracking.cc:2288:    mpLoopClosing->RequestReset();
+Tracking.cc:2293:    mpKeyFrameDB->clear();
+Tracking.cc:2297:    mpMap->clear();
+Tracking.cc:2315:        mpViewer->Release();
+Tracking.cc:2364:    float fx_percent_change = fabs(mK.at<float>(0,0)-fx_from_DSO)/mK.at<float>(0,0)*100;
+Tracking.cc:2365:    float fy_percent_change = fabs(mK.at<float>(1,1)-fy_from_DSO)/mK.at<float>(1,1)*100;
+Tracking.cc:2366:    float cx_percent_change = fabs(mK.at<float>(0,2)-cx_from_DSO)/mK.at<float>(0,2)*100;
+Tracking.cc:2367:    float cy_percent_change = fabs(mK.at<float>(1,2)-cy_from_DSO)/mK.at<float>(1,2)*100;
+MapDrawer.cc:2:* This file is part of ORB-SLAM2.
+MapDrawer.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+MapDrawer.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+MapDrawer.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+MapDrawer.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+MapDrawer.cc:46:    const vector<MapPoint*> &vpMPs = mpMap->GetAllMapPoints();
+MapDrawer.cc:47:    const vector<MapPoint*> &vpRefMPs = mpMap->GetReferenceMapPoints();
+MapDrawer.cc:48://    const vector<MapPoint*> &vpDsoMPsBeforeSim3Alignment = mpMap->GetAllDsoMapPointsBeforeSim3Alignment();
+MapDrawer.cc:49://    const vector<MapPoint*> &vpDsoMPsAfterSim3Alignment = mpMap->GetAllDsoMapPointsAfterSim3Alignment();
+MapDrawer.cc:62:        if(vpMPs[i]->isBad() || spRefMPs.count(vpMPs[i]))
+MapDrawer.cc:64:        cv::Mat pos = vpMPs[i]->GetWorldPos();
+MapDrawer.cc:75:        if((*sit)->isBad())
+MapDrawer.cc:77:        cv::Mat pos = (*sit)->GetWorldPos();
+MapDrawer.cc:93://            if (vpDsoMPsBeforeSim3Alignment[i]->GetReferenceKeyFrame()->isBad())
+MapDrawer.cc:96://            cv::Mat Twc = vpDsoMPsBeforeSim3Alignment[i]->GetReferenceKeyFrame()->GetPoseInverse();
+MapDrawer.cc:97://            cv::Mat pos = Twc.rowRange(0,3).colRange(0,3)* vpDsoMPsBeforeSim3Alignment[i]->GetWorldPos() + Twc.rowRange(0,3).col(3);
+MapDrawer.cc:98://            // Note: vpDsoMPs[i]->GetWorldPos() is actually in camera frame!
+MapDrawer.cc:112://            if (vpDsoMPsAfterSim3Alignment[i]->GetReferenceKeyFrame()->isBad())
+MapDrawer.cc:115://            cv::Mat pos = vpDsoMPsAfterSim3Alignment[i]->GetWorldPos();
+MapDrawer.cc:129:    const vector<KeyFrame*> vpKFs = mpMap->GetAllKeyFrames();
+MapDrawer.cc:130:    const vector<cv::Mat> Twc_dso_kfs = mpMap->GetDsoKFsPoses();
+MapDrawer.cc:137:            cv::Mat Twc = pKF->GetPoseInverse().t();
+MapDrawer.cc:149:            glVertex3f(w,-h,z);
+MapDrawer.cc:151:            glVertex3f(-w,-h,z);
+MapDrawer.cc:153:            glVertex3f(-w,h,z);
+MapDrawer.cc:156:            glVertex3f(w,-h,z);
+MapDrawer.cc:158:            glVertex3f(-w,h,z);
+MapDrawer.cc:159:            glVertex3f(-w,-h,z);
+MapDrawer.cc:161:            glVertex3f(-w,h,z);
+MapDrawer.cc:164:            glVertex3f(-w,-h,z);
+MapDrawer.cc:165:            glVertex3f(w,-h,z);
+MapDrawer.cc:186:            glVertex3f(w,-h,z);
+MapDrawer.cc:188:            glVertex3f(-w,-h,z);
+MapDrawer.cc:190:            glVertex3f(-w,h,z);
+MapDrawer.cc:193:            glVertex3f(w,-h,z);
+MapDrawer.cc:195:            glVertex3f(-w,h,z);
+MapDrawer.cc:196:            glVertex3f(-w,-h,z);
+MapDrawer.cc:198:            glVertex3f(-w,h,z);
+MapDrawer.cc:201:            glVertex3f(-w,-h,z);
+MapDrawer.cc:202:            glVertex3f(w,-h,z);
+MapDrawer.cc:218:            const vector<KeyFrame*> vCovKFs = vpKFs[i]->GetCovisiblesByWeight(100);
+MapDrawer.cc:219:            cv::Mat Ow = vpKFs[i]->GetCameraCenter();
+MapDrawer.cc:224:                    if((*vit)->mnId<vpKFs[i]->mnId)
+MapDrawer.cc:226:                    cv::Mat Ow2 = (*vit)->GetCameraCenter();
+MapDrawer.cc:233:            KeyFrame* pParent = vpKFs[i]->GetParent();
+MapDrawer.cc:236:                cv::Mat Owp = pParent->GetCameraCenter();
+MapDrawer.cc:242:            set<KeyFrame*> sLoopKFs = vpKFs[i]->GetLoopEdges();
+MapDrawer.cc:245:                if((*sit)->mnId<vpKFs[i]->mnId)
+MapDrawer.cc:247:                cv::Mat Owl = (*sit)->GetCameraCenter();
+MapDrawer.cc:277:    glVertex3f(w,-h,z);
+MapDrawer.cc:279:    glVertex3f(-w,-h,z);
+MapDrawer.cc:281:    glVertex3f(-w,h,z);
+MapDrawer.cc:284:    glVertex3f(w,-h,z);
+MapDrawer.cc:286:    glVertex3f(-w,h,z);
+MapDrawer.cc:287:    glVertex3f(-w,-h,z);
+MapDrawer.cc:289:    glVertex3f(-w,h,z);
+MapDrawer.cc:292:    glVertex3f(-w,-h,z);
+MapDrawer.cc:293:    glVertex3f(w,-h,z);
+MapDrawer.cc:319:    glVertex3f(w,-h,z);
+MapDrawer.cc:321:    glVertex3f(-w,-h,z);
+MapDrawer.cc:323:    glVertex3f(-w,h,z);
+MapDrawer.cc:326:    glVertex3f(w,-h,z);
+MapDrawer.cc:328:    glVertex3f(-w,h,z);
+MapDrawer.cc:329:    glVertex3f(-w,-h,z);
+MapDrawer.cc:331:    glVertex3f(-w,h,z);
+MapDrawer.cc:334:    glVertex3f(-w,-h,z);
+MapDrawer.cc:335:    glVertex3f(w,-h,z);
+MapDrawer.cc:357:            twc = -Rwc*mCameraPose.rowRange(0,3).col(3);
+MapDrawer.cc:405:            twc = -Rwc*mDsoCameraPose.rowRange(0,3).col(3);
+LocalMapping.cc:2:* This file is part of ORB-SLAM2.
+LocalMapping.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+LocalMapping.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+LocalMapping.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+LocalMapping.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+LocalMapping.cc:81:                if(mpMap->KeyFramesInMap()>2)
+LocalMapping.cc:89:                if(!TUM_monoVO || !DisableKeyframeCulling /*(mpMap->KeyFramesInMap() > 30 && mpLoopCloser->nLoopClosures == 0)*/)
+LocalMapping.cc:93:            mpLoopCloser->InsertKeyFrame(mpCurrentKeyFrame);
+LocalMapping.cc:143:    mpCurrentKeyFrame->ComputeBoW();
+LocalMapping.cc:146:    const vector<MapPoint*> vpMapPointMatches = mpCurrentKeyFrame->GetMapPointMatches();
+LocalMapping.cc:153:            if(!pMP->isBad())
+LocalMapping.cc:155:                if(!pMP->IsInKeyFrame(mpCurrentKeyFrame))
+LocalMapping.cc:157:                    pMP->AddObservation(mpCurrentKeyFrame, i);
+LocalMapping.cc:158:                    pMP->UpdateNormalAndDepth();
+LocalMapping.cc:159:                    pMP->ComputeDistinctiveDescriptors();
+LocalMapping.cc:170:    mpCurrentKeyFrame->UpdateConnections();
+LocalMapping.cc:173:    mpMap->AddKeyFrame(mpCurrentKeyFrame);
+LocalMapping.cc:180:    const unsigned long int nCurrentKFid = mpCurrentKeyFrame->mnId;
+LocalMapping.cc:193:        if(pMP->isBad())
+LocalMapping.cc:197:        else if(pMP->GetFoundRatio()< 0.25f)
+LocalMapping.cc:199:            pMP->SetBadFlag();
+LocalMapping.cc:202:        else if(((int)nCurrentKFid-(int)pMP->mnFirstKFid)>=2 && pMP->Observations()<=cnThObs )
+LocalMapping.cc:204:            pMP->SetBadFlag();
+LocalMapping.cc:207:        else if(((int)nCurrentKFid-(int)pMP->mnFirstKFid)>=3)
+LocalMapping.cc:223:    const vector<KeyFrame*> vpNeighKFs = mpCurrentKeyFrame->GetBestCovisibilityKeyFrames(nn);
+LocalMapping.cc:227:    cv::Mat Rcw1 = mpCurrentKeyFrame->GetRotation();
+LocalMapping.cc:229:    cv::Mat tcw1 = mpCurrentKeyFrame->GetTranslation();
+LocalMapping.cc:233:    cv::Mat Ow1 = mpCurrentKeyFrame->GetCameraCenter();
+LocalMapping.cc:235:    const float &fx1 = mpCurrentKeyFrame->fx;
+LocalMapping.cc:236:    const float &fy1 = mpCurrentKeyFrame->fy;
+LocalMapping.cc:237:    const float &cx1 = mpCurrentKeyFrame->cx;
+LocalMapping.cc:238:    const float &cy1 = mpCurrentKeyFrame->cy;
+LocalMapping.cc:239:    const float &invfx1 = mpCurrentKeyFrame->invfx;
+LocalMapping.cc:240:    const float &invfy1 = mpCurrentKeyFrame->invfy;
+LocalMapping.cc:242:    const float ratioFactor = 1.5f*mpCurrentKeyFrame->mfScaleFactor;
+LocalMapping.cc:255:        cv::Mat Ow2 = pKF2->GetCameraCenter();
+LocalMapping.cc:256:        cv::Mat vBaseline = Ow2-Ow1;
+LocalMapping.cc:261:            if(baseline<pKF2->mb)
+LocalMapping.cc:266:            const float medianDepthKF2 = pKF2->ComputeSceneMedianDepth(2);
+LocalMapping.cc:280:        cv::Mat Rcw2 = pKF2->GetRotation();
+LocalMapping.cc:282:        cv::Mat tcw2 = pKF2->GetTranslation();
+LocalMapping.cc:287:        const float &fx2 = pKF2->fx;
+LocalMapping.cc:288:        const float &fy2 = pKF2->fy;
+LocalMapping.cc:289:        const float &cx2 = pKF2->cx;
+LocalMapping.cc:290:        const float &cy2 = pKF2->cy;
+LocalMapping.cc:291:        const float &invfx2 = pKF2->invfx;
+LocalMapping.cc:292:        const float &invfy2 = pKF2->invfy;
+LocalMapping.cc:301:            const cv::KeyPoint &kp1 = mpCurrentKeyFrame->mvKeysUn[idx1];
+LocalMapping.cc:302:            const float kp1_ur=mpCurrentKeyFrame->mvuRight[idx1];
+LocalMapping.cc:305:            const cv::KeyPoint &kp2 = pKF2->mvKeysUn[idx2];
+LocalMapping.cc:306:            const float kp2_ur = pKF2->mvuRight[idx2];
+LocalMapping.cc:310:            cv::Mat xn1 = (cv::Mat_<float>(3,1) << (kp1.pt.x-cx1)*invfx1, (kp1.pt.y-cy1)*invfy1, 1.0);
+LocalMapping.cc:311:            cv::Mat xn2 = (cv::Mat_<float>(3,1) << (kp2.pt.x-cx2)*invfx2, (kp2.pt.y-cy2)*invfy2, 1.0);
+LocalMapping.cc:322:                cosParallaxStereo1 = cos(2*atan2(mpCurrentKeyFrame->mb/2,mpCurrentKeyFrame->mvDepth[idx1]));
+LocalMapping.cc:324:                cosParallaxStereo2 = cos(2*atan2(pKF2->mb/2,pKF2->mvDepth[idx2]));
+LocalMapping.cc:333:                A.row(0) = xn1.at<float>(0)*Tcw1.row(2)-Tcw1.row(0);
+LocalMapping.cc:334:                A.row(1) = xn1.at<float>(1)*Tcw1.row(2)-Tcw1.row(1);
+LocalMapping.cc:335:                A.row(2) = xn2.at<float>(0)*Tcw2.row(2)-Tcw2.row(0);
+LocalMapping.cc:336:                A.row(3) = xn2.at<float>(1)*Tcw2.row(2)-Tcw2.row(1);
+LocalMapping.cc:352:                x3D = mpCurrentKeyFrame->UnprojectStereo(idx1);                
+LocalMapping.cc:356:                x3D = pKF2->UnprojectStereo(idx2);
+LocalMapping.cc:373:            const float &sigmaSquare1 = mpCurrentKeyFrame->mvLevelSigma2[kp1.octave];
+LocalMapping.cc:382:                float errX1 = u1 - kp1.pt.x;
+LocalMapping.cc:383:                float errY1 = v1 - kp1.pt.y;
+LocalMapping.cc:390:                float u1_r = u1 - mpCurrentKeyFrame->mbf*invz1;
+LocalMapping.cc:392:                float errX1 = u1 - kp1.pt.x;
+LocalMapping.cc:393:                float errY1 = v1 - kp1.pt.y;
+LocalMapping.cc:394:                float errX1_r = u1_r - kp1_ur;
+LocalMapping.cc:400:            const float sigmaSquare2 = pKF2->mvLevelSigma2[kp2.octave];
+LocalMapping.cc:408:                float errX2 = u2 - kp2.pt.x;
+LocalMapping.cc:409:                float errY2 = v2 - kp2.pt.y;
+LocalMapping.cc:416:                float u2_r = u2 - mpCurrentKeyFrame->mbf*invz2;
+LocalMapping.cc:418:                float errX2 = u2 - kp2.pt.x;
+LocalMapping.cc:419:                float errY2 = v2 - kp2.pt.y;
+LocalMapping.cc:420:                float errX2_r = u2_r - kp2_ur;
+LocalMapping.cc:426:            cv::Mat normal1 = x3D-Ow1;
+LocalMapping.cc:429:            cv::Mat normal2 = x3D-Ow2;
+LocalMapping.cc:436:            const float ratioOctave = mpCurrentKeyFrame->mvScaleFactors[kp1.octave]/pKF2->mvScaleFactors[kp2.octave];
+LocalMapping.cc:438:            /*if(fabs(ratioDist-ratioOctave)>ratioFactor)
+LocalMapping.cc:446:            pMP->AddObservation(mpCurrentKeyFrame,idx1);            
+LocalMapping.cc:447:            pMP->AddObservation(pKF2,idx2);
+LocalMapping.cc:449:            mpCurrentKeyFrame->AddMapPoint(pMP,idx1);
+LocalMapping.cc:450:            pKF2->AddMapPoint(pMP,idx2);
+LocalMapping.cc:452:            pMP->ComputeDistinctiveDescriptors();
+LocalMapping.cc:454:            pMP->UpdateNormalAndDepth();
+LocalMapping.cc:456:            mpMap->AddMapPoint(pMP);
+LocalMapping.cc:471:    const vector<KeyFrame*> vpNeighKFs = mpCurrentKeyFrame->GetBestCovisibilityKeyFrames(nn);
+LocalMapping.cc:476:        if(pKFi->isBad() || pKFi->mnFuseTargetForKF == mpCurrentKeyFrame->mnId)
+LocalMapping.cc:479:        pKFi->mnFuseTargetForKF = mpCurrentKeyFrame->mnId;
+LocalMapping.cc:482://        const vector<KeyFrame*> vpSecondNeighKFs = pKFi->GetBestCovisibilityKeyFrames(5);
+LocalMapping.cc:486://            if(pKFi2->isBad() || pKFi2->mnFuseTargetForKF==mpCurrentKeyFrame->mnId || pKFi2->mnId==mpCurrentKeyFrame->mnId)
+LocalMapping.cc:493:    // This helps in VO-mode, but not in SLAM-mode. So execute only in VO-mode.
+LocalMapping.cc:495:    //if (!TUM_monoVO && mpLoopCloser->DisableLoopClosure )
+LocalMapping.cc:498:        const vector<KeyFrame*> vpAllKFs = mpMap->GetAllKeyFrames();
+LocalMapping.cc:499:        const vector<KeyFrame*> vpCovKFs = mpCurrentKeyFrame->GetVectorCovisibleKeyFrames();
+LocalMapping.cc:508:            if(pKFi->isBad()
+LocalMapping.cc:509:                    || pKFi->mnId == mpCurrentKeyFrame->mnId
+LocalMapping.cc:510:                    || pKFi->mnFuseTargetForKF == mpCurrentKeyFrame->mnId)
+LocalMapping.cc:518:            cv::Mat R_rel = mpCurrentKeyFrame->GetRotation()*pKFi->GetRotation().t();
+LocalMapping.cc:520:            if (fabs(3.14*2-rot_angle_btwn_kfs) < rot_angle_btwn_kfs)
+LocalMapping.cc:521:                rot_angle_btwn_kfs = fabs(3.14*2-rot_angle_btwn_kfs);
+LocalMapping.cc:528:            cv::Mat current_kf_to_neighbor_kf = mpCurrentKeyFrame->GetTranslation() - pKFi->GetTranslation();
+LocalMapping.cc:529:            cv::Mat neighbor_kf_to_current_kf = -current_kf_to_neighbor_kf;
+LocalMapping.cc:530:            cv::Mat z_axis_of_current_kf =  mpCurrentKeyFrame->GetRotation().colRange(0,3).row(2).t();
+LocalMapping.cc:531:            cv::Mat z_axis_of_neighbor_kf =  pKFi->GetRotation().colRange(0,3).row(2).t();
+LocalMapping.cc:541:            if (fabs(3.14*2-angle_at_current_kf) < angle_at_current_kf)
+LocalMapping.cc:542:                angle_at_current_kf = fabs(3.14*2-angle_at_current_kf);
+LocalMapping.cc:545:            if (fabs(3.14*2-angle_at_neighbor_kf) < angle_at_neighbor_kf)
+LocalMapping.cc:546:                angle_at_neighbor_kf = fabs(3.14*2-angle_at_neighbor_kf);
+LocalMapping.cc:549:            // Both angles are obtuse --> they are looking away from each other
+LocalMapping.cc:554:            pKFi->mnFuseTargetForKF = mpCurrentKeyFrame->mnId;
+LocalMapping.cc:563:    vector<MapPoint*> vpMapPointMatches = mpCurrentKeyFrame->GetMapPointMatches();
+LocalMapping.cc:579:        vector<MapPoint*> vpMapPointsKFi = pKFi->GetMapPointMatches();
+LocalMapping.cc:586:            if(pMP->isBad() || pMP->mnFuseCandidateForKF == mpCurrentKeyFrame->mnId)
+LocalMapping.cc:588:            pMP->mnFuseCandidateForKF = mpCurrentKeyFrame->mnId;
+LocalMapping.cc:597:    vpMapPointMatches = mpCurrentKeyFrame->GetMapPointMatches();
+LocalMapping.cc:603:            if(!pMP->isBad())
+LocalMapping.cc:605:                pMP->ComputeDistinctiveDescriptors();
+LocalMapping.cc:606:                pMP->UpdateNormalAndDepth();
+LocalMapping.cc:612:    mpCurrentKeyFrame->UpdateConnections();
+LocalMapping.cc:617:    cv::Mat R1w = pKF1->GetRotation();
+LocalMapping.cc:618:    cv::Mat t1w = pKF1->GetTranslation();
+LocalMapping.cc:619:    cv::Mat R2w = pKF2->GetRotation();
+LocalMapping.cc:620:    cv::Mat t2w = pKF2->GetTranslation();
+LocalMapping.cc:623:    cv::Mat t12 = -R1w*R2w.t()*t2w+t1w;
+LocalMapping.cc:627:    const cv::Mat &K1 = pKF1->mK;
+LocalMapping.cc:628:    const cv::Mat &K2 = pKF2->mK;
+LocalMapping.cc:717:    vector<KeyFrame*> vpLocalKeyFrames = mpCurrentKeyFrame->GetVectorCovisibleKeyFrames();
+LocalMapping.cc:724:        if(pKF->mnId==0)
+LocalMapping.cc:726:        const vector<MapPoint*> vpMapPoints = pKF->GetMapPointMatches();
+LocalMapping.cc:737:                if(!pMP->isBad())
+LocalMapping.cc:741:                        if(pKF->mvDepth[i]>pKF->mThDepth || pKF->mvDepth[i]<0)
+LocalMapping.cc:746:                    if(pMP->Observations()>thObs)
+LocalMapping.cc:748:                        const int &scaleLevel = pKF->mvKeysUn[i].octave;
+LocalMapping.cc:749:                        const map<KeyFrame*, size_t> observations = pMP->GetObservations();
+LocalMapping.cc:753:                            KeyFrame* pKFi = mit->first;
+LocalMapping.cc:756:                            const int &scaleLeveli = pKFi->mvKeysUn[mit->second].octave;
+LocalMapping.cc:775:            pKF->SetBadFlag();
+LocalMapping.cc:781:    return (cv::Mat_<float>(3,3) <<             0, -v.at<float>(2), v.at<float>(1),
+LocalMapping.cc:782:            v.at<float>(2),               0,-v.at<float>(0),
+LocalMapping.cc:783:            -v.at<float>(1),  v.at<float>(0),              0);
+KeyFrameDatabase.cc:2:* This file is part of ORB-SLAM2.
+KeyFrameDatabase.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+KeyFrameDatabase.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+KeyFrameDatabase.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+KeyFrameDatabase.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+KeyFrameDatabase.cc:44:    for(DBoW2::BowVector::const_iterator vit= pKF->mBowVec.begin(), vend=pKF->mBowVec.end(); vit!=vend; vit++)
+KeyFrameDatabase.cc:45:        mvInvertedFile[vit->first].push_back(pKF);
+KeyFrameDatabase.cc:53:    for(DBoW2::BowVector::const_iterator vit=pKF->mBowVec.begin(), vend=pKF->mBowVec.end(); vit!=vend; vit++)
+KeyFrameDatabase.cc:56:        list<KeyFrame*> &lKFs =   mvInvertedFile[vit->first];
+KeyFrameDatabase.cc:72:    mvInvertedFile.resize(mpVoc->size());
+KeyFrameDatabase.cc:78:    set<KeyFrame*> spConnectedKeyFrames = pKF->GetConnectedKeyFrames();
+KeyFrameDatabase.cc:86:        for(DBoW2::BowVector::const_iterator vit=pKF->mBowVec.begin(), vend=pKF->mBowVec.end(); vit != vend; vit++)
+KeyFrameDatabase.cc:88:            list<KeyFrame*> &lKFs =   mvInvertedFile[vit->first];
+KeyFrameDatabase.cc:93:                if(pKFi->mnLoopQuery!=pKF->mnId)
+KeyFrameDatabase.cc:95:                    pKFi->mnLoopWords=0;
+KeyFrameDatabase.cc:98:                        pKFi->mnLoopQuery=pKF->mnId;
+KeyFrameDatabase.cc:102:                pKFi->mnLoopWords++;
+KeyFrameDatabase.cc:116:        if((*lit)->mnLoopWords>maxCommonWords)
+KeyFrameDatabase.cc:117:            maxCommonWords=(*lit)->mnLoopWords;
+KeyFrameDatabase.cc:129:        if(pKFi->mnLoopWords>minCommonWords)
+KeyFrameDatabase.cc:133:            float si = mpVoc->score(pKF->mBowVec,pKFi->mBowVec);
+KeyFrameDatabase.cc:135:            pKFi->mLoopScore = si;
+KeyFrameDatabase.cc:150:        KeyFrame* pKFi = it->second;
+KeyFrameDatabase.cc:151:        vector<KeyFrame*> vpNeighs = pKFi->GetBestCovisibilityKeyFrames(10);
+KeyFrameDatabase.cc:153:        float bestScore = it->first;
+KeyFrameDatabase.cc:154:        float accScore = it->first;
+KeyFrameDatabase.cc:159:            if(pKF2->mnLoopQuery==pKF->mnId && pKF2->mnLoopWords>minCommonWords)
+KeyFrameDatabase.cc:161:                accScore+=pKF2->mLoopScore;
+KeyFrameDatabase.cc:162:                if(pKF2->mLoopScore>bestScore)
+KeyFrameDatabase.cc:165:                    bestScore = pKF2->mLoopScore;
+KeyFrameDatabase.cc:184:        if(it->first>minScoreToRetain)
+KeyFrameDatabase.cc:186:            KeyFrame* pKFi = it->second;
+KeyFrameDatabase.cc:207:        for(DBoW2::BowVector::const_iterator vit=F->mBowVec.begin(), vend=F->mBowVec.end(); vit != vend; vit++)
+KeyFrameDatabase.cc:209:            list<KeyFrame*> &lKFs =   mvInvertedFile[vit->first];
+KeyFrameDatabase.cc:214:                if(pKFi->mnRelocQuery!=F->mnId)
+KeyFrameDatabase.cc:216:                    pKFi->mnRelocWords=0;
+KeyFrameDatabase.cc:217:                    pKFi->mnRelocQuery=F->mnId;
+KeyFrameDatabase.cc:220:                pKFi->mnRelocWords++;
+KeyFrameDatabase.cc:231:        if((*lit)->mnRelocWords>maxCommonWords)
+KeyFrameDatabase.cc:232:            maxCommonWords=(*lit)->mnRelocWords;
+KeyFrameDatabase.cc:246:        if(pKFi->mnRelocWords>minCommonWords)
+KeyFrameDatabase.cc:249:            float si = mpVoc->score(F->mBowVec,pKFi->mBowVec);
+KeyFrameDatabase.cc:250:            pKFi->mRelocScore=si;
+KeyFrameDatabase.cc:264:        KeyFrame* pKFi = it->second;
+KeyFrameDatabase.cc:265:        vector<KeyFrame*> vpNeighs = pKFi->GetBestCovisibilityKeyFrames(10);
+KeyFrameDatabase.cc:267:        float bestScore = it->first;
+KeyFrameDatabase.cc:273:            if(pKF2->mnRelocQuery!=F->mnId)
+KeyFrameDatabase.cc:276:            accScore+=pKF2->mRelocScore;
+KeyFrameDatabase.cc:277:            if(pKF2->mRelocScore>bestScore)
+KeyFrameDatabase.cc:280:                bestScore = pKF2->mRelocScore;
+KeyFrameDatabase.cc:296:        const float &si = it->first;
+KeyFrameDatabase.cc:299:            KeyFrame* pKFi = it->second;
+Optimizer.cc:2:* This file is part of ORB-SLAM2.
+Optimizer.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+Optimizer.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+Optimizer.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+Optimizer.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+Optimizer.cc:43:    vector<KeyFrame*> vpKFs = pMap->GetAllKeyFrames();
+Optimizer.cc:44:    vector<MapPoint*> vpMP = pMap->GetAllMapPoints();
+Optimizer.cc:74:        if(pKF->isBad())
+Optimizer.cc:77:        vSE3->setEstimate(Converter::toSE3Quat(pKF->GetPose()));
+Optimizer.cc:78:        vSE3->setId(pKF->mnId);
+Optimizer.cc:79:        vSE3->setFixed(pKF->mnId==0);
+Optimizer.cc:81:        if(pKF->mnId>maxKFid)
+Optimizer.cc:82:            maxKFid=pKF->mnId;
+Optimizer.cc:92:        if(pMP->isBad())
+Optimizer.cc:95:        vPoint->setEstimate(Converter::toVector3d(pMP->GetWorldPos()));
+Optimizer.cc:96:        const int id = pMP->mnId+maxKFid+1;
+Optimizer.cc:97:        vPoint->setId(id);
+Optimizer.cc:98:        vPoint->setMarginalized(true);
+Optimizer.cc:101:       const map<KeyFrame*,size_t> observations = pMP->GetObservations();
+Optimizer.cc:108:            KeyFrame* pKF = mit->first;
+Optimizer.cc:109:            if(pKF->isBad() || pKF->mnId>maxKFid)
+Optimizer.cc:114:            const cv::KeyPoint &kpUn = pKF->mvKeysUn[mit->second];
+Optimizer.cc:116:            if(pKF->mvuRight[mit->second]<0)
+Optimizer.cc:123:                e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(id)));
+Optimizer.cc:124:                e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pKF->mnId)));
+Optimizer.cc:125:                e->setMeasurement(obs);
+Optimizer.cc:126:                const float &invSigma2 = pKF->mvInvLevelSigma2[kpUn.octave];
+Optimizer.cc:127:                e->setInformation(Eigen::Matrix2d::Identity()*invSigma2);
+Optimizer.cc:132:                    e->setRobustKernel(rk);
+Optimizer.cc:133:                    rk->setDelta(thHuber2D);
+Optimizer.cc:136:                e->fx = pKF->fx;
+Optimizer.cc:137:                e->fy = pKF->fy;
+Optimizer.cc:138:                e->cx = pKF->cx;
+Optimizer.cc:139:                e->cy = pKF->cy;
+Optimizer.cc:146:                const float kp_ur = pKF->mvuRight[mit->second];
+Optimizer.cc:151:                e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(id)));
+Optimizer.cc:152:                e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pKF->mnId)));
+Optimizer.cc:153:                e->setMeasurement(obs);
+Optimizer.cc:154:                const float &invSigma2 = pKF->mvInvLevelSigma2[kpUn.octave];
+Optimizer.cc:156:                e->setInformation(Info);
+Optimizer.cc:161:                    e->setRobustKernel(rk);
+Optimizer.cc:162:                    rk->setDelta(thHuber3D);
+Optimizer.cc:165:                e->fx = pKF->fx;
+Optimizer.cc:166:                e->fy = pKF->fy;
+Optimizer.cc:167:                e->cx = pKF->cx;
+Optimizer.cc:168:                e->cy = pKF->cy;
+Optimizer.cc:169:                e->bf = pKF->mbf;
+Optimizer.cc:196:        if(pKF->isBad())
+Optimizer.cc:198:        g2o::VertexSE3Expmap* vSE3 = static_cast<g2o::VertexSE3Expmap*>(optimizer.vertex(pKF->mnId));
+Optimizer.cc:199:        g2o::SE3Quat SE3quat = vSE3->estimate();
+Optimizer.cc:202:            pKF->SetPose(Converter::toCvMat(SE3quat));
+Optimizer.cc:206:            pKF->mTcwGBA.create(4,4,CV_32F);
+Optimizer.cc:207:            Converter::toCvMat(SE3quat).copyTo(pKF->mTcwGBA);
+Optimizer.cc:208:            pKF->mnBAGlobalForKF = nLoopKF;
+Optimizer.cc:220:        if(pMP->isBad())
+Optimizer.cc:222:        g2o::VertexSBAPointXYZ* vPoint = static_cast<g2o::VertexSBAPointXYZ*>(optimizer.vertex(pMP->mnId+maxKFid+1));
+Optimizer.cc:226:            pMP->SetWorldPos(Converter::toCvMat(vPoint->estimate()));
+Optimizer.cc:227:            pMP->UpdateNormalAndDepth();
+Optimizer.cc:231:            pMP->mPosGBA.create(3,1,CV_32F);
+Optimizer.cc:232:            Converter::toCvMat(vPoint->estimate()).copyTo(pMP->mPosGBA);
+Optimizer.cc:233:            pMP->mnBAGlobalForKF = nLoopKF;
+Optimizer.cc:255:    vSE3->setEstimate(Converter::toSE3Quat(pFrame->mTcw));
+Optimizer.cc:256:    vSE3->setId(0);
+Optimizer.cc:257:    vSE3->setFixed(false);
+Optimizer.cc:261:    const int N = pFrame->N;
+Optimizer.cc:282:        MapPoint* pMP = pFrame->mvpMapPoints[i];
+Optimizer.cc:286:            if(pFrame->mvuRight[i]<0)
+Optimizer.cc:289:                pFrame->mvbOutlier[i] = false;
+Optimizer.cc:292:                const cv::KeyPoint &kpUn = pFrame->mvKeysUn[i];
+Optimizer.cc:297:                e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(0)));
+Optimizer.cc:298:                e->setMeasurement(obs);
+Optimizer.cc:299:                const float invSigma2 = pFrame->mvInvLevelSigma2[kpUn.octave];
+Optimizer.cc:300:                e->setInformation(Eigen::Matrix2d::Identity()*invSigma2);
+Optimizer.cc:303:                e->setRobustKernel(rk);
+Optimizer.cc:304:                rk->setDelta(deltaMono);
+Optimizer.cc:306:                e->fx = pFrame->fx;
+Optimizer.cc:307:                e->fy = pFrame->fy;
+Optimizer.cc:308:                e->cx = pFrame->cx;
+Optimizer.cc:309:                e->cy = pFrame->cy;
+Optimizer.cc:310:                cv::Mat Xw = pMP->GetWorldPos();
+Optimizer.cc:311:                e->Xw[0] = Xw.at<float>(0);
+Optimizer.cc:312:                e->Xw[1] = Xw.at<float>(1);
+Optimizer.cc:313:                e->Xw[2] = Xw.at<float>(2);
+Optimizer.cc:323:                pFrame->mvbOutlier[i] = false;
+Optimizer.cc:327:                const cv::KeyPoint &kpUn = pFrame->mvKeysUn[i];
+Optimizer.cc:328:                const float &kp_ur = pFrame->mvuRight[i];
+Optimizer.cc:333:                e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(0)));
+Optimizer.cc:334:                e->setMeasurement(obs);
+Optimizer.cc:335:                const float invSigma2 = pFrame->mvInvLevelSigma2[kpUn.octave];
+Optimizer.cc:337:                e->setInformation(Info);
+Optimizer.cc:340:                e->setRobustKernel(rk);
+Optimizer.cc:341:                rk->setDelta(deltaStereo);
+Optimizer.cc:343:                e->fx = pFrame->fx;
+Optimizer.cc:344:                e->fy = pFrame->fy;
+Optimizer.cc:345:                e->cx = pFrame->cx;
+Optimizer.cc:346:                e->cy = pFrame->cy;
+Optimizer.cc:347:                e->bf = pFrame->mbf;
+Optimizer.cc:348:                cv::Mat Xw = pMP->GetWorldPos();
+Optimizer.cc:349:                e->Xw[0] = Xw.at<float>(0);
+Optimizer.cc:350:                e->Xw[1] = Xw.at<float>(1);
+Optimizer.cc:351:                e->Xw[2] = Xw.at<float>(2);
+Optimizer.cc:377:        vSE3->setEstimate(Converter::toSE3Quat(pFrame->mTcw));
+Optimizer.cc:388:            if(pFrame->mvbOutlier[idx])
+Optimizer.cc:390:                e->computeError();
+Optimizer.cc:393:            const float chi2 = e->chi2();
+Optimizer.cc:397:                pFrame->mvbOutlier[idx]=true;
+Optimizer.cc:398:                e->setLevel(1);
+Optimizer.cc:403:                pFrame->mvbOutlier[idx]=false;
+Optimizer.cc:404:                e->setLevel(0);
+Optimizer.cc:408:                e->setRobustKernel(0);
+Optimizer.cc:417:            if(pFrame->mvbOutlier[idx])
+Optimizer.cc:419:                e->computeError();
+Optimizer.cc:422:            const float chi2 = e->chi2();
+Optimizer.cc:426:                pFrame->mvbOutlier[idx]=true;
+Optimizer.cc:427:                e->setLevel(1);
+Optimizer.cc:432:                e->setLevel(0);
+Optimizer.cc:433:                pFrame->mvbOutlier[idx]=false;
+Optimizer.cc:437:                e->setRobustKernel(0);
+Optimizer.cc:446:    g2o::SE3Quat SE3quat_recov = vSE3_recov->estimate();
+Optimizer.cc:448:    pFrame->SetPose(pose);
+Optimizer.cc:450:    return nInitialCorrespondences-nBad;
+Optimizer.cc:462:    pKF->mnBALocalForKF = pKF->mnId;
+Optimizer.cc:464:    const vector<KeyFrame*> vNeighKFs = pKF->GetVectorCovisibleKeyFrames();
+Optimizer.cc:468:        pKFi->mnBALocalForKF = pKF->mnId;
+Optimizer.cc:469:        if(!pKFi->isBad())
+Optimizer.cc:477:        vector<MapPoint*> vpMPs = (*lit)->GetMapPointMatches();
+Optimizer.cc:482:                if(!pMP->isBad())
+Optimizer.cc:483:                    if(pMP->mnBALocalForKF!=pKF->mnId)
+Optimizer.cc:486:                        pMP->mnBALocalForKF=pKF->mnId;
+Optimizer.cc:495:        map<KeyFrame*,size_t> observations = (*lit)->GetObservations();
+Optimizer.cc:498:            KeyFrame* pKFi = mit->first;
+Optimizer.cc:500:            if(pKFi->mnBALocalForKF!=pKF->mnId && pKFi->mnBAFixedForKF!=pKF->mnId)
+Optimizer.cc:502:                pKFi->mnBAFixedForKF=pKF->mnId;
+Optimizer.cc:503:                if(!pKFi->isBad())
+Optimizer.cc:530:        vSE3->setEstimate(Converter::toSE3Quat(pKFi->GetPose()));
+Optimizer.cc:531:        vSE3->setId(pKFi->mnId);
+Optimizer.cc:532:        vSE3->setFixed(pKFi->mnId==0);
+Optimizer.cc:534:        if(pKFi->mnId>maxKFid)
+Optimizer.cc:535:            maxKFid=pKFi->mnId;
+Optimizer.cc:543:        vSE3->setEstimate(Converter::toSE3Quat(pKFi->GetPose()));
+Optimizer.cc:544:        vSE3->setId(pKFi->mnId);
+Optimizer.cc:545:        vSE3->setFixed(true);
+Optimizer.cc:547:        if(pKFi->mnId>maxKFid)
+Optimizer.cc:548:            maxKFid=pKFi->mnId;
+Optimizer.cc:579:        vPoint->setEstimate(Converter::toVector3d(pMP->GetWorldPos()));
+Optimizer.cc:580:        int id = pMP->mnId+maxKFid+1;
+Optimizer.cc:581:        vPoint->setId(id);
+Optimizer.cc:582:        vPoint->setMarginalized(true);
+Optimizer.cc:585:        const map<KeyFrame*,size_t> observations = pMP->GetObservations();
+Optimizer.cc:590:            KeyFrame* pKFi = mit->first;
+Optimizer.cc:592:            if(!pKFi->isBad())
+Optimizer.cc:594:                const cv::KeyPoint &kpUn = pKFi->mvKeysUn[mit->second];
+Optimizer.cc:597:                if(pKFi->mvuRight[mit->second]<0)
+Optimizer.cc:604:                    e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(id)));
+Optimizer.cc:605:                    e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pKFi->mnId)));
+Optimizer.cc:606:                    e->setMeasurement(obs);
+Optimizer.cc:607:                    const float &invSigma2 = pKFi->mvInvLevelSigma2[kpUn.octave];
+Optimizer.cc:608:                    e->setInformation(Eigen::Matrix2d::Identity()*invSigma2);
+Optimizer.cc:611:                    e->setRobustKernel(rk);
+Optimizer.cc:612:                    rk->setDelta(thHuberMono);
+Optimizer.cc:614:                    e->fx = pKFi->fx;
+Optimizer.cc:615:                    e->fy = pKFi->fy;
+Optimizer.cc:616:                    e->cx = pKFi->cx;
+Optimizer.cc:617:                    e->cy = pKFi->cy;
+Optimizer.cc:627:                    const float kp_ur = pKFi->mvuRight[mit->second];
+Optimizer.cc:632:                    e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(id)));
+Optimizer.cc:633:                    e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pKFi->mnId)));
+Optimizer.cc:634:                    e->setMeasurement(obs);
+Optimizer.cc:635:                    const float &invSigma2 = pKFi->mvInvLevelSigma2[kpUn.octave];
+Optimizer.cc:637:                    e->setInformation(Info);
+Optimizer.cc:640:                    e->setRobustKernel(rk);
+Optimizer.cc:641:                    rk->setDelta(thHuberStereo);
+Optimizer.cc:643:                    e->fx = pKFi->fx;
+Optimizer.cc:644:                    e->fy = pKFi->fy;
+Optimizer.cc:645:                    e->cx = pKFi->cx;
+Optimizer.cc:646:                    e->cy = pKFi->cy;
+Optimizer.cc:647:                    e->bf = pKFi->mbf;
+Optimizer.cc:680:        if(pMP->isBad())
+Optimizer.cc:683:        if(e->chi2()>5.991 || !e->isDepthPositive())
+Optimizer.cc:685:            e->setLevel(1);
+Optimizer.cc:688:        e->setRobustKernel(0);
+Optimizer.cc:696:        if(pMP->isBad())
+Optimizer.cc:699:        if(e->chi2()>7.815 || !e->isDepthPositive())
+Optimizer.cc:701:            e->setLevel(1);
+Optimizer.cc:704:        e->setRobustKernel(0);
+Optimizer.cc:723:        if(pMP->isBad())
+Optimizer.cc:726:        if(e->chi2()>5.991 || !e->isDepthPositive())
+Optimizer.cc:738:        if(pMP->isBad())
+Optimizer.cc:741:        if(e->chi2()>7.815 || !e->isDepthPositive())
+Optimizer.cc:749:    unique_lock<mutex> lock(pMap->mMutexMapUpdate);
+Optimizer.cc:757:            pKFi->EraseMapPointMatch(pMPi);
+Optimizer.cc:758:            pMPi->EraseObservation(pKFi);
+Optimizer.cc:768:        g2o::VertexSE3Expmap* vSE3 = static_cast<g2o::VertexSE3Expmap*>(optimizer.vertex(pKF->mnId));
+Optimizer.cc:769:        g2o::SE3Quat SE3quat = vSE3->estimate();
+Optimizer.cc:770:        pKF->SetPose(Converter::toCvMat(SE3quat));
+Optimizer.cc:777:        g2o::VertexSBAPointXYZ* vPoint = static_cast<g2o::VertexSBAPointXYZ*>(optimizer.vertex(pMP->mnId+maxKFid+1));
+Optimizer.cc:778:        pMP->SetWorldPos(Converter::toCvMat(vPoint->estimate()));
+Optimizer.cc:779:        pMP->UpdateNormalAndDepth();
+Optimizer.cc:793:    pKF->mnBALocalForKF = pKF->mnId;
+Optimizer.cc:795:    const vector<KeyFrame*> vNeighKFs = pKF->GetVectorCovisibleKeyFrames();
+Optimizer.cc:799:        pKFi->mnBALocalForKF = pKF->mnId;
+Optimizer.cc:800:        if(!pKFi->isBad())
+Optimizer.cc:808:        vector<MapPoint*> vpMPs = (*lit)->GetMapPointMatches();
+Optimizer.cc:813:                if(!pMP->isBad())
+Optimizer.cc:814:                    if(pMP->mnBALocalForKF!=pKF->mnId)
+Optimizer.cc:817:                        pMP->mnBALocalForKF=pKF->mnId;
+Optimizer.cc:826:        map<KeyFrame*,size_t> observations = (*lit)->GetObservations();
+Optimizer.cc:829:            KeyFrame* pKFi = mit->first;
+Optimizer.cc:831:            if(pKFi->mnBALocalForKF!=pKF->mnId && pKFi->mnBAFixedForKF!=pKF->mnId)
+Optimizer.cc:833:                pKFi->mnBAFixedForKF=pKF->mnId;
+Optimizer.cc:834:                if(!pKFi->isBad())
+Optimizer.cc:861:        vSE3->setEstimate(Converter::toSE3Quat(pKFi->GetPose()));
+Optimizer.cc:862:        vSE3->setId(pKFi->mnId);
+Optimizer.cc:863:        vSE3->setFixed(pKFi->mnId==0);
+Optimizer.cc:865:        if(pKFi->mnId>maxKFid)
+Optimizer.cc:866:            maxKFid=pKFi->mnId;
+Optimizer.cc:874:        vSE3->setEstimate(Converter::toSE3Quat(pKFi->GetPose()));
+Optimizer.cc:875:        vSE3->setId(pKFi->mnId);
+Optimizer.cc:876:        vSE3->setFixed(true);
+Optimizer.cc:878:        if(pKFi->mnId>maxKFid)
+Optimizer.cc:879:            maxKFid=pKFi->mnId;
+Optimizer.cc:910:        vPoint->setEstimate(Converter::toVector3d(pMP->GetWorldPos()));
+Optimizer.cc:911:        int id = pMP->mnId+maxKFid+1;
+Optimizer.cc:912:        vPoint->setId(id);
+Optimizer.cc:913:        vPoint->setMarginalized(true);
+Optimizer.cc:916:        const map<KeyFrame*,size_t> observations = pMP->GetObservations();
+Optimizer.cc:921:            KeyFrame* pKFi = mit->first;
+Optimizer.cc:923:            if(!pKFi->isBad())
+Optimizer.cc:925:                const cv::KeyPoint &kpUn = pKFi->mvKeysUn[mit->second];
+Optimizer.cc:928:                if(pKFi->mvuRight[mit->second]<0)
+Optimizer.cc:935:                    e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(id)));
+Optimizer.cc:936:                    e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pKFi->mnId)));
+Optimizer.cc:937:                    e->setMeasurement(obs);
+Optimizer.cc:938:                    const float &invSigma2 = pKFi->mvInvLevelSigma2[kpUn.octave];
+Optimizer.cc:939:                    e->setInformation(Eigen::Matrix2d::Identity()*invSigma2);
+Optimizer.cc:942:                    e->setRobustKernel(rk);
+Optimizer.cc:943:                    rk->setDelta(thHuberMono);
+Optimizer.cc:945:                    e->fx = pKFi->fx;
+Optimizer.cc:946:                    e->fy = pKFi->fy;
+Optimizer.cc:947:                    e->cx = pKFi->cx;
+Optimizer.cc:948:                    e->cy = pKFi->cy;
+Optimizer.cc:958:                    const float kp_ur = pKFi->mvuRight[mit->second];
+Optimizer.cc:963:                    e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(id)));
+Optimizer.cc:964:                    e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pKFi->mnId)));
+Optimizer.cc:965:                    e->setMeasurement(obs);
+Optimizer.cc:966:                    const float &invSigma2 = pKFi->mvInvLevelSigma2[kpUn.octave];
+Optimizer.cc:968:                    e->setInformation(Info);
+Optimizer.cc:971:                    e->setRobustKernel(rk);
+Optimizer.cc:972:                    rk->setDelta(thHuberStereo);
+Optimizer.cc:974:                    e->fx = pKFi->fx;
+Optimizer.cc:975:                    e->fy = pKFi->fy;
+Optimizer.cc:976:                    e->cx = pKFi->cx;
+Optimizer.cc:977:                    e->cy = pKFi->cy;
+Optimizer.cc:978:                    e->bf = pKFi->mbf;
+Optimizer.cc:1011:        if(pMP->isBad())
+Optimizer.cc:1014:        if(e->chi2()>5.991 || !e->isDepthPositive())
+Optimizer.cc:1016:            e->setLevel(1);
+Optimizer.cc:1019:        e->setRobustKernel(0);
+Optimizer.cc:1027:        if(pMP->isBad())
+Optimizer.cc:1030:        if(e->chi2()>7.815 || !e->isDepthPositive())
+Optimizer.cc:1032:            e->setLevel(1);
+Optimizer.cc:1035:        e->setRobustKernel(0);
+Optimizer.cc:1054:        if(pMP->isBad())
+Optimizer.cc:1057:        if(e->chi2()>5.991 || !e->isDepthPositive())
+Optimizer.cc:1069:        if(pMP->isBad())
+Optimizer.cc:1072:        if(e->chi2()>7.815 || !e->isDepthPositive())
+Optimizer.cc:1080:    unique_lock<mutex> lock(pMap->mMutexMapUpdate);
+Optimizer.cc:1088:            pKFi->EraseMapPointMatch(pMPi);
+Optimizer.cc:1089:            pMPi->EraseObservation(pKFi);
+Optimizer.cc:1099:        g2o::VertexSE3Expmap* vSE3 = static_cast<g2o::VertexSE3Expmap*>(optimizer.vertex(pKF->mnId));
+Optimizer.cc:1100:        g2o::SE3Quat SE3quat = vSE3->estimate();
+Optimizer.cc:1101:        pKF->SetPose(Converter::toCvMat(SE3quat));
+Optimizer.cc:1108:        g2o::VertexSBAPointXYZ* vPoint = static_cast<g2o::VertexSBAPointXYZ*>(optimizer.vertex(pMP->mnId+maxKFid+1));
+Optimizer.cc:1109:        pMP->SetWorldPos(Converter::toCvMat(vPoint->estimate()));
+Optimizer.cc:1110:        pMP->UpdateNormalAndDepth();
+Optimizer.cc:1128:    solver->setUserLambdaInit(1e-16);
+Optimizer.cc:1131:    const vector<KeyFrame*> vpKFs = pMap->GetAllKeyFrames();
+Optimizer.cc:1132:    const vector<MapPoint*> vpMPs = pMap->GetAllMapPoints();
+Optimizer.cc:1134:    const unsigned int nMaxKFid = pMap->GetMaxKFid();
+Optimizer.cc:1146:        if(pKF->isBad())
+Optimizer.cc:1150:        const int nIDi = pKF->mnId;
+Optimizer.cc:1156:            vScw[nIDi] = it->second;
+Optimizer.cc:1157:            VSim3->setEstimate(it->second);
+Optimizer.cc:1161:            Eigen::Matrix<double,3,3> Rcw = Converter::toMatrix3d(pKF->GetRotation());
+Optimizer.cc:1162:            Eigen::Matrix<double,3,1> tcw = Converter::toVector3d(pKF->GetTranslation());
+Optimizer.cc:1165:            VSim3->setEstimate(Siw);
+Optimizer.cc:1169:            VSim3->setFixed(true);
+Optimizer.cc:1171:        VSim3->setId(nIDi);
+Optimizer.cc:1172:        VSim3->setMarginalized(false);
+Optimizer.cc:1173:        VSim3->_fix_scale = bFixScale;
+Optimizer.cc:1188:        KeyFrame* pKF = mit->first;
+Optimizer.cc:1189:        const long unsigned int nIDi = pKF->mnId;
+Optimizer.cc:1190:        const set<KeyFrame*> &spConnections = mit->second;
+Optimizer.cc:1196:            const long unsigned int nIDj = (*sit)->mnId;
+Optimizer.cc:1197:            if((nIDi!=pCurKF->mnId || nIDj!=pLoopKF->mnId) && pKF->GetWeight(*sit)<minFeat)
+Optimizer.cc:1204:            e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDj)));
+Optimizer.cc:1205:            e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
+Optimizer.cc:1206:            e->setMeasurement(Sji);
+Optimizer.cc:1208:            e->information() = matLambda;
+Optimizer.cc:1221:        const int nIDi = pKF->mnId;
+Optimizer.cc:1228:            Swi = (iti->second).inverse();
+Optimizer.cc:1232:        KeyFrame* pParentKF = pKF->GetParent();
+Optimizer.cc:1237:            int nIDj = pParentKF->mnId;
+Optimizer.cc:1244:                Sjw = itj->second;
+Optimizer.cc:1251:            e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDj)));
+Optimizer.cc:1252:            e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
+Optimizer.cc:1253:            e->setMeasurement(Sji);
+Optimizer.cc:1255:            e->information() = matLambda;
+Optimizer.cc:1260:        const set<KeyFrame*> sLoopEdges = pKF->GetLoopEdges();
+Optimizer.cc:1264:            if(pLKF->mnId<pKF->mnId)
+Optimizer.cc:1271:                    Slw = itl->second;
+Optimizer.cc:1273:                    Slw = vScw[pLKF->mnId];
+Optimizer.cc:1277:                el->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pLKF->mnId)));
+Optimizer.cc:1278:                el->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
+Optimizer.cc:1279:                el->setMeasurement(Sli);
+Optimizer.cc:1280:                el->information() = matLambda;
+Optimizer.cc:1286:        const vector<KeyFrame*> vpConnectedKFs = pKF->GetCovisiblesByWeight(minFeat);
+Optimizer.cc:1290:            if(pKFn && pKFn!=pParentKF && !pKF->hasChild(pKFn) && !sLoopEdges.count(pKFn))
+Optimizer.cc:1292:                if(!pKFn->isBad() && pKFn->mnId<pKF->mnId)
+Optimizer.cc:1294:                    if(sInsertedEdges.count(make_pair(min(pKF->mnId,pKFn->mnId),max(pKF->mnId,pKFn->mnId))))
+Optimizer.cc:1302:                        Snw = itn->second;
+Optimizer.cc:1304:                        Snw = vScw[pKFn->mnId];
+Optimizer.cc:1309:                    en->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pKFn->mnId)));
+Optimizer.cc:1310:                    en->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
+Optimizer.cc:1311:                    en->setMeasurement(Sni);
+Optimizer.cc:1312:                    en->information() = matLambda;
+Optimizer.cc:1323:    unique_lock<mutex> lock(pMap->mMutexMapUpdate);
+Optimizer.cc:1325:    // SE3 Pose Recovering. Sim3:[sR t;0 1] -> SE3:[R t/s;0 1]
+Optimizer.cc:1330:        const int nIDi = pKFi->mnId;
+Optimizer.cc:1333:        g2o::Sim3 CorrectedSiw =  VSim3->estimate();
+Optimizer.cc:1343:        pKFi->SetPose(Tiw);
+Optimizer.cc:1346:    // Correct points. Transform to "non-optimized" reference keyframe pose and transform back with optimized pose
+Optimizer.cc:1351:        if(pMP->isBad())
+Optimizer.cc:1355:        if(pMP->mnCorrectedByKF==pCurKF->mnId)
+Optimizer.cc:1357:            nIDr = pMP->mnCorrectedReference;
+Optimizer.cc:1361:            KeyFrame* pRefKF = pMP->GetReferenceKeyFrame();
+Optimizer.cc:1362:            nIDr = pRefKF->mnId;
+Optimizer.cc:1369:        cv::Mat P3Dw = pMP->GetWorldPos();
+Optimizer.cc:1374:        pMP->SetWorldPos(cvCorrectedP3Dw);
+Optimizer.cc:1376:        pMP->UpdateNormalAndDepth();
+Optimizer.cc:1393:    const cv::Mat &K1 = pKF1->mK;
+Optimizer.cc:1394:    const cv::Mat &K2 = pKF2->mK;
+Optimizer.cc:1397:    const cv::Mat R1w = pKF1->GetRotation();
+Optimizer.cc:1398:    const cv::Mat t1w = pKF1->GetTranslation();
+Optimizer.cc:1399:    const cv::Mat R2w = pKF2->GetRotation();
+Optimizer.cc:1400:    const cv::Mat t2w = pKF2->GetTranslation();
+Optimizer.cc:1404:    vSim3->_fix_scale=bFixScale;
+Optimizer.cc:1405:    vSim3->setEstimate(g2oS12);
+Optimizer.cc:1406:    vSim3->setId(0);
+Optimizer.cc:1407:    vSim3->setFixed(false);
+Optimizer.cc:1408:    vSim3->_principle_point1[0] = K1.at<float>(0,2);
+Optimizer.cc:1409:    vSim3->_principle_point1[1] = K1.at<float>(1,2);
+Optimizer.cc:1410:    vSim3->_focal_length1[0] = K1.at<float>(0,0);
+Optimizer.cc:1411:    vSim3->_focal_length1[1] = K1.at<float>(1,1);
+Optimizer.cc:1412:    vSim3->_principle_point2[0] = K2.at<float>(0,2);
+Optimizer.cc:1413:    vSim3->_principle_point2[1] = K2.at<float>(1,2);
+Optimizer.cc:1414:    vSim3->_focal_length2[0] = K2.at<float>(0,0);
+Optimizer.cc:1415:    vSim3->_focal_length2[1] = K2.at<float>(1,1);
+Optimizer.cc:1420:    const vector<MapPoint*> vpMapPoints1 = pKF1->GetMapPointMatches();
+Optimizer.cc:1444:        const int i2 = pMP2->GetIndexInKeyFrame(pKF2);
+Optimizer.cc:1448:            if(!pMP1->isBad() && !pMP2->isBad() && i2>=0)
+Optimizer.cc:1451:                cv::Mat P3D1w = pMP1->GetWorldPos();
+Optimizer.cc:1453:                vPoint1->setEstimate(Converter::toVector3d(P3D1c));
+Optimizer.cc:1454:                vPoint1->setId(id1);
+Optimizer.cc:1455:                vPoint1->setFixed(true);
+Optimizer.cc:1459:                cv::Mat P3D2w = pMP2->GetWorldPos();
+Optimizer.cc:1461:                vPoint2->setEstimate(Converter::toVector3d(P3D2c));
+Optimizer.cc:1462:                vPoint2->setId(id2);
+Optimizer.cc:1463:                vPoint2->setFixed(true);
+Optimizer.cc:1476:        const cv::KeyPoint &kpUn1 = pKF1->mvKeysUn[i];
+Optimizer.cc:1480:        e12->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(id2)));
+Optimizer.cc:1481:        e12->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(0)));
+Optimizer.cc:1482:        e12->setMeasurement(obs1);
+Optimizer.cc:1483:        const float &invSigmaSquare1 = pKF1->mvInvLevelSigma2[kpUn1.octave];
+Optimizer.cc:1484:        e12->setInformation(Eigen::Matrix2d::Identity()*invSigmaSquare1);
+Optimizer.cc:1487:        e12->setRobustKernel(rk1);
+Optimizer.cc:1488:        rk1->setDelta(deltaHuber);
+Optimizer.cc:1493:        const cv::KeyPoint &kpUn2 = pKF2->mvKeysUn[i2];
+Optimizer.cc:1498:        e21->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(id1)));
+Optimizer.cc:1499:        e21->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(0)));
+Optimizer.cc:1500:        e21->setMeasurement(obs2);
+Optimizer.cc:1501:        float invSigmaSquare2 = pKF2->mvInvLevelSigma2[kpUn2.octave];
+Optimizer.cc:1502:        e21->setInformation(Eigen::Matrix2d::Identity()*invSigmaSquare2);
+Optimizer.cc:1505:        e21->setRobustKernel(rk2);
+Optimizer.cc:1506:        rk2->setDelta(deltaHuber);
+Optimizer.cc:1527:        if(e12->chi2()>th2 || e21->chi2()>th2)
+Optimizer.cc:1545:    if(nCorrespondences-nBad<10)
+Optimizer.cc:1561:        if(e12->chi2()>th2 || e21->chi2()>th2)
+Optimizer.cc:1572:    g2oS12= vSim3_recov->estimate();
+Sim3Solver.cc:2:* This file is part of ORB-SLAM2.
+Sim3Solver.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+Sim3Solver.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+Sim3Solver.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+Sim3Solver.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+Sim3Solver.cc:43:    vector<MapPoint*> vpKeyFrameMP1 = pKF1->GetMapPointMatches();
+Sim3Solver.cc:54:    cv::Mat Rcw1 = pKF1->GetRotation();
+Sim3Solver.cc:55:    cv::Mat tcw1 = pKF1->GetTranslation();
+Sim3Solver.cc:56:    cv::Mat Rcw2 = pKF2->GetRotation();
+Sim3Solver.cc:57:    cv::Mat tcw2 = pKF2->GetTranslation();
+Sim3Solver.cc:72:            if(pMP1->isBad() || pMP2->isBad())
+Sim3Solver.cc:75:            int indexKF1 = pMP1->GetIndexInKeyFrame(pKF1);
+Sim3Solver.cc:76:            int indexKF2 = pMP2->GetIndexInKeyFrame(pKF2);
+Sim3Solver.cc:81:            const cv::KeyPoint &kp1 = pKF1->mvKeysUn[indexKF1];
+Sim3Solver.cc:82:            const cv::KeyPoint &kp2 = pKF2->mvKeysUn[indexKF2];
+Sim3Solver.cc:84:            const float sigmaSquare1 = pKF1->mvLevelSigma2[kp1.octave];
+Sim3Solver.cc:85:            const float sigmaSquare2 = pKF2->mvLevelSigma2[kp2.octave];
+Sim3Solver.cc:94:            cv::Mat X3D1w = pMP1->GetWorldPos();
+Sim3Solver.cc:98:            cv::Mat X3D2w = pMP2->GetWorldPos();
+Sim3Solver.cc:107:    mK1 = pKF1->mK;
+Sim3Solver.cc:108:    mK2 = pKF2->mK;
+Sim3Solver.cc:135:        nIterations = ceil(log(1-mRansacProb)/log(1-pow(epsilon,3)));
+Sim3Solver.cc:170:            int randi = DUtils::Random::RandomInt(0, vAvailableIndices.size()-1);
+Sim3Solver.cc:224:        Pr.col(i)=P.col(i)-C;
+Sim3Solver.cc:231:    // Horn 1987, Closed-form solution of absolute orientataion using unit quaternions
+Sim3Solver.cc:254:    N12 = M.at<float>(1,2)-M.at<float>(2,1);
+Sim3Solver.cc:255:    N13 = M.at<float>(2,0)-M.at<float>(0,2);
+Sim3Solver.cc:256:    N14 = M.at<float>(0,1)-M.at<float>(1,0);
+Sim3Solver.cc:257:    N22 = M.at<float>(0,0)-M.at<float>(1,1)-M.at<float>(2,2);
+Sim3Solver.cc:260:    N33 = -M.at<float>(0,0)+M.at<float>(1,1)-M.at<float>(2,2);
+Sim3Solver.cc:262:    N44 = -M.at<float>(0,0)-M.at<float>(1,1)+M.at<float>(2,2);
+Sim3Solver.cc:282:    vec = 2*ang*vec/norm(vec); //Angle-axis representation. quaternion angle is the half
+Sim3Solver.cc:286:    cv::Rodrigues(vec,mR12i); // computes the rotation matrix from angle-axis
+Sim3Solver.cc:318:    mt12i = O1 - ms12i*mR12i*O2;
+Sim3Solver.cc:337:    cv::Mat tinv = -sRinv*mt12i;
+Sim3Solver.cc:352:        cv::Mat dist1 = mvP1im1[i]-vP2im1[i];
+Sim3Solver.cc:353:        cv::Mat dist2 = vP1im2[i]-mvP2im2[i];
+Frame.cc:2:* This file is part of ORB-SLAM2.
+Frame.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+Frame.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+Frame.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+Frame.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+Frame.cc:71:    mnScaleLevels = mpORBextractorLeft->GetLevels();
+Frame.cc:72:    mfScaleFactor = mpORBextractorLeft->GetScaleFactor();
+Frame.cc:74:    mvScaleFactors = mpORBextractorLeft->GetScaleFactors();
+Frame.cc:75:    mvInvScaleFactors = mpORBextractorLeft->GetInverseScaleFactors();
+Frame.cc:76:    mvLevelSigma2 = mpORBextractorLeft->GetScaleSigmaSquares();
+Frame.cc:77:    mvInvLevelSigma2 = mpORBextractorLeft->GetInverseScaleSigmaSquares();
+Frame.cc:103:        mfGridElementWidthInv=static_cast<float>(FRAME_GRID_COLS)/(mnMaxX-mnMinX);
+Frame.cc:104:        mfGridElementHeightInv=static_cast<float>(FRAME_GRID_ROWS)/(mnMaxY-mnMinY);
+Frame.cc:129:    mnScaleLevels = mpORBextractorLeft->GetLevels();
+Frame.cc:130:    mfScaleFactor = mpORBextractorLeft->GetScaleFactor();    
+Frame.cc:132:    mvScaleFactors = mpORBextractorLeft->GetScaleFactors();
+Frame.cc:133:    mvInvScaleFactors = mpORBextractorLeft->GetInverseScaleFactors();
+Frame.cc:134:    mvLevelSigma2 = mpORBextractorLeft->GetScaleSigmaSquares();
+Frame.cc:135:    mvInvLevelSigma2 = mpORBextractorLeft->GetInverseScaleSigmaSquares();
+Frame.cc:157:        mfGridElementWidthInv=static_cast<float>(FRAME_GRID_COLS)/static_cast<float>(mnMaxX-mnMinX);
+Frame.cc:158:        mfGridElementHeightInv=static_cast<float>(FRAME_GRID_ROWS)/static_cast<float>(mnMaxY-mnMinY);
+Frame.cc:184:    mnScaleLevels = mpORBextractorLeft->GetLevels();
+Frame.cc:185:    mfScaleFactor = mpORBextractorLeft->GetScaleFactor();
+Frame.cc:187:    mvScaleFactors = mpORBextractorLeft->GetScaleFactors();
+Frame.cc:188:    mvInvScaleFactors = mpORBextractorLeft->GetInverseScaleFactors();
+Frame.cc:189:    mvLevelSigma2 = mpORBextractorLeft->GetScaleSigmaSquares();
+Frame.cc:190:    mvInvLevelSigma2 = mpORBextractorLeft->GetInverseScaleSigmaSquares();
+Frame.cc:203:    mvuRight = vector<float>(N,-1);
+Frame.cc:204:    mvDepth = vector<float>(N,-1);
+Frame.cc:214:        mfGridElementWidthInv=static_cast<float>(FRAME_GRID_COLS)/static_cast<float>(mnMaxX-mnMinX);
+Frame.cc:215:        mfGridElementHeightInv=static_cast<float>(FRAME_GRID_ROWS)/static_cast<float>(mnMaxY-mnMinY);
+Frame.cc:268:    mOw = -mRcw.t()*mtcw;
+Frame.cc:282:    mOw_dso = -mRcw_dso.t()*mtcw_dso;
+Frame.cc:287:    pMP->mbTrackInView = false;
+Frame.cc:290:    cv::Mat P = pMP->GetWorldPos(); 
+Frame.cc:313:    const float maxDistance = pMP->GetMaxDistanceInvariance();
+Frame.cc:314:    const float minDistance = pMP->GetMinDistanceInvariance();
+Frame.cc:315:    const cv::Mat PO = P-mOw;
+Frame.cc:322:    cv::Mat Pn = pMP->GetNormal();
+Frame.cc:330:    const int nPredictedLevel = pMP->PredictScale(dist,this);
+Frame.cc:333:    pMP->mbTrackInView = true;
+Frame.cc:334:    pMP->mTrackProjX = u;
+Frame.cc:335:    pMP->mTrackProjXR = u - mbf*invz;
+Frame.cc:336:    pMP->mTrackProjY = v;
+Frame.cc:337:    pMP->mnTrackScaleLevel= nPredictedLevel;
+Frame.cc:338:    pMP->mTrackViewCos = viewCos;
+Frame.cc:348:    const int nMinCellX = max(0,(int)floor((x-mnMinX-r)*mfGridElementWidthInv));
+Frame.cc:352:    const int nMaxCellX = min((int)FRAME_GRID_COLS-1,(int)ceil((x-mnMinX+r)*mfGridElementWidthInv));
+Frame.cc:356:    const int nMinCellY = max(0,(int)floor((y-mnMinY-r)*mfGridElementHeightInv));
+Frame.cc:360:    const int nMaxCellY = min((int)FRAME_GRID_ROWS-1,(int)ceil((y-mnMinY+r)*mfGridElementHeightInv));
+Frame.cc:386:                const float distx = kpUn.pt.x-x;
+Frame.cc:387:                const float disty = kpUn.pt.y-y;
+Frame.cc:400:    posX = round((kp.pt.x-mnMinX)*mfGridElementWidthInv);
+Frame.cc:401:    posY = round((kp.pt.y-mnMinY)*mfGridElementHeightInv);
+Frame.cc:416:        mpORBvocabulary->transform(vCurrentDesc,mBowVec,mFeatVec,4);
+Frame.cc:484:    mvuRight = vector<float>(N,-1.0f);
+Frame.cc:485:    mvDepth = vector<float>(N,-1.0f);
+Frame.cc:489:    const int nRows = mpORBextractorLeft->mvImagePyramid[0].rows;
+Frame.cc:505:        const int minr = floor(kpY-r);
+Frame.cc:532:        const float minU = uL-maxD;
+Frame.cc:533:        const float maxU = uL-minD;
+Frame.cc:549:            if(kpR.octave<levelL-1 || kpR.octave>levelL+1)
+Frame.cc:579:            cv::Mat IL = mpORBextractorLeft->mvImagePyramid[kpL.octave].rowRange(scaledvL-w,scaledvL+w+1).colRange(scaleduL-w,scaleduL+w+1);
+Frame.cc:581:            IL = IL - IL.at<float>(w,w) *cv::Mat::ones(IL.rows,IL.cols,CV_32F);
+Frame.cc:589:            const float iniu = scaleduR0+L-w;
+Frame.cc:591:            if(iniu<0 || endu >= mpORBextractorRight->mvImagePyramid[kpL.octave].cols)
+Frame.cc:594:            for(int incR=-L; incR<=+L; incR++)
+Frame.cc:596:                cv::Mat IR = mpORBextractorRight->mvImagePyramid[kpL.octave].rowRange(scaledvL-w,scaledvL+w+1).colRange(scaleduR0+incR-w,scaleduR0+incR+w+1);
+Frame.cc:598:                IR = IR - IR.at<float>(w,w) *cv::Mat::ones(IR.rows,IR.cols,CV_32F);
+Frame.cc:610:            if(bestincR==-L || bestincR==L)
+Frame.cc:613:            // Sub-pixel match (Parabola fitting)
+Frame.cc:614:            const float dist1 = vDists[L+bestincR-1];
+Frame.cc:618:            const float deltaR = (dist1-dist3)/(2.0f*(dist1+dist3-2.0f*dist2));
+Frame.cc:620:            if(deltaR<-1 || deltaR>1)
+Frame.cc:623:            // Re-scaled coordinate
+Frame.cc:626:            float disparity = (uL-bestuR);
+Frame.cc:633:                    bestuR = uL-0.01;
+Frame.cc:646:    for(int i=vDistIdx.size()-1;i>=0;i--)
+Frame.cc:652:            mvuRight[vDistIdx[i].second]=-1;
+Frame.cc:653:            mvDepth[vDistIdx[i].second]=-1;
+Frame.cc:661:    mvuRight = vector<float>(N,-1);
+Frame.cc:662:    mvDepth = vector<float>(N,-1);
+Frame.cc:677:            mvuRight[i] = kpU.pt.x-mbf/d;
+Frame.cc:689:        const float x = (u-cx)*z*invfx;
+Frame.cc:690:        const float y = (v-cy)*z*invfy;
+Frame.cc:708:                                (mvKeysUn[i].pt.x - cx)*invfx*depth,
+Frame.cc:709:                                (mvKeysUn[i].pt.y - cy)*invfy*depth,
+ORBmatcher.cc:2:* This file is part of ORB-SLAM2.
+ORBmatcher.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+ORBmatcher.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+ORBmatcher.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+ORBmatcher.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+ORBmatcher.cc:30:#include<stdint-gcc.h>
+ORBmatcher.cc:54:        if(!pMP->mbTrackInView)
+ORBmatcher.cc:57:        if(pMP->isBad())
+ORBmatcher.cc:60:        const int &nPredictedLevel = pMP->mnTrackScaleLevel;
+ORBmatcher.cc:63:        float r = RadiusByViewingCos(pMP->mTrackViewCos);
+ORBmatcher.cc:69:                F.GetFeaturesInArea(pMP->mTrackProjX,pMP->mTrackProjY,r*F.mvScaleFactors[nPredictedLevel],nPredictedLevel-1,nPredictedLevel);
+ORBmatcher.cc:74:        const cv::Mat MPdescriptor = pMP->GetDescriptor();
+ORBmatcher.cc:77:        int bestLevel= -1;
+ORBmatcher.cc:79:        int bestLevel2 = -1;
+ORBmatcher.cc:80:        int bestIdx =-1 ;
+ORBmatcher.cc:88:                if(F.mvpMapPoints[idx]->Observations()>0)
+ORBmatcher.cc:93:                const float er = fabs(pMP->mTrackProjXR-F.mvuRight[idx]);
+ORBmatcher.cc:156:    return dsqr<3.84*pKF2->mvLevelSigma2[kp2.octave];
+ORBmatcher.cc:161:    const vector<MapPoint*> vpMapPointsKF = pKF->GetMapPointMatches();
+ORBmatcher.cc:165:    const DBoW2::FeatureVector &vFeatVecKF = pKF->mFeatVec;
+ORBmatcher.cc:182:        if(KFit->first == Fit->first)
+ORBmatcher.cc:184:            const vector<unsigned int> vIndicesKF = KFit->second;
+ORBmatcher.cc:185:            const vector<unsigned int> vIndicesF = Fit->second;
+ORBmatcher.cc:196:                if(pMP->isBad())
+ORBmatcher.cc:199:                const cv::Mat &dKF= pKF->mDescriptors.row(realIdxKF);
+ORBmatcher.cc:202:                int bestIdxF =-1 ;
+ORBmatcher.cc:234:                        const cv::KeyPoint &kp = pKF->mvKeysUn[realIdxKF];
+ORBmatcher.cc:238:                            float rot = kp.angle-F.mvKeys[bestIdxF].angle;
+ORBmatcher.cc:256:        else if(KFit->first < Fit->first)
+ORBmatcher.cc:258:            KFit = vFeatVecKF.lower_bound(Fit->first);
+ORBmatcher.cc:262:            Fit = F.mFeatVec.lower_bound(KFit->first);
+ORBmatcher.cc:269:        int ind1=-1;
+ORBmatcher.cc:270:        int ind2=-1;
+ORBmatcher.cc:271:        int ind3=-1;
+ORBmatcher.cc:282:                nmatches--;
+ORBmatcher.cc:293:    const float &fx = pKF->fx;
+ORBmatcher.cc:294:    const float &fy = pKF->fy;
+ORBmatcher.cc:295:    const float &cx = pKF->cx;
+ORBmatcher.cc:296:    const float &cy = pKF->cy;
+ORBmatcher.cc:303:    cv::Mat Ow = -Rcw.t()*tcw;
+ORBmatcher.cc:317:        if(pMP->isBad() || spAlreadyFound.count(pMP))
+ORBmatcher.cc:321:        cv::Mat p3Dw = pMP->GetWorldPos();
+ORBmatcher.cc:339:        if(!pKF->IsInImage(u,v))
+ORBmatcher.cc:343:        const float maxDistance = pMP->GetMaxDistanceInvariance();
+ORBmatcher.cc:344:        const float minDistance = pMP->GetMinDistanceInvariance();
+ORBmatcher.cc:345:        cv::Mat PO = p3Dw-Ow;
+ORBmatcher.cc:352:        cv::Mat Pn = pMP->GetNormal();
+ORBmatcher.cc:357:        int nPredictedLevel = pMP->PredictScale(dist,pKF);
+ORBmatcher.cc:360:        const float radius = th*pKF->mvScaleFactors[nPredictedLevel];
+ORBmatcher.cc:362:        const vector<size_t> vIndices = pKF->GetFeaturesInArea(u,v,radius);
+ORBmatcher.cc:368:        const cv::Mat dMP = pMP->GetDescriptor();
+ORBmatcher.cc:371:        int bestIdx = -1;
+ORBmatcher.cc:378:            const int &kpLevel= pKF->mvKeysUn[idx].octave;
+ORBmatcher.cc:380:            if(kpLevel<nPredictedLevel-1 || kpLevel>nPredictedLevel)
+ORBmatcher.cc:383:            const cv::Mat &dKF = pKF->mDescriptors.row(idx);
+ORBmatcher.cc:408:    vnMatches12 = vector<int>(F1.mvKeysUn.size(),-1);
+ORBmatcher.cc:416:    vector<int> vnMatches21(F2.mvKeysUn.size(),-1);
+ORBmatcher.cc:434:        int bestIdx2 = -1;
+ORBmatcher.cc:465:                    vnMatches12[vnMatches21[bestIdx2]]=-1;
+ORBmatcher.cc:466:                    nmatches--;
+ORBmatcher.cc:475:                    float rot = F1.mvKeysUn[i1].angle-F2.mvKeysUn[bestIdx2].angle;
+ORBmatcher.cc:491:        int ind1=-1;
+ORBmatcher.cc:492:        int ind2=-1;
+ORBmatcher.cc:493:        int ind3=-1;
+ORBmatcher.cc:506:                    vnMatches12[idx1]=-1;
+ORBmatcher.cc:507:                    nmatches--;
+ORBmatcher.cc:524:    const vector<cv::KeyPoint> &vKeysUn1 = pKF1->mvKeysUn;
+ORBmatcher.cc:525:    const DBoW2::FeatureVector &vFeatVec1 = pKF1->mFeatVec;
+ORBmatcher.cc:526:    const vector<MapPoint*> vpMapPoints1 = pKF1->GetMapPointMatches();
+ORBmatcher.cc:527:    const cv::Mat &Descriptors1 = pKF1->mDescriptors;
+ORBmatcher.cc:529:    const vector<cv::KeyPoint> &vKeysUn2 = pKF2->mvKeysUn;
+ORBmatcher.cc:530:    const DBoW2::FeatureVector &vFeatVec2 = pKF2->mFeatVec;
+ORBmatcher.cc:531:    const vector<MapPoint*> vpMapPoints2 = pKF2->GetMapPointMatches();
+ORBmatcher.cc:532:    const cv::Mat &Descriptors2 = pKF2->mDescriptors;
+ORBmatcher.cc:552:        if(f1it->first == f2it->first)
+ORBmatcher.cc:554:            for(size_t i1=0, iend1=f1it->second.size(); i1<iend1; i1++)
+ORBmatcher.cc:556:                const size_t idx1 = f1it->second[i1];
+ORBmatcher.cc:561:                if(pMP1->isBad())
+ORBmatcher.cc:567:                int bestIdx2 =-1 ;
+ORBmatcher.cc:570:                for(size_t i2=0, iend2=f2it->second.size(); i2<iend2; i2++)
+ORBmatcher.cc:572:                    const size_t idx2 = f2it->second[i2];
+ORBmatcher.cc:579:                    if(pMP2->isBad())
+ORBmatcher.cc:607:                            float rot = vKeysUn1[idx1].angle-vKeysUn2[bestIdx2].angle;
+ORBmatcher.cc:624:        else if(f1it->first < f2it->first)
+ORBmatcher.cc:626:            f1it = vFeatVec1.lower_bound(f2it->first);
+ORBmatcher.cc:630:            f2it = vFeatVec2.lower_bound(f1it->first);
+ORBmatcher.cc:636:        int ind1=-1;
+ORBmatcher.cc:637:        int ind2=-1;
+ORBmatcher.cc:638:        int ind3=-1;
+ORBmatcher.cc:649:                nmatches--;
+ORBmatcher.cc:660:    const DBoW2::FeatureVector &vFeatVec1 = pKF1->mFeatVec;
+ORBmatcher.cc:661:    const DBoW2::FeatureVector &vFeatVec2 = pKF2->mFeatVec;
+ORBmatcher.cc:664:    cv::Mat Cw = pKF1->GetCameraCenter();
+ORBmatcher.cc:665:    cv::Mat R2w = pKF2->GetRotation();
+ORBmatcher.cc:666:    cv::Mat t2w = pKF2->GetTranslation();
+ORBmatcher.cc:669:    const float ex =pKF2->fx*C2.at<float>(0)*invz+pKF2->cx;
+ORBmatcher.cc:670:    const float ey =pKF2->fy*C2.at<float>(1)*invz+pKF2->cy;
+ORBmatcher.cc:673:    // Matching speed-up by ORB Vocabulary
+ORBmatcher.cc:677:    vector<bool> vbMatched2(pKF2->N,false);
+ORBmatcher.cc:678:    vector<int> vMatches12(pKF1->N,-1);
+ORBmatcher.cc:693:        if(f1it->first == f2it->first)
+ORBmatcher.cc:695:            for(size_t i1=0, iend1=f1it->second.size(); i1<iend1; i1++)
+ORBmatcher.cc:697:                const size_t idx1 = f1it->second[i1];
+ORBmatcher.cc:699:                MapPoint* pMP1 = pKF1->GetMapPoint(idx1);
+ORBmatcher.cc:705:                const bool bStereo1 = pKF1->mvuRight[idx1]>=0;
+ORBmatcher.cc:711:                const cv::KeyPoint &kp1 = pKF1->mvKeysUn[idx1];
+ORBmatcher.cc:713:                const cv::Mat &d1 = pKF1->mDescriptors.row(idx1);
+ORBmatcher.cc:716:                int bestIdx2 = -1;
+ORBmatcher.cc:718:                for(size_t i2=0, iend2=f2it->second.size(); i2<iend2; i2++)
+ORBmatcher.cc:720:                    size_t idx2 = f2it->second[i2];
+ORBmatcher.cc:722:                    MapPoint* pMP2 = pKF2->GetMapPoint(idx2);
+ORBmatcher.cc:728:                    const bool bStereo2 = pKF2->mvuRight[idx2]>=0;
+ORBmatcher.cc:734:                    const cv::Mat &d2 = pKF2->mDescriptors.row(idx2);
+ORBmatcher.cc:741:                    const cv::KeyPoint &kp2 = pKF2->mvKeysUn[idx2];
+ORBmatcher.cc:745:                        const float distex = ex-kp2.pt.x;
+ORBmatcher.cc:746:                        const float distey = ey-kp2.pt.y;
+ORBmatcher.cc:747:                        if(distex*distex+distey*distey<100*pKF2->mvScaleFactors[kp2.octave])
+ORBmatcher.cc:760:                    const cv::KeyPoint &kp2 = pKF2->mvKeysUn[bestIdx2];
+ORBmatcher.cc:766:                        float rot = kp1.angle-kp2.angle;
+ORBmatcher.cc:781:        else if(f1it->first < f2it->first)
+ORBmatcher.cc:783:            f1it = vFeatVec1.lower_bound(f2it->first);
+ORBmatcher.cc:787:            f2it = vFeatVec2.lower_bound(f1it->first);
+ORBmatcher.cc:793:        int ind1=-1;
+ORBmatcher.cc:794:        int ind2=-1;
+ORBmatcher.cc:795:        int ind3=-1;
+ORBmatcher.cc:805:                vMatches12[rotHist[i][j]]=-1;
+ORBmatcher.cc:806:                nmatches--;
+ORBmatcher.cc:827:    cv::Mat Rcw = pKF->GetRotation();
+ORBmatcher.cc:828:    cv::Mat tcw = pKF->GetTranslation();
+ORBmatcher.cc:830:    const float &fx = pKF->fx;
+ORBmatcher.cc:831:    const float &fy = pKF->fy;
+ORBmatcher.cc:832:    const float &cx = pKF->cx;
+ORBmatcher.cc:833:    const float &cy = pKF->cy;
+ORBmatcher.cc:834:    const float &bf = pKF->mbf;
+ORBmatcher.cc:836:    cv::Mat Ow = pKF->GetCameraCenter();
+ORBmatcher.cc:849:        if(pMP->isBad() || pMP->IsInKeyFrame(pKF))
+ORBmatcher.cc:852:        cv::Mat p3Dw = pMP->GetWorldPos();
+ORBmatcher.cc:867:        if(!pKF->IsInImage(u,v))
+ORBmatcher.cc:870:        const float ur = u-bf*invz;
+ORBmatcher.cc:872:        const float maxDistance = pMP->GetMaxDistanceInvariance();
+ORBmatcher.cc:873:        const float minDistance = pMP->GetMinDistanceInvariance();
+ORBmatcher.cc:874:        cv::Mat PO = p3Dw-Ow;
+ORBmatcher.cc:882:        cv::Mat Pn = pMP->GetNormal();
+ORBmatcher.cc:887:        int nPredictedLevel = pMP->PredictScale(dist3D,pKF);
+ORBmatcher.cc:890:        const float radius = th*pKF->mvScaleFactors[nPredictedLevel];
+ORBmatcher.cc:892:        const vector<size_t> vIndices = pKF->GetFeaturesInArea(u,v,radius);
+ORBmatcher.cc:899:        const cv::Mat dMP = pMP->GetDescriptor();
+ORBmatcher.cc:902:        int bestIdx = -1;
+ORBmatcher.cc:907:            const cv::KeyPoint &kp = pKF->mvKeysUn[idx];
+ORBmatcher.cc:911:            if(kpLevel<nPredictedLevel-1 || kpLevel>nPredictedLevel)
+ORBmatcher.cc:914:            if(pKF->mvuRight[idx]>=0)
+ORBmatcher.cc:919:                const float &kpr = pKF->mvuRight[idx];
+ORBmatcher.cc:920:                const float ex = u-kpx;
+ORBmatcher.cc:921:                const float ey = v-kpy;
+ORBmatcher.cc:922:                const float er = ur-kpr;
+ORBmatcher.cc:925:                if(e2*pKF->mvInvLevelSigma2[kpLevel]>7.8)
+ORBmatcher.cc:932:                const float ex = u-kpx;
+ORBmatcher.cc:933:                const float ey = v-kpy;
+ORBmatcher.cc:936:                if(e2*pKF->mvInvLevelSigma2[kpLevel]>5.99)
+ORBmatcher.cc:940:            const cv::Mat &dKF = pKF->mDescriptors.row(idx);
+ORBmatcher.cc:954:            MapPoint* pMPinKF = pKF->GetMapPoint(bestIdx);
+ORBmatcher.cc:957:                if(!pMPinKF->isBad())
+ORBmatcher.cc:959:                    if(pMPinKF->Observations()>pMP->Observations())
+ORBmatcher.cc:960:                        pMP->Replace(pMPinKF);
+ORBmatcher.cc:962:                        pMPinKF->Replace(pMP);
+ORBmatcher.cc:967:                pMP->AddObservation(pKF,bestIdx);
+ORBmatcher.cc:968:                pKF->AddMapPoint(pMP,bestIdx);
+ORBmatcher.cc:980:    const float &fx = pKF->fx;
+ORBmatcher.cc:981:    const float &fy = pKF->fy;
+ORBmatcher.cc:982:    const float &cx = pKF->cx;
+ORBmatcher.cc:983:    const float &cy = pKF->cy;
+ORBmatcher.cc:990:    cv::Mat Ow = -Rcw.t()*tcw;
+ORBmatcher.cc:993:    const set<MapPoint*> spAlreadyFound = pKF->GetMapPoints();
+ORBmatcher.cc:1005:        if(pMP->isBad() || spAlreadyFound.count(pMP))
+ORBmatcher.cc:1009:        cv::Mat p3Dw = pMP->GetWorldPos();
+ORBmatcher.cc:1027:        if(!pKF->IsInImage(u,v))
+ORBmatcher.cc:1031:        const float maxDistance = pMP->GetMaxDistanceInvariance();
+ORBmatcher.cc:1032:        const float minDistance = pMP->GetMinDistanceInvariance();
+ORBmatcher.cc:1033:        cv::Mat PO = p3Dw-Ow;
+ORBmatcher.cc:1040:        cv::Mat Pn = pMP->GetNormal();
+ORBmatcher.cc:1046:        const int nPredictedLevel = pMP->PredictScale(dist3D,pKF);
+ORBmatcher.cc:1049:        const float radius = th*pKF->mvScaleFactors[nPredictedLevel];
+ORBmatcher.cc:1051:        const vector<size_t> vIndices = pKF->GetFeaturesInArea(u,v,radius);
+ORBmatcher.cc:1058:        const cv::Mat dMP = pMP->GetDescriptor();
+ORBmatcher.cc:1061:        int bestIdx = -1;
+ORBmatcher.cc:1065:            const int &kpLevel = pKF->mvKeysUn[idx].octave;
+ORBmatcher.cc:1067:            if(kpLevel<nPredictedLevel-1 || kpLevel>nPredictedLevel)
+ORBmatcher.cc:1070:            const cv::Mat &dKF = pKF->mDescriptors.row(idx);
+ORBmatcher.cc:1084:            MapPoint* pMPinKF = pKF->GetMapPoint(bestIdx);
+ORBmatcher.cc:1087:                if(!pMPinKF->isBad())
+ORBmatcher.cc:1092:                pMP->AddObservation(pKF,bestIdx);
+ORBmatcher.cc:1093:                pKF->AddMapPoint(pMP,bestIdx);
+ORBmatcher.cc:1105:    const float &fx = pKF1->fx;
+ORBmatcher.cc:1106:    const float &fy = pKF1->fy;
+ORBmatcher.cc:1107:    const float &cx = pKF1->cx;
+ORBmatcher.cc:1108:    const float &cy = pKF1->cy;
+ORBmatcher.cc:1111:    cv::Mat R1w = pKF1->GetRotation();
+ORBmatcher.cc:1112:    cv::Mat t1w = pKF1->GetTranslation();
+ORBmatcher.cc:1115:    cv::Mat R2w = pKF2->GetRotation();
+ORBmatcher.cc:1116:    cv::Mat t2w = pKF2->GetTranslation();
+ORBmatcher.cc:1121:    cv::Mat t21 = -sR21*t12;
+ORBmatcher.cc:1123:    const vector<MapPoint*> vpMapPoints1 = pKF1->GetMapPointMatches();
+ORBmatcher.cc:1126:    const vector<MapPoint*> vpMapPoints2 = pKF2->GetMapPointMatches();
+ORBmatcher.cc:1138:            int idx2 = pMP->GetIndexInKeyFrame(pKF2);
+ORBmatcher.cc:1144:    vector<int> vnMatch1(N1,-1);
+ORBmatcher.cc:1145:    vector<int> vnMatch2(N2,-1);
+ORBmatcher.cc:1155:        if(pMP->isBad())
+ORBmatcher.cc:1158:        cv::Mat p3Dw = pMP->GetWorldPos();
+ORBmatcher.cc:1174:        if(!pKF2->IsInImage(u,v))
+ORBmatcher.cc:1177:        const float maxDistance = pMP->GetMaxDistanceInvariance();
+ORBmatcher.cc:1178:        const float minDistance = pMP->GetMinDistanceInvariance();
+ORBmatcher.cc:1186:        const int nPredictedLevel = pMP->PredictScale(dist3D,pKF2);
+ORBmatcher.cc:1189:        const float radius = th*pKF2->mvScaleFactors[nPredictedLevel];
+ORBmatcher.cc:1191:        const vector<size_t> vIndices = pKF2->GetFeaturesInArea(u,v,radius);
+ORBmatcher.cc:1197:        const cv::Mat dMP = pMP->GetDescriptor();
+ORBmatcher.cc:1200:        int bestIdx = -1;
+ORBmatcher.cc:1205:            const cv::KeyPoint &kp = pKF2->mvKeysUn[idx];
+ORBmatcher.cc:1207:            if(kp.octave<nPredictedLevel-1 || kp.octave>nPredictedLevel)
+ORBmatcher.cc:1210:            const cv::Mat &dKF = pKF2->mDescriptors.row(idx);
+ORBmatcher.cc:1235:        if(pMP->isBad())
+ORBmatcher.cc:1238:        cv::Mat p3Dw = pMP->GetWorldPos();
+ORBmatcher.cc:1254:        if(!pKF1->IsInImage(u,v))
+ORBmatcher.cc:1257:        const float maxDistance = pMP->GetMaxDistanceInvariance();
+ORBmatcher.cc:1258:        const float minDistance = pMP->GetMinDistanceInvariance();
+ORBmatcher.cc:1266:        const int nPredictedLevel = pMP->PredictScale(dist3D,pKF1);
+ORBmatcher.cc:1269:        const float radius = th*pKF1->mvScaleFactors[nPredictedLevel];
+ORBmatcher.cc:1271:        const vector<size_t> vIndices = pKF1->GetFeaturesInArea(u,v,radius);
+ORBmatcher.cc:1277:        const cv::Mat dMP = pMP->GetDescriptor();
+ORBmatcher.cc:1280:        int bestIdx = -1;
+ORBmatcher.cc:1285:            const cv::KeyPoint &kp = pKF1->mvKeysUn[idx];
+ORBmatcher.cc:1287:            if(kp.octave<nPredictedLevel-1 || kp.octave>nPredictedLevel)
+ORBmatcher.cc:1290:            const cv::Mat &dKF = pKF1->mDescriptors.row(idx);
+ORBmatcher.cc:1341:    const cv::Mat twc = -Rcw.t()*tcw;
+ORBmatcher.cc:1349:    const bool bBackward = -tlc.at<float>(2)>CurrentFrame.mb && !bMono;
+ORBmatcher.cc:1360:                cv::Mat x3Dw = pMP->GetWorldPos();
+ORBmatcher.cc:1390:                    vIndices2 = CurrentFrame.GetFeaturesInArea(u,v, radius, nLastOctave-1, nLastOctave+1);
+ORBmatcher.cc:1395:                const cv::Mat dMP = pMP->GetDescriptor();
+ORBmatcher.cc:1398:                int bestIdx2 = -1;
+ORBmatcher.cc:1404:                        if(CurrentFrame.mvpMapPoints[i2]->Observations()>0)
+ORBmatcher.cc:1409:                        const float ur = u - CurrentFrame.mbf*invzc;
+ORBmatcher.cc:1410:                        const float er = fabs(ur - CurrentFrame.mvuRight[i2]);
+ORBmatcher.cc:1433:                        float rot = LastFrame.mvKeysUn[i].angle-CurrentFrame.mvKeysUn[bestIdx2].angle;
+ORBmatcher.cc:1450:        int ind1=-1;
+ORBmatcher.cc:1451:        int ind2=-1;
+ORBmatcher.cc:1452:        int ind3=-1;
+ORBmatcher.cc:1463:                    nmatches--;
+ORBmatcher.cc:1478:    const cv::Mat Ow = -Rcw.t()*tcw;
+ORBmatcher.cc:1486:    const vector<MapPoint*> vpMPs = pKF->GetMapPointMatches();
+ORBmatcher.cc:1494:            if(!pMP->isBad() && !sAlreadyFound.count(pMP))
+ORBmatcher.cc:1497:                cv::Mat x3Dw = pMP->GetWorldPos();
+ORBmatcher.cc:1513:                cv::Mat PO = x3Dw-Ow;
+ORBmatcher.cc:1516:                const float maxDistance = pMP->GetMaxDistanceInvariance();
+ORBmatcher.cc:1517:                const float minDistance = pMP->GetMinDistanceInvariance();
+ORBmatcher.cc:1523:                int nPredictedLevel = pMP->PredictScale(dist3D,&CurrentFrame);
+ORBmatcher.cc:1528:                const vector<size_t> vIndices2 = CurrentFrame.GetFeaturesInArea(u, v, radius, nPredictedLevel-1, nPredictedLevel+1);
+ORBmatcher.cc:1533:                const cv::Mat dMP = pMP->GetDescriptor();
+ORBmatcher.cc:1536:                int bestIdx2 = -1;
+ORBmatcher.cc:1562:                        float rot = pKF->mvKeysUn[i].angle-CurrentFrame.mvKeysUn[bestIdx2].angle;
+ORBmatcher.cc:1579:        int ind1=-1;
+ORBmatcher.cc:1580:        int ind2=-1;
+ORBmatcher.cc:1581:        int ind3=-1;
+ORBmatcher.cc:1592:                    nmatches--;
+ORBmatcher.cc:1635:        ind2=-1;
+ORBmatcher.cc:1636:        ind3=-1;
+ORBmatcher.cc:1640:        ind3=-1;
+ORBmatcher.cc:1657:        v = v - ((v >> 1) & 0x55555555);
+Viewer.cc:2:* This file is part of ORB-SLAM2.
+Viewer.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+Viewer.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+Viewer.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+Viewer.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+Viewer.cc:59:    pangolin::CreateWindowAndBind("ORB-SLAM2: Map Viewer",1024,768);
+Viewer.cc:79:                pangolin::ModelViewLookAt(mViewpointX,mViewpointY,mViewpointZ, 0,0,0,0.0,-1.0, 0.0)
+Viewer.cc:84:            .SetBounds(0.0, 1.0, pangolin::Attach::Pix(175), 1.0, -1024.0f/768.0f)
+Viewer.cc:93:    cv::namedWindow("ORB-SLAM2: Current Frame", CV_WINDOW_NORMAL);
+Viewer.cc:102:        mpMapDrawer->GetCurrentOpenGLCameraMatrix(Twc);
+Viewer.cc:103:        mpMapDrawer->GetCurrentDsoOpenGLCameraMatrix(Twc_dso);
+Viewer.cc:112:            s_cam.SetModelViewMatrix(pangolin::ModelViewLookAt(mViewpointX,mViewpointY,mViewpointZ, 0,0,0,0.0,-1.0, 0.0));
+Viewer.cc:124:            mpSystem->ActivateLocalizationMode();
+Viewer.cc:129:            mpSystem->DeactivateLocalizationMode();
+Viewer.cc:135:        //mpMapDrawer->DrawCurrentCamera(Twc);
+Viewer.cc:136:        mpMapDrawer->DrawCurrentDsoCamera(Twc_dso);
+Viewer.cc:138:            mpMapDrawer->DrawKeyFrames(menuShowKeyFrames,menuShowGraph);
+Viewer.cc:140:            mpMapDrawer->DrawMapPoints();
+Viewer.cc:144:        cv::Mat im = mpFrameDrawer->DrawFrame();
+Viewer.cc:145:        cv::imshow("ORB-SLAM2: Current Frame",im);
+Viewer.cc:155:                mpSystem->DeactivateLocalizationMode();
+Viewer.cc:159:            mpSystem->Reset();
+Converter.cc:2:* This file is part of ORB-SLAM2.
+Converter.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+Converter.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+Converter.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+Converter.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+PnPsolver.cc:2:* This file is part of ORB-SLAM2.
+PnPsolver.cc:5:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+PnPsolver.cc:8:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+PnPsolver.cc:13:* ORB-SLAM2 is distributed in the hope that it will be useful,
+PnPsolver.cc:19:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+PnPsolver.cc:85:            if(!pMP->isBad())
+PnPsolver.cc:92:                cv::Mat Pos = pMP->GetWorldPos();
+PnPsolver.cc:150:        nIterations = ceil(log(1-mRansacProb)/log(1-pow(mRansacEpsilon,3)));
+PnPsolver.cc:193:            int randi = DUtils::Random::RandomInt(0, vAvailableIndices.size()-1);
+PnPsolver.cc:324:        float distX = P2D.x-ue;
+PnPsolver.cc:325:        float distY = P2D.y-ve;
+PnPsolver.cc:397:      PW0->data.db[3 * i + j] = pws[3 * i + j] - cws[0][j];
+PnPsolver.cc:405:    double k = sqrt(dc[i - 1] / number_of_correspondences);
+PnPsolver.cc:407:      cws[i][j] = cws[0][j] + k * uct[3 * (i - 1) + j];
+PnPsolver.cc:419:      cc[3 * i + j - 1] = cws[j][i] - cws[0][i];
+PnPsolver.cc:429:	ci[3 * j    ] * (pi[0] - cws[0][0]) +
+PnPsolver.cc:430:	ci[3 * j + 1] * (pi[1] - cws[0][1]) +
+PnPsolver.cc:431:	ci[3 * j + 2] * (pi[2] - cws[0][2]);
+PnPsolver.cc:432:    a[0] = 1.0f - a[1] - a[2] - a[3];
+PnPsolver.cc:439:  double * M1 = M->data.db + row * 12;
+PnPsolver.cc:445:    M1[3 * i + 2] = as[i] * (uc - u);
+PnPsolver.cc:449:    M2[3 * i + 2] = as[i] * (vc - v);
+PnPsolver.cc:459:    const double * v = ut + 12 * (11 - i);
+PnPsolver.cc:540:    (p1[0] - p2[0]) * (p1[0] - p2[0]) +
+PnPsolver.cc:541:    (p1[1] - p2[1]) * (p1[1] - p2[1]) +
+PnPsolver.cc:542:    (p1[2] - p2[2]) * (p1[2] - p2[2]);
+PnPsolver.cc:563:    sum2 += sqrt( (u - ue) * (u - ue) + (v - ve) * (v - ve) );
+PnPsolver.cc:602:      abt[3 * j    ] += (pc[j] - pc0[j]) * (pw[0] - pw0[0]);
+PnPsolver.cc:603:      abt[3 * j + 1] += (pc[j] - pc0[j]) * (pw[1] - pw0[1]);
+PnPsolver.cc:604:      abt[3 * j + 2] += (pc[j] - pc0[j]) * (pw[2] - pw0[2]);
+PnPsolver.cc:615:    R[0][0] * R[1][1] * R[2][2] + R[0][1] * R[1][2] * R[2][0] + R[0][2] * R[1][0] * R[2][1] -
+PnPsolver.cc:616:    R[0][2] * R[1][1] * R[2][0] - R[0][1] * R[1][0] * R[2][2] - R[0][0] * R[1][2] * R[2][1];
+PnPsolver.cc:619:    R[2][0] = -R[2][0];
+PnPsolver.cc:620:    R[2][1] = -R[2][1];
+PnPsolver.cc:621:    R[2][2] = -R[2][2];
+PnPsolver.cc:624:  t[0] = pc0[0] - dot(R[0], pw0);
+PnPsolver.cc:625:  t[1] = pc0[1] - dot(R[1], pw0);
+PnPsolver.cc:626:  t[2] = pc0[2] - dot(R[2], pw0);
+PnPsolver.cc:641:	ccs[i][j] = -ccs[i][j];
+PnPsolver.cc:644:      pcs[3 * i    ] = -pcs[3 * i];
+PnPsolver.cc:645:      pcs[3 * i + 1] = -pcs[3 * i + 1];
+PnPsolver.cc:646:      pcs[3 * i + 2] = -pcs[3 * i + 2];
+PnPsolver.cc:684:    betas[0] = sqrt(-b4[0]);
+PnPsolver.cc:685:    betas[1] = -b4[1] / betas[0];
+PnPsolver.cc:686:    betas[2] = -b4[2] / betas[0];
+PnPsolver.cc:687:    betas[3] = -b4[3] / betas[0];
+PnPsolver.cc:715:    betas[0] = sqrt(-b3[0]);
+PnPsolver.cc:716:    betas[1] = (b3[2] < 0) ? sqrt(-b3[2]) : 0.0;
+PnPsolver.cc:722:  if (b3[1] < 0) betas[0] = -betas[0];
+PnPsolver.cc:749:    betas[0] = sqrt(-b5[0]);
+PnPsolver.cc:750:    betas[1] = (b5[2] < 0) ? sqrt(-b5[2]) : 0.0;
+PnPsolver.cc:755:  if (b5[1] < 0) betas[0] = -betas[0];
+PnPsolver.cc:774:      dv[i][j][0] = v[i][3 * a    ] - v[i][3 * b];
+PnPsolver.cc:775:      dv[i][j][1] = v[i][3 * a + 1] - v[i][3 * b + 1];
+PnPsolver.cc:776:      dv[i][j][2] = v[i][3 * a + 2] - v[i][3 * b + 2];
+PnPsolver.cc:817:    double * rowA = A->data.db + i * 4;
+PnPsolver.cc:824:    cvmSet(b, i, 0, rho[i] -
+PnPsolver.cc:851:    compute_A_and_b_gauss_newton(L_6x10->data.db, Rho->data.db,
+PnPsolver.cc:865:  const int nr = A->rows;
+PnPsolver.cc:866:  const int nc = A->cols;
+PnPsolver.cc:878:  double * pA = A->data.db, * ppAkk = pA;
+PnPsolver.cc:900:	sigma = -sigma;
+PnPsolver.cc:903:      A2[k] = -eta * sigma;
+PnPsolver.cc:907:	  sum += *ppAik * ppAik[j - k];
+PnPsolver.cc:913:	  ppAik[j - k] -= tau * *ppAik;
+PnPsolver.cc:921:  // b <- Qt b
+PnPsolver.cc:922:  double * ppAjj = pA, * pb = b->data.db;
+PnPsolver.cc:932:      pb[i] -= tau * *ppAij;
+PnPsolver.cc:938:  // X = R-1 b
+PnPsolver.cc:939:  double * pX = X->data.db;
+PnPsolver.cc:940:  pX[nc - 1] = pb[nc - 1] / A2[nc - 1];
+PnPsolver.cc:941:  for(int i = nc - 2; i >= 0; i--) {
+PnPsolver.cc:948:    pX[i] = (pb[i] - sum) / A2[i];
+PnPsolver.cc:963:  double rot_err1 = sqrt((qtrue[0] - qest[0]) * (qtrue[0] - qest[0]) +
+PnPsolver.cc:964:			 (qtrue[1] - qest[1]) * (qtrue[1] - qest[1]) +
+PnPsolver.cc:965:			 (qtrue[2] - qest[2]) * (qtrue[2] - qest[2]) +
+PnPsolver.cc:966:			 (qtrue[3] - qest[3]) * (qtrue[3] - qest[3]) ) /
+PnPsolver.cc:978:    sqrt((ttrue[0] - test[0]) * (ttrue[0] - test[0]) +
+PnPsolver.cc:979:	 (ttrue[1] - test[1]) * (ttrue[1] - test[1]) +
+PnPsolver.cc:980:	 (ttrue[2] - test[2]) * (ttrue[2] - test[2])) /
+PnPsolver.cc:990:    q[0] = R[1][2] - R[2][1];
+PnPsolver.cc:991:    q[1] = R[2][0] - R[0][2];
+PnPsolver.cc:992:    q[2] = R[0][1] - R[1][0];
+PnPsolver.cc:996:    q[0] = 1.0f + R[0][0] - R[1][1] - R[2][2];
+PnPsolver.cc:999:    q[3] = R[1][2] - R[2][1];
+PnPsolver.cc:1003:    q[1] = 1.0f + R[1][1] - R[0][0] - R[2][2];
+PnPsolver.cc:1005:    q[3] = R[2][0] - R[0][2];
+PnPsolver.cc:1010:    q[2] = 1.0f + R[2][2] - R[0][0] - R[1][1];
+PnPsolver.cc:1011:    q[3] = R[0][1] - R[1][0];
+System.cc:2:* This file is part of ORB-SLAM2.
+System.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+System.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+System.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+System.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+System.cc:38:    "ORB-SLAM2 Copyright (C) 2014-2016 Raul Mur-Artal, University of Zaragoza." << endl <<
+System.cc:50:        cout << "RGB-D" << endl;
+System.cc:57:       exit(-1);
+System.cc:65:    bool bVocLoad = mpVocabulary->loadFromTextFile(strVocFile);
+System.cc:70:        exit(-1);
+System.cc:102:        mpTracker->SetViewer(mpViewer);
+System.cc:106:    mpTracker->SetLocalMapper(mpLocalMapper);
+System.cc:107:    mpTracker->SetLoopClosing(mpLoopCloser);
+System.cc:109:    mpLocalMapper->SetTracker(mpTracker);
+System.cc:110:    mpLocalMapper->SetLoopCloser(mpLoopCloser);
+System.cc:112:    mpLoopCloser->SetTracker(mpTracker);
+System.cc:113:    mpLoopCloser->SetLocalMapper(mpLocalMapper);
+System.cc:121:        exit(-1);
+System.cc:129:            mpLocalMapper->RequestStop();
+System.cc:132:            while(!mpLocalMapper->isStopped())
+System.cc:137:            mpTracker->InformOnlyTracking(true);
+System.cc:142:            mpTracker->InformOnlyTracking(false);
+System.cc:143:            mpLocalMapper->Release();
+System.cc:153:        mpTracker->Reset();
+System.cc:158:    cv::Mat Tcw = mpTracker->GrabImageStereo(imLeft,imRight,timestamp);
+System.cc:161:    mTrackingState = mpTracker->mState;
+System.cc:162:    mTrackedMapPoints = mpTracker->mCurrentFrame.mvpMapPoints;
+System.cc:163:    mTrackedKeyPointsUn = mpTracker->mCurrentFrame.mvKeysUn;
+System.cc:172:        exit(-1);
+System.cc:180:            mpLocalMapper->RequestStop();
+System.cc:183:            while(!mpLocalMapper->isStopped())
+System.cc:188:            mpTracker->InformOnlyTracking(true);
+System.cc:193:            mpTracker->InformOnlyTracking(false);
+System.cc:194:            mpLocalMapper->Release();
+System.cc:204:        mpTracker->Reset();
+System.cc:209:    cv::Mat Tcw = mpTracker->GrabImageRGBD(im,depthmap,timestamp);
+System.cc:212:    mTrackingState = mpTracker->mState;
+System.cc:213:    mTrackedMapPoints = mpTracker->mCurrentFrame.mvpMapPoints;
+System.cc:214:    mTrackedKeyPointsUn = mpTracker->mCurrentFrame.mvKeysUn;
+System.cc:223:        exit(-1);
+System.cc:231:            mpLocalMapper->RequestStop();
+System.cc:234:            while(!mpLocalMapper->isStopped())
+System.cc:239:            mpTracker->InformOnlyTracking(true);
+System.cc:244:            mpTracker->InformOnlyTracking(false);
+System.cc:245:            mpLocalMapper->Release();
+System.cc:255:        mpTracker->Reset();
+System.cc:260:    cv::Mat Tcw = mpTracker->GrabImageMonocular(im,timestamp);
+System.cc:263:    mTrackingState = mpTracker->mState;
+System.cc:264:    mTrackedMapPoints = mpTracker->mCurrentFrame.mvpMapPoints;
+System.cc:265:    mTrackedKeyPointsUn = mpTracker->mCurrentFrame.mvKeysUn;
+System.cc:282:        exit(-1);
+System.cc:290:            mpLocalMapper->RequestStop();
+System.cc:293:            while(!mpLocalMapper->isStopped())
+System.cc:298:            mpTracker->InformOnlyTracking(true);
+System.cc:303:            mpTracker->InformOnlyTracking(false);
+System.cc:304:            mpLocalMapper->Release();
+System.cc:314:        mpTracker->Reset();
+System.cc:319:    cv::Mat Tcw = mpTracker->GrabImageMonocularDSO(im,timestamp, calib, T_cw_DSO, T_inc_DSO, uvzvar, depths_map);
+System.cc:322:    mTrackingState = mpTracker->mState;
+System.cc:323:    mTrackedMapPoints = mpTracker->mCurrentFrame.mvpMapPoints;
+System.cc:324:    mTrackedKeyPointsUn = mpTracker->mCurrentFrame.mvKeysUn;
+System.cc:345:    int curn = mpMap->GetLastBigChangeIdx();
+System.cc:363:    mpLocalMapper->RequestFinish();
+System.cc:364:    mpLoopCloser->RequestFinish();
+System.cc:367:        mpViewer->RequestFinish();
+System.cc:368:        while(!mpViewer->isFinished())
+System.cc:373:    while(!mpLocalMapper->isFinished() || !mpLoopCloser->isFinished() || mpLoopCloser->isRunningGBA())
+System.cc:379:        pangolin::BindToContext("ORB-SLAM2: Map Viewer");
+System.cc:391:    vector<KeyFrame*> vpKFs = mpMap->GetAllKeyFrames();
+System.cc:396:    cv::Mat Two = vpKFs[0]->GetPoseInverse();
+System.cc:408:    list<ORB_SLAM2::KeyFrame*>::iterator lRit = mpTracker->mlpReferences.begin();
+System.cc:409:    list<double>::iterator lT = mpTracker->mlFrameTimes.begin();
+System.cc:410:    list<bool>::iterator lbL = mpTracker->mlbLost.begin();
+System.cc:411:    for(list<cv::Mat>::iterator lit=mpTracker->mlRelativeFramePoses.begin(),
+System.cc:412:        lend=mpTracker->mlRelativeFramePoses.end();lit!=lend;lit++, lRit++, lT++, lbL++)
+System.cc:422:        while(pKF->isBad())
+System.cc:424:            Trw = Trw*pKF->mTcp;
+System.cc:425:            pKF = pKF->GetParent();
+System.cc:428:        Trw = Trw*pKF->GetPose()*Two;
+System.cc:432:        cv::Mat twc = -Rwc*Tcw.rowRange(0,3).col(3);
+System.cc:446:    vector<KeyFrame*> vpKFs = mpMap->GetAllKeyFrames();
+System.cc:454:        Two = vpKFs[0]->GetPoseInverse();
+System.cc:466:    list<ORB_SLAM2::KeyFrame*>::iterator lRit = mpTracker->mlpReferences.begin();
+System.cc:467:    list<double>::iterator lT = mpTracker->mlFrameTimes.begin();
+System.cc:468:    list<bool>::iterator lbL = mpTracker->mlbLost.begin();
+System.cc:469:    for(list<cv::Mat>::iterator lit=mpTracker->mlRelativeFramePoses.begin(),
+System.cc:470:        lend=mpTracker->mlRelativeFramePoses.end();lit!=lend;lit++, lRit++, lT++, lbL++)
+System.cc:480:        while(pKF->isBad())
+System.cc:482:            Trw = Trw*pKF->mTcp;
+System.cc:483:            pKF = pKF->GetParent();
+System.cc:486:        Trw = Trw*pKF->GetPose()*Two;
+System.cc:490:        cv::Mat twc = -Rwc*Tcw.rowRange(0,3).col(3);
+System.cc:502:                << mpMap->MapPointsInMap() << endl;
+System.cc:513:    vector<KeyFrame*> vpKFs = mpMap->GetAllKeyFrames();
+System.cc:518:    //cv::Mat Two = vpKFs[0]->GetPoseInverse();
+System.cc:528:       // pKF->SetPose(pKF->GetPose()*Two);
+System.cc:530:        if(pKF->isBad())
+System.cc:533:        cv::Mat R = pKF->GetRotation().t();
+System.cc:535:        cv::Mat t = pKF->GetCameraCenter();
+System.cc:536:        f << pKF->mTimeStamp << " "
+System.cc:544:                << mpMap->MapPointsInMap() << " "
+System.cc:545:                << mpLoopCloser->nLoopClosures << endl;
+System.cc:562:    vector<KeyFrame*> vpKFs = mpMap->GetAllKeyFrames();
+System.cc:567:    cv::Mat Two = vpKFs[0]->GetPoseInverse();
+System.cc:579:    list<ORB_SLAM2::KeyFrame*>::iterator lRit = mpTracker->mlpReferences.begin();
+System.cc:580:    list<double>::iterator lT = mpTracker->mlFrameTimes.begin();
+System.cc:581:    for(list<cv::Mat>::iterator lit=mpTracker->mlRelativeFramePoses.begin(), lend=mpTracker->mlRelativeFramePoses.end();lit!=lend;lit++, lRit++, lT++)
+System.cc:587:        while(pKF->isBad())
+System.cc:590:            Trw = Trw*pKF->mTcp;
+System.cc:591:            pKF = pKF->GetParent();
+System.cc:594:        Trw = Trw*pKF->GetPose()*Two;
+System.cc:598:        cv::Mat twc = -Rwc*Tcw.rowRange(0,3).col(3);
+ORBextractor.cc:2:* This file is part of ORB-SLAM2.
+ORBextractor.cc:5:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+ORBextractor.cc:8:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+ORBextractor.cc:13:* ORB-SLAM2 is distributed in the hope that it will be useful,
+ORBextractor.cc:19:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+ORBextractor.cc:84:    for (int u = -HALF_PATCH_SIZE; u <= HALF_PATCH_SIZE; ++u)
+ORBextractor.cc:94:        for (int u = -d; u <= d; ++u)
+ORBextractor.cc:96:            int val_plus = center[u + v*step], val_minus = center[u - v*step];
+ORBextractor.cc:97:            v_sum += (val_plus - val_minus);
+ORBextractor.cc:120:               cvRound(pattern[idx].x*a - pattern[idx].y*b)]
+ORBextractor.cc:152:    8,-3, 9,5/*mean (0), correlation (0)*/,
+ORBextractor.cc:153:    4,2, 7,-12/*mean (1.12461e-05), correlation (0.0437584)*/,
+ORBextractor.cc:154:    -11,9, -8,2/*mean (3.37382e-05), correlation (0.0617409)*/,
+ORBextractor.cc:155:    7,-12, 12,-13/*mean (5.62303e-05), correlation (0.0636977)*/,
+ORBextractor.cc:156:    2,-13, 2,12/*mean (0.000134953), correlation (0.085099)*/,
+ORBextractor.cc:157:    1,-7, 1,6/*mean (0.000528565), correlation (0.0857175)*/,
+ORBextractor.cc:158:    -2,-10, -2,-4/*mean (0.0188821), correlation (0.0985774)*/,
+ORBextractor.cc:159:    -13,-13, -11,-8/*mean (0.0363135), correlation (0.0899616)*/,
+ORBextractor.cc:160:    -13,-3, -12,-9/*mean (0.121806), correlation (0.099849)*/,
+ORBextractor.cc:162:    -13,-8, -8,-9/*mean (0.162787), correlation (0.0942748)*/,
+ORBextractor.cc:163:    -11,7, -9,12/*mean (0.21561), correlation (0.0974438)*/,
+ORBextractor.cc:165:    -4,-5, -3,0/*mean (0.228171), correlation (0.132998)*/,
+ORBextractor.cc:166:    -13,2, -12,-3/*mean (0.00997526), correlation (0.145926)*/,
+ORBextractor.cc:167:    -9,0, -7,5/*mean (0.198234), correlation (0.143636)*/,
+ORBextractor.cc:168:    12,-6, 12,-1/*mean (0.0676226), correlation (0.16689)*/,
+ORBextractor.cc:169:    -3,6, -2,12/*mean (0.166847), correlation (0.171682)*/,
+ORBextractor.cc:170:    -6,-13, -4,-8/*mean (0.101215), correlation (0.179716)*/,
+ORBextractor.cc:171:    11,-13, 12,-8/*mean (0.200641), correlation (0.192279)*/,
+ORBextractor.cc:173:    5,-3, 10,-3/*mean (0.234908), correlation (0.192319)*/,
+ORBextractor.cc:174:    3,-7, 6,12/*mean (0.0709964), correlation (0.210872)*/,
+ORBextractor.cc:175:    -8,-7, -6,-2/*mean (0.0939834), correlation (0.212589)*/,
+ORBextractor.cc:176:    -2,11, -1,-10/*mean (0.127778), correlation (0.20866)*/,
+ORBextractor.cc:177:    -13,12, -8,10/*mean (0.14783), correlation (0.206356)*/,
+ORBextractor.cc:178:    -7,3, -5,-3/*mean (0.182141), correlation (0.198942)*/,
+ORBextractor.cc:179:    -4,2, -3,7/*mean (0.188237), correlation (0.21384)*/,
+ORBextractor.cc:180:    -10,-12, -6,11/*mean (0.14865), correlation (0.23571)*/,
+ORBextractor.cc:181:    5,-12, 6,-7/*mean (0.222312), correlation (0.23324)*/,
+ORBextractor.cc:182:    5,-6, 7,-1/*mean (0.229082), correlation (0.23389)*/,
+ORBextractor.cc:183:    1,0, 4,-5/*mean (0.241577), correlation (0.215286)*/,
+ORBextractor.cc:184:    9,11, 11,-13/*mean (0.00338507), correlation (0.251373)*/,
+ORBextractor.cc:186:    2,-1, 4,4/*mean (0.152755), correlation (0.255205)*/,
+ORBextractor.cc:187:    -4,-12, -2,7/*mean (0.182771), correlation (0.244867)*/,
+ORBextractor.cc:188:    -8,-5, -7,-10/*mean (0.186898), correlation (0.23901)*/,
+ORBextractor.cc:190:    0,-8, 1,-13/*mean (0.0897886), correlation (0.274827)*/,
+ORBextractor.cc:191:    -13,-2, -8,2/*mean (0.148774), correlation (0.28065)*/,
+ORBextractor.cc:192:    -3,-2, -2,3/*mean (0.153048), correlation (0.283063)*/,
+ORBextractor.cc:193:    -6,9, -4,-9/*mean (0.169523), correlation (0.278248)*/,
+ORBextractor.cc:196:    7,-5, 11,-10/*mean (0.00693882), correlation (0.305161)*/,
+ORBextractor.cc:197:    -13,-6, -11,0/*mean (0.0227283), correlation (0.300181)*/,
+ORBextractor.cc:199:    -6,-3, -6,12/*mean (0.131748), correlation (0.312779)*/,
+ORBextractor.cc:200:    10,-9, 12,-4/*mean (0.144827), correlation (0.292797)*/,
+ORBextractor.cc:201:    -13,8, -8,-12/*mean (0.149202), correlation (0.308918)*/,
+ORBextractor.cc:202:    -13,0, -8,-4/*mean (0.160909), correlation (0.310013)*/,
+ORBextractor.cc:204:    5,7, 10,-7/*mean (0.212337), correlation (0.310315)*/,
+ORBextractor.cc:205:    -1,7, 1,-12/*mean (0.214429), correlation (0.311933)*/,
+ORBextractor.cc:206:    3,-10, 5,6/*mean (0.235807), correlation (0.313104)*/,
+ORBextractor.cc:207:    2,-4, 3,-10/*mean (0.00494827), correlation (0.344948)*/,
+ORBextractor.cc:208:    -13,0, -13,5/*mean (0.0549145), correlation (0.344675)*/,
+ORBextractor.cc:209:    -13,-7, -12,12/*mean (0.103385), correlation (0.342715)*/,
+ORBextractor.cc:210:    -13,3, -11,8/*mean (0.134222), correlation (0.322922)*/,
+ORBextractor.cc:211:    -7,12, -4,7/*mean (0.153284), correlation (0.337061)*/,
+ORBextractor.cc:212:    6,-10, 12,8/*mean (0.154881), correlation (0.329257)*/,
+ORBextractor.cc:213:    -9,-1, -7,-6/*mean (0.200967), correlation (0.33312)*/,
+ORBextractor.cc:214:    -2,-5, 0,12/*mean (0.201518), correlation (0.340635)*/,
+ORBextractor.cc:215:    -12,5, -7,5/*mean (0.207805), correlation (0.335631)*/,
+ORBextractor.cc:216:    3,-10, 8,-13/*mean (0.224438), correlation (0.34504)*/,
+ORBextractor.cc:217:    -7,-7, -4,5/*mean (0.239361), correlation (0.338053)*/,
+ORBextractor.cc:218:    -3,-2, -1,-7/*mean (0.240744), correlation (0.344322)*/,
+ORBextractor.cc:219:    2,9, 5,-11/*mean (0.242949), correlation (0.34145)*/,
+ORBextractor.cc:220:    -11,-13, -5,-13/*mean (0.244028), correlation (0.336861)*/,
+ORBextractor.cc:221:    -1,6, 0,-1/*mean (0.247571), correlation (0.343684)*/,
+ORBextractor.cc:222:    5,-3, 5,2/*mean (0.000697256), correlation (0.357265)*/,
+ORBextractor.cc:223:    -4,-13, -4,12/*mean (0.00213675), correlation (0.373827)*/,
+ORBextractor.cc:224:    -9,-6, -9,6/*mean (0.0126856), correlation (0.373938)*/,
+ORBextractor.cc:225:    -12,-10, -8,-4/*mean (0.0152497), correlation (0.364237)*/,
+ORBextractor.cc:226:    10,2, 12,-3/*mean (0.0299933), correlation (0.345292)*/,
+ORBextractor.cc:228:    -7,-13, -6,5/*mean (0.0534975), correlation (0.368357)*/,
+ORBextractor.cc:229:    -4,9, -3,4/*mean (0.099865), correlation (0.372276)*/,
+ORBextractor.cc:230:    7,-1, 12,2/*mean (0.117083), correlation (0.364529)*/,
+ORBextractor.cc:231:    -7,6, -5,1/*mean (0.126125), correlation (0.369606)*/,
+ORBextractor.cc:232:    -13,11, -12,5/*mean (0.130364), correlation (0.358502)*/,
+ORBextractor.cc:233:    -3,7, -2,-6/*mean (0.131691), correlation (0.375531)*/,
+ORBextractor.cc:234:    7,-8, 12,-7/*mean (0.160166), correlation (0.379508)*/,
+ORBextractor.cc:235:    -13,-7, -11,-12/*mean (0.167848), correlation (0.353343)*/,
+ORBextractor.cc:236:    1,-3, 12,12/*mean (0.183378), correlation (0.371916)*/,
+ORBextractor.cc:237:    2,-6, 3,0/*mean (0.228711), correlation (0.371761)*/,
+ORBextractor.cc:238:    -4,3, -2,-13/*mean (0.247211), correlation (0.364063)*/,
+ORBextractor.cc:239:    -1,-13, 1,9/*mean (0.249325), correlation (0.378139)*/,
+ORBextractor.cc:240:    7,1, 8,-6/*mean (0.000652272), correlation (0.411682)*/,
+ORBextractor.cc:241:    1,-1, 3,12/*mean (0.00248538), correlation (0.392988)*/,
+ORBextractor.cc:243:    -1,-9, -1,3/*mean (0.0364485), correlation (0.410752)*/,
+ORBextractor.cc:244:    -13,-13, -10,5/*mean (0.0376068), correlation (0.398374)*/,
+ORBextractor.cc:246:    12,-5, 12,9/*mean (0.0942645), correlation (0.410422)*/,
+ORBextractor.cc:248:    5,-13, 6,10/*mean (0.109256), correlation (0.408646)*/,
+ORBextractor.cc:249:    2,-12, 2,3/*mean (0.131691), correlation (0.416076)*/,
+ORBextractor.cc:250:    3,8, 4,-6/*mean (0.165081), correlation (0.417569)*/,
+ORBextractor.cc:251:    2,6, 12,-13/*mean (0.171874), correlation (0.408471)*/,
+ORBextractor.cc:252:    9,-12, 10,3/*mean (0.175146), correlation (0.41296)*/,
+ORBextractor.cc:253:    -8,4, -7,9/*mean (0.183682), correlation (0.402956)*/,
+ORBextractor.cc:254:    -11,12, -4,-6/*mean (0.184672), correlation (0.416125)*/,
+ORBextractor.cc:255:    1,12, 2,-8/*mean (0.191487), correlation (0.386696)*/,
+ORBextractor.cc:256:    6,-9, 7,-4/*mean (0.192668), correlation (0.394771)*/,
+ORBextractor.cc:257:    2,3, 3,-2/*mean (0.200157), correlation (0.408303)*/,
+ORBextractor.cc:259:    3,-3, 8,-8/*mean (0.205904), correlation (0.416294)*/,
+ORBextractor.cc:261:    -11,-5, -6,-4/*mean (0.243444), correlation (0.395069)*/,
+ORBextractor.cc:262:    -10,11, -5,10/*mean (0.247672), correlation (0.413392)*/,
+ORBextractor.cc:263:    -5,-8, -3,12/*mean (0.24774), correlation (0.411416)*/,
+ORBextractor.cc:264:    -10,5, -9,0/*mean (0.00213675), correlation (0.454003)*/,
+ORBextractor.cc:265:    8,-1, 12,-6/*mean (0.0293635), correlation (0.455368)*/,
+ORBextractor.cc:266:    4,-6, 6,-11/*mean (0.0404971), correlation (0.457393)*/,
+ORBextractor.cc:267:    -10,12, -8,7/*mean (0.0481107), correlation (0.448364)*/,
+ORBextractor.cc:268:    4,-2, 6,7/*mean (0.050641), correlation (0.455019)*/,
+ORBextractor.cc:269:    -2,0, -2,12/*mean (0.0525978), correlation (0.44338)*/,
+ORBextractor.cc:270:    -5,-8, -5,2/*mean (0.0629667), correlation (0.457096)*/,
+ORBextractor.cc:271:    7,-6, 10,12/*mean (0.0653846), correlation (0.445623)*/,
+ORBextractor.cc:272:    -9,-13, -8,-8/*mean (0.0858749), correlation (0.449789)*/,
+ORBextractor.cc:273:    -5,-13, -5,-2/*mean (0.122402), correlation (0.450201)*/,
+ORBextractor.cc:274:    8,-8, 9,-13/*mean (0.125416), correlation (0.453224)*/,
+ORBextractor.cc:275:    -9,-11, -9,0/*mean (0.130128), correlation (0.458724)*/,
+ORBextractor.cc:276:    1,-8, 1,-2/*mean (0.132467), correlation (0.440133)*/,
+ORBextractor.cc:277:    7,-4, 9,1/*mean (0.132692), correlation (0.454)*/,
+ORBextractor.cc:278:    -2,1, -1,-4/*mean (0.135695), correlation (0.455739)*/,
+ORBextractor.cc:279:    11,-6, 12,-11/*mean (0.142904), correlation (0.446114)*/,
+ORBextractor.cc:280:    -12,-9, -6,4/*mean (0.146165), correlation (0.451473)*/,
+ORBextractor.cc:283:    0,-4, 2,8/*mean (0.167083), correlation (0.459315)*/,
+ORBextractor.cc:284:    -9,12, -5,-13/*mean (0.173234), correlation (0.454706)*/,
+ORBextractor.cc:286:    -1,2, 1,7/*mean (0.185504), correlation (0.443838)*/,
+ORBextractor.cc:287:    5,11, 7,-9/*mean (0.185706), correlation (0.451123)*/,
+ORBextractor.cc:288:    3,5, 6,-8/*mean (0.188968), correlation (0.455808)*/,
+ORBextractor.cc:289:    -13,-4, -8,9/*mean (0.191667), correlation (0.459128)*/,
+ORBextractor.cc:290:    -5,9, -3,-3/*mean (0.193196), correlation (0.458364)*/,
+ORBextractor.cc:291:    -4,-7, -3,-12/*mean (0.196536), correlation (0.455782)*/,
+ORBextractor.cc:293:    -7,6, -6,12/*mean (0.199438), correlation (0.458156)*/,
+ORBextractor.cc:294:    -13,6, -5,-2/*mean (0.211224), correlation (0.449548)*/,
+ORBextractor.cc:295:    1,-10, 3,10/*mean (0.211718), correlation (0.440606)*/,
+ORBextractor.cc:296:    4,1, 8,-4/*mean (0.213034), correlation (0.443177)*/,
+ORBextractor.cc:297:    -2,-2, 2,-13/*mean (0.234334), correlation (0.455304)*/,
+ORBextractor.cc:298:    2,-12, 12,12/*mean (0.235684), correlation (0.443436)*/,
+ORBextractor.cc:299:    -2,-13, 0,-6/*mean (0.237674), correlation (0.452525)*/,
+ORBextractor.cc:301:    -6,-10, -3,-5/*mean (0.248459), correlation (0.439621)*/,
+ORBextractor.cc:302:    -3,-13, -1,1/*mean (0.249505), correlation (0.456666)*/,
+ORBextractor.cc:303:    7,5, 12,-11/*mean (0.00119208), correlation (0.495466)*/,
+ORBextractor.cc:304:    4,-2, 5,-7/*mean (0.00372245), correlation (0.484214)*/,
+ORBextractor.cc:305:    -13,9, -9,-5/*mean (0.00741116), correlation (0.499854)*/,
+ORBextractor.cc:307:    7,-8, 7,6/*mean (0.0220085), correlation (0.501609)*/,
+ORBextractor.cc:308:    -7,-4, -7,1/*mean (0.0233806), correlation (0.496568)*/,
+ORBextractor.cc:309:    -8,11, -7,-8/*mean (0.0236505), correlation (0.489719)*/,
+ORBextractor.cc:310:    -13,6, -12,-8/*mean (0.0268781), correlation (0.503487)*/,
+ORBextractor.cc:312:    10,-5, 12,3/*mean (0.0399235), correlation (0.494029)*/,
+ORBextractor.cc:313:    -6,-5, -6,7/*mean (0.0420153), correlation (0.486579)*/,
+ORBextractor.cc:314:    8,-3, 9,-8/*mean (0.0548021), correlation (0.484237)*/,
+ORBextractor.cc:315:    2,-12, 2,8/*mean (0.0616622), correlation (0.496642)*/,
+ORBextractor.cc:316:    -11,-2, -10,3/*mean (0.0627755), correlation (0.498563)*/,
+ORBextractor.cc:317:    -12,-13, -7,-9/*mean (0.0829622), correlation (0.495491)*/,
+ORBextractor.cc:318:    -11,0, -10,-5/*mean (0.0843342), correlation (0.487146)*/,
+ORBextractor.cc:319:    5,-3, 11,8/*mean (0.0929937), correlation (0.502315)*/,
+ORBextractor.cc:320:    -2,-13, -1,12/*mean (0.113327), correlation (0.48941)*/,
+ORBextractor.cc:321:    -1,-8, 0,9/*mean (0.132119), correlation (0.467268)*/,
+ORBextractor.cc:322:    -13,-11, -12,-5/*mean (0.136269), correlation (0.498771)*/,
+ORBextractor.cc:323:    -10,-2, -10,11/*mean (0.142173), correlation (0.498714)*/,
+ORBextractor.cc:324:    -3,9, -2,-13/*mean (0.144141), correlation (0.491973)*/,
+ORBextractor.cc:325:    2,-3, 3,2/*mean (0.14892), correlation (0.500782)*/,
+ORBextractor.cc:326:    -9,-13, -4,0/*mean (0.150371), correlation (0.498211)*/,
+ORBextractor.cc:327:    -4,6, -3,-10/*mean (0.152159), correlation (0.495547)*/,
+ORBextractor.cc:328:    -4,12, -2,-7/*mean (0.156152), correlation (0.496925)*/,
+ORBextractor.cc:329:    -6,-11, -4,9/*mean (0.15749), correlation (0.499222)*/,
+ORBextractor.cc:330:    6,-3, 6,11/*mean (0.159211), correlation (0.503821)*/,
+ORBextractor.cc:331:    -13,11, -5,5/*mean (0.162427), correlation (0.501907)*/,
+ORBextractor.cc:333:    7,-5, 12,-2/*mean (0.169141), correlation (0.484474)*/,
+ORBextractor.cc:334:    -1,12, 0,7/*mean (0.169456), correlation (0.495339)*/,
+ORBextractor.cc:335:    -4,-8, -3,-2/*mean (0.171457), correlation (0.487251)*/,
+ORBextractor.cc:336:    -7,1, -6,7/*mean (0.175), correlation (0.500024)*/,
+ORBextractor.cc:337:    -13,-12, -8,-13/*mean (0.175866), correlation (0.497523)*/,
+ORBextractor.cc:338:    -7,-2, -6,-8/*mean (0.178273), correlation (0.501854)*/,
+ORBextractor.cc:339:    -8,5, -6,-9/*mean (0.181107), correlation (0.494888)*/,
+ORBextractor.cc:340:    -5,-1, -4,5/*mean (0.190227), correlation (0.482557)*/,
+ORBextractor.cc:341:    -13,7, -8,10/*mean (0.196739), correlation (0.496503)*/,
+ORBextractor.cc:342:    1,5, 5,-13/*mean (0.19973), correlation (0.499759)*/,
+ORBextractor.cc:343:    1,0, 10,-13/*mean (0.204465), correlation (0.49873)*/,
+ORBextractor.cc:344:    9,12, 10,-1/*mean (0.209334), correlation (0.49063)*/,
+ORBextractor.cc:345:    5,-8, 10,-9/*mean (0.211134), correlation (0.503011)*/,
+ORBextractor.cc:346:    -1,11, 1,-13/*mean (0.212), correlation (0.499414)*/,
+ORBextractor.cc:347:    -9,-3, -6,2/*mean (0.212168), correlation (0.480739)*/,
+ORBextractor.cc:348:    -1,-10, 1,12/*mean (0.212731), correlation (0.502523)*/,
+ORBextractor.cc:349:    -13,1, -8,-10/*mean (0.21327), correlation (0.489786)*/,
+ORBextractor.cc:350:    8,-11, 10,-6/*mean (0.214159), correlation (0.488246)*/,
+ORBextractor.cc:351:    2,-13, 3,-6/*mean (0.216993), correlation (0.50287)*/,
+ORBextractor.cc:352:    7,-13, 12,-9/*mean (0.223639), correlation (0.470502)*/,
+ORBextractor.cc:353:    -10,-10, -5,-7/*mean (0.224089), correlation (0.500852)*/,
+ORBextractor.cc:354:    -10,-8, -8,-13/*mean (0.228666), correlation (0.502629)*/,
+ORBextractor.cc:355:    4,-6, 8,5/*mean (0.22906), correlation (0.498305)*/,
+ORBextractor.cc:356:    3,12, 8,-13/*mean (0.233378), correlation (0.503825)*/,
+ORBextractor.cc:357:    -4,2, -3,-3/*mean (0.234323), correlation (0.476692)*/,
+ORBextractor.cc:358:    5,-13, 10,-12/*mean (0.236392), correlation (0.475462)*/,
+ORBextractor.cc:359:    4,-13, 5,-1/*mean (0.236842), correlation (0.504132)*/,
+ORBextractor.cc:360:    -9,9, -4,3/*mean (0.236977), correlation (0.497739)*/,
+ORBextractor.cc:361:    0,3, 3,-9/*mean (0.24314), correlation (0.499398)*/,
+ORBextractor.cc:362:    -12,1, -6,1/*mean (0.243297), correlation (0.489447)*/,
+ORBextractor.cc:363:    3,2, 4,-8/*mean (0.00155196), correlation (0.553496)*/,
+ORBextractor.cc:364:    -10,-10, -10,9/*mean (0.00239541), correlation (0.54297)*/,
+ORBextractor.cc:365:    8,-13, 12,12/*mean (0.0034413), correlation (0.544361)*/,
+ORBextractor.cc:366:    -8,-12, -6,-5/*mean (0.003565), correlation (0.551225)*/,
+ORBextractor.cc:368:    10,6, 11,-8/*mean (0.00885065), correlation (0.540913)*/,
+ORBextractor.cc:369:    6,8, 8,-12/*mean (0.0101552), correlation (0.551085)*/,
+ORBextractor.cc:370:    -7,10, -6,5/*mean (0.0102227), correlation (0.533635)*/,
+ORBextractor.cc:371:    -3,-9, -3,9/*mean (0.0110211), correlation (0.543121)*/,
+ORBextractor.cc:372:    -1,-13, -1,5/*mean (0.0113473), correlation (0.550173)*/,
+ORBextractor.cc:373:    -3,-7, -3,4/*mean (0.0140913), correlation (0.554774)*/,
+ORBextractor.cc:374:    -8,-2, -8,3/*mean (0.017049), correlation (0.55461)*/,
+ORBextractor.cc:376:    2,-5, 3,11/*mean (0.0224022), correlation (0.549667)*/,
+ORBextractor.cc:377:    6,-9, 11,-13/*mean (0.029161), correlation (0.546295)*/,
+ORBextractor.cc:378:    3,-1, 7,12/*mean (0.0303081), correlation (0.548599)*/,
+ORBextractor.cc:379:    11,-1, 12,4/*mean (0.0355151), correlation (0.523943)*/,
+ORBextractor.cc:380:    -3,0, -3,6/*mean (0.0417904), correlation (0.543395)*/,
+ORBextractor.cc:381:    4,-11, 4,12/*mean (0.0487292), correlation (0.542818)*/,
+ORBextractor.cc:382:    2,-4, 2,1/*mean (0.0575124), correlation (0.554888)*/,
+ORBextractor.cc:383:    -10,-6, -8,1/*mean (0.0594242), correlation (0.544026)*/,
+ORBextractor.cc:384:    -13,7, -11,1/*mean (0.0597391), correlation (0.550524)*/,
+ORBextractor.cc:385:    -13,12, -11,-13/*mean (0.0608974), correlation (0.55383)*/,
+ORBextractor.cc:386:    6,0, 11,-13/*mean (0.065126), correlation (0.552006)*/,
+ORBextractor.cc:387:    0,-1, 1,4/*mean (0.074224), correlation (0.546372)*/,
+ORBextractor.cc:388:    -13,3, -9,-2/*mean (0.0808592), correlation (0.554875)*/,
+ORBextractor.cc:389:    -9,8, -6,-3/*mean (0.0883378), correlation (0.551178)*/,
+ORBextractor.cc:390:    -13,-6, -8,-2/*mean (0.0901035), correlation (0.548446)*/,
+ORBextractor.cc:391:    5,-9, 8,10/*mean (0.0949843), correlation (0.554694)*/,
+ORBextractor.cc:392:    2,7, 3,-9/*mean (0.0994152), correlation (0.550979)*/,
+ORBextractor.cc:393:    -1,-6, -1,-1/*mean (0.10045), correlation (0.552714)*/,
+ORBextractor.cc:394:    9,5, 11,-2/*mean (0.100686), correlation (0.552594)*/,
+ORBextractor.cc:395:    11,-3, 12,-8/*mean (0.101091), correlation (0.532394)*/,
+ORBextractor.cc:397:    -1,4, 0,10/*mean (0.105263), correlation (0.531498)*/,
+ORBextractor.cc:398:    3,-6, 4,5/*mean (0.110785), correlation (0.540491)*/,
+ORBextractor.cc:399:    -13,0, -10,5/*mean (0.112798), correlation (0.536582)*/,
+ORBextractor.cc:401:    8,9, 9,-6/*mean (0.117431), correlation (0.553763)*/,
+ORBextractor.cc:402:    7,-4, 8,-12/*mean (0.118522), correlation (0.553452)*/,
+ORBextractor.cc:403:    -10,4, -10,9/*mean (0.12094), correlation (0.554785)*/,
+ORBextractor.cc:405:    9,-7, 10,-2/*mean (0.124978), correlation (0.549846)*/,
+ORBextractor.cc:406:    7,0, 12,-2/*mean (0.127002), correlation (0.537452)*/,
+ORBextractor.cc:407:    -1,-6, 0,-11/*mean (0.127148), correlation (0.547401)*/
+ORBextractor.cc:421:        mvScaleFactor[i]=mvScaleFactor[i-1]*scaleFactor;
+ORBextractor.cc:437:    float nDesiredFeaturesPerScale = nfeatures*(1 - factor)/(1 - (float)pow((double)factor, (double)nlevels));
+ORBextractor.cc:440:    for( int level = 0; level < nlevels-1; level++ )
+ORBextractor.cc:446:    mnFeaturesPerLevel[nlevels-1] = std::max(nfeatures - sumFeatures, 0);
+ORBextractor.cc:453:    // pre-compute the end of a row in a circular patch
+ORBextractor.cc:460:        umax[v] = cvRound(sqrt(hp2 - v * v));
+ORBextractor.cc:463:    for (v = HALF_PATCH_SIZE, v0 = 0; v >= vmin; --v)
+ORBextractor.cc:477:        keypoint->angle = IC_Angle(image, keypoint->pt, umax);
+ORBextractor.cc:483:    const int halfX = ceil(static_cast<float>(UR.x-UL.x)/2);
+ORBextractor.cc:484:    const int halfY = ceil(static_cast<float>(BR.y-UL.y)/2);
+ORBextractor.cc:543:    const int nIni = round(static_cast<float>(maxX-minX)/(maxY-minY));
+ORBextractor.cc:545:    const float hX = static_cast<float>(maxX-minX)/nIni;
+ORBextractor.cc:557:        ni.BL = cv::Point2i(ni.UL.x,maxY-minY);
+ORBextractor.cc:558:        ni.BR = cv::Point2i(ni.UR.x,maxY-minY);
+ORBextractor.cc:569:        vpIniNodes[kp.pt.x/hX]->vKeys.push_back(kp);
+ORBextractor.cc:576:        if(lit->vKeys.size()==1)
+ORBextractor.cc:578:            lit->bNoMore=true;
+ORBextractor.cc:581:        else if(lit->vKeys.empty())
+ORBextractor.cc:608:            if(lit->bNoMore)
+ORBextractor.cc:618:                lit->DivideNode(n1,n2,n3,n4);
+ORBextractor.cc:685:                for(int j=vPrevSizeAndPointerToNode.size()-1;j>=0;j--)
+ORBextractor.cc:688:                    vPrevSizeAndPointerToNode[j].second->DivideNode(n1,n2,n3,n4);
+ORBextractor.cc:728:                    lNodes.erase(vPrevSizeAndPointerToNode[j].second->lit);
+ORBextractor.cc:746:        vector<cv::KeyPoint> &vNodeKeys = lit->vKeys;
+ORBextractor.cc:748:        float maxResponse = pKP->response;
+ORBextractor.cc:773:        const int minBorderX = EDGE_THRESHOLD-3;
+ORBextractor.cc:775:        const int maxBorderX = mvImagePyramid[level].cols-EDGE_THRESHOLD+3;
+ORBextractor.cc:776:        const int maxBorderY = mvImagePyramid[level].rows-EDGE_THRESHOLD+3;
+ORBextractor.cc:781:        const float width = (maxBorderX-minBorderX);
+ORBextractor.cc:782:        const float height = (maxBorderY-minBorderY);
+ORBextractor.cc:794:            if(iniY>=maxBorderY-3)
+ORBextractor.cc:803:                if(iniX>=maxBorderX-6)
+ORBextractor.cc:870:        const int maxBorderX = mvImagePyramid[level].cols-EDGE_THRESHOLD;
+ORBextractor.cc:871:        const int maxBorderY = mvImagePyramid[level].rows-EDGE_THRESHOLD;
+ORBextractor.cc:873:        const int W = maxBorderX - minBorderX;
+ORBextractor.cc:874:        const int H = maxBorderY - minBorderY;
+ORBextractor.cc:896:            const float iniY = minBorderY + i*cellH - 3;
+ORBextractor.cc:899:            if(i == levelRows-1)
+ORBextractor.cc:901:                hY = maxBorderY+3-iniY;
+ORBextractor.cc:914:                    iniX = minBorderX + j*cellW - 3;
+ORBextractor.cc:923:                if(j == levelCols-1)
+ORBextractor.cc:925:                    hX = maxBorderX+3-iniX;
+ORBextractor.cc:956:                    nToDistribute += nfeaturesCell-nKeys;
+ORBextractor.cc:969:            int nNewFeaturesCell = nfeaturesCell + ceil((float)nToDistribute/(nCells-nNoMore));
+ORBextractor.cc:986:                            nToDistribute += nNewFeaturesCell-nTotal[i][j];
+ORBextractor.cc:1052:    // Pre-compute the scale pyramid
+ORBextractor.cc:1100:                keypoint->pt *= scale;
+ORBextractor.cc:1120:            resize(mvImagePyramid[level-1], mvImagePyramid[level], sz, 0, 0, INTER_LINEAR);
+LoopClosing.cc:2:* This file is part of ORB-SLAM2.
+LoopClosing.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+LoopClosing.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+LoopClosing.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+LoopClosing.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+LoopClosing.cc:98:    if(pKF->mnId!=0)
+LoopClosing.cc:115:        mpCurrentKF->SetNotErase();
+LoopClosing.cc:119:    if(mpCurrentKF->mnId<mLastLoopKFid+10)
+LoopClosing.cc:121:        mpKeyFrameDB->add(mpCurrentKF);
+LoopClosing.cc:122:        mpCurrentKF->SetErase();
+LoopClosing.cc:129:    const vector<KeyFrame*> vpConnectedKeyFrames = mpCurrentKF->GetVectorCovisibleKeyFrames();
+LoopClosing.cc:130:    const DBoW2::BowVector &CurrentBowVec = mpCurrentKF->mBowVec;
+LoopClosing.cc:135:        if(pKF->isBad())
+LoopClosing.cc:137:        const DBoW2::BowVector &BowVec = pKF->mBowVec;
+LoopClosing.cc:139:        float score = mpORBVocabulary->score(CurrentBowVec, BowVec);
+LoopClosing.cc:146:    vector<KeyFrame*> vpCandidateKFs = mpKeyFrameDB->DetectLoopCandidates(mpCurrentKF, minScore);
+LoopClosing.cc:151:        mpKeyFrameDB->add(mpCurrentKF);
+LoopClosing.cc:153:        mpCurrentKF->SetErase();
+LoopClosing.cc:169:        set<KeyFrame*> spCandidateGroup = pCandidateKF->GetConnectedKeyFrames();
+LoopClosing.cc:220:    mpKeyFrameDB->add(mpCurrentKF);
+LoopClosing.cc:224:        mpCurrentKF->SetErase();
+LoopClosing.cc:232:    mpCurrentKF->SetErase();
+LoopClosing.cc:262:        pKF->SetNotErase();
+LoopClosing.cc:264:        if(pKF->isBad())
+LoopClosing.cc:280:            pSolver->SetRansacParameters(0.99,20,300);
+LoopClosing.cc:306:            cv::Mat Scm  = pSolver->iterate(5,bNoMore,vbInliers,nInliers);
+LoopClosing.cc:312:                nCandidates--;
+LoopClosing.cc:325:                cv::Mat R = pSolver->GetEstimatedRotation();
+LoopClosing.cc:326:                cv::Mat t = pSolver->GetEstimatedTranslation();
+LoopClosing.cc:327:                const float s = pSolver->GetEstimatedScale();
+LoopClosing.cc:338:                    g2o::Sim3 gSmw(Converter::toMatrix3d(pKF->GetRotation()),Converter::toVector3d(pKF->GetTranslation()),1.0);
+LoopClosing.cc:352:             mvpEnoughConsistentCandidates[i]->SetErase();
+LoopClosing.cc:353:        mpCurrentKF->SetErase();
+LoopClosing.cc:358:    vector<KeyFrame*> vpLoopConnectedKFs = mpMatchedKF->GetVectorCovisibleKeyFrames();
+LoopClosing.cc:364:        vector<MapPoint*> vpMapPoints = pKF->GetMapPointMatches();
+LoopClosing.cc:370:                if(!pMP->isBad() && pMP->mnLoopPointForKF!=mpCurrentKF->mnId)
+LoopClosing.cc:373:                    pMP->mnLoopPointForKF=mpCurrentKF->mnId;
+LoopClosing.cc:394:                mvpEnoughConsistentCandidates[i]->SetErase();
+LoopClosing.cc:400:            mvpEnoughConsistentCandidates[i]->SetErase();
+LoopClosing.cc:401:        mpCurrentKF->SetErase();
+LoopClosing.cc:413:    mpLocalMapper->RequestStop();
+LoopClosing.cc:425:            mpThreadGBA->detach();
+LoopClosing.cc:431:    while(!mpLocalMapper->isStopped())
+LoopClosing.cc:437:    mpCurrentKF->UpdateConnections();
+LoopClosing.cc:440:    mvpCurrentConnectedKFs = mpCurrentKF->GetVectorCovisibleKeyFrames();
+LoopClosing.cc:445:    cv::Mat Twc = mpCurrentKF->GetPoseInverse();
+LoopClosing.cc:450:        unique_lock<mutex> lock(mpMap->mMutexMapUpdate);
+LoopClosing.cc:456:            cv::Mat Tiw = pKFi->GetPose();
+LoopClosing.cc:479:            KeyFrame* pKFi = mit->first;
+LoopClosing.cc:480:            g2o::Sim3 g2oCorrectedSiw = mit->second;
+LoopClosing.cc:485:            vector<MapPoint*> vpMPsi = pKFi->GetMapPointMatches();
+LoopClosing.cc:491:                if(pMPi->isBad())
+LoopClosing.cc:493:                if(pMPi->mnCorrectedByKF==mpCurrentKF->mnId)
+LoopClosing.cc:496:                // Project with non-corrected pose and project back with corrected pose
+LoopClosing.cc:497:                cv::Mat P3Dw = pMPi->GetWorldPos();
+LoopClosing.cc:502:                pMPi->SetWorldPos(cvCorrectedP3Dw);
+LoopClosing.cc:503:                pMPi->mnCorrectedByKF = mpCurrentKF->mnId;
+LoopClosing.cc:504:                pMPi->mnCorrectedReference = pKFi->mnId;
+LoopClosing.cc:505:                pMPi->UpdateNormalAndDepth();
+LoopClosing.cc:517:            pKFi->SetPose(correctedTiw);
+LoopClosing.cc:520:            pKFi->UpdateConnections();
+LoopClosing.cc:530:                MapPoint* pCurMP = mpCurrentKF->GetMapPoint(i);
+LoopClosing.cc:532:                    pCurMP->Replace(pLoopMP);
+LoopClosing.cc:535:                    mpCurrentKF->AddMapPoint(pLoopMP,i);
+LoopClosing.cc:536:                    pLoopMP->AddObservation(mpCurrentKF,i);
+LoopClosing.cc:537:                    pLoopMP->ComputeDistinctiveDescriptors();
+LoopClosing.cc:556:        vector<KeyFrame*> vpPreviousNeighbors = pKFi->GetVectorCovisibleKeyFrames();
+LoopClosing.cc:559:        pKFi->UpdateConnections();
+LoopClosing.cc:560:        LoopConnections[pKFi]=pKFi->GetConnectedKeyFrames();
+LoopClosing.cc:574:    mpMap->InformNewBigChange();
+LoopClosing.cc:577:    mpMatchedKF->AddLoopEdge(mpCurrentKF);
+LoopClosing.cc:578:    mpCurrentKF->AddLoopEdge(mpMatchedKF);
+LoopClosing.cc:584:    mpThreadGBA = new thread(&LoopClosing::RunGlobalBundleAdjustment,this,mpCurrentKF->mnId);
+LoopClosing.cc:587:    mpLocalMapper->Release();    
+LoopClosing.cc:589:    mLastLoopKFid = mpCurrentKF->mnId;   
+LoopClosing.cc:598:        KeyFrame* pKF = mit->first;
+LoopClosing.cc:600:        g2o::Sim3 g2oScw = mit->second;
+LoopClosing.cc:607:        unique_lock<mutex> lock(mpMap->mMutexMapUpdate);
+LoopClosing.cc:614:                pRep->Replace(mvpLoopMapPoints[i]);
+LoopClosing.cc:670:            mpLocalMapper->RequestStop();
+LoopClosing.cc:673:            while(!mpLocalMapper->isStopped() && !mpLocalMapper->isFinished())
+LoopClosing.cc:679:            unique_lock<mutex> lock(mpMap->mMutexMapUpdate);
+LoopClosing.cc:682:            list<KeyFrame*> lpKFtoCheck(mpMap->mvpKeyFrameOrigins.begin(),mpMap->mvpKeyFrameOrigins.end());
+LoopClosing.cc:687:                const set<KeyFrame*> sChilds = pKF->GetChilds();
+LoopClosing.cc:688:                cv::Mat Twc = pKF->GetPoseInverse();
+LoopClosing.cc:692:                    if(pChild->mnBAGlobalForKF!=nLoopKF)
+LoopClosing.cc:694:                        cv::Mat Tchildc = pChild->GetPose()*Twc;
+LoopClosing.cc:695:                        pChild->mTcwGBA = Tchildc*pKF->mTcwGBA;//*Tcorc*pKF->mTcwGBA;
+LoopClosing.cc:696:                        pChild->mnBAGlobalForKF=nLoopKF;
+LoopClosing.cc:702:                pKF->mTcwBefGBA = pKF->GetPose();
+LoopClosing.cc:703:                pKF->SetPose(pKF->mTcwGBA);
+LoopClosing.cc:708:            const vector<MapPoint*> vpMPs = mpMap->GetAllMapPoints();
+LoopClosing.cc:714:                if(pMP->isBad())
+LoopClosing.cc:717:                if(pMP->mnBAGlobalForKF==nLoopKF)
+LoopClosing.cc:720:                    pMP->SetWorldPos(pMP->mPosGBA);
+LoopClosing.cc:725:                    KeyFrame* pRefKF = pMP->GetReferenceKeyFrame();
+LoopClosing.cc:727:                    if(pRefKF->mnBAGlobalForKF!=nLoopKF)
+LoopClosing.cc:730:                    // Map to non-corrected camera
+LoopClosing.cc:731:                    cv::Mat Rcw = pRefKF->mTcwBefGBA.rowRange(0,3).colRange(0,3);
+LoopClosing.cc:732:                    cv::Mat tcw = pRefKF->mTcwBefGBA.rowRange(0,3).col(3);
+LoopClosing.cc:733:                    cv::Mat Xc = Rcw*pMP->GetWorldPos()+tcw;
+LoopClosing.cc:736:                    cv::Mat Twc = pRefKF->GetPoseInverse();
+LoopClosing.cc:741:                    pMP->SetWorldPos(worldPos);
+LoopClosing.cc:745:            mpMap->InformNewBigChange();
+LoopClosing.cc:747:            mpLocalMapper->Release();
+KeyFrame.cc:2:* This file is part of ORB-SLAM2.
+KeyFrame.cc:4:* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+KeyFrame.cc:7:* ORB-SLAM2 is free software: you can redistribute it and/or modify
+KeyFrame.cc:12:* ORB-SLAM2 is distributed in the hope that it will be useful,
+KeyFrame.cc:18:* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
+KeyFrame.cc:67:        mpORBvocabulary->transform(vCurrentDesc,mBowVec,mFeatVec,4);
+KeyFrame.cc:78:    Ow = -Rwc*tcw;
+KeyFrame.cc:94:    Ow_dso = -Rwc_dso*tcw_dso;
+KeyFrame.cc:198:       vPairs.push_back(make_pair(mit->second,mit->first));
+KeyFrame.cc:218:        s.insert(mit->first);
+KeyFrame.cc:250:        int n = it-mvOrderedWeights.begin();
+KeyFrame.cc:278:    int idx = pMP->GetIndexInKeyFrame(this);
+KeyFrame.cc:298:        if(!pMP->isBad())
+KeyFrame.cc:315:            if(!pMP->isBad())
+KeyFrame.cc:319:                    if(mvpMapPoints[i]->Observations()>=minObs)
+KeyFrame.cc:363:        if(pMP->isBad())
+KeyFrame.cc:366:        map<KeyFrame*,size_t> observations = pMP->GetObservations();
+KeyFrame.cc:370:            if(mit->first->mnId==mnId)
+KeyFrame.cc:372:            KFcounter[mit->first]++;
+KeyFrame.cc:390:        if(mit->second>nmax)
+KeyFrame.cc:392:            nmax=mit->second;
+KeyFrame.cc:393:            pKFmax=mit->first;
+KeyFrame.cc:395:        if(mit->second>=th)
+KeyFrame.cc:397:            vPairs.push_back(make_pair(mit->second,mit->first));
+KeyFrame.cc:398:            (mit->first)->AddConnection(this,mit->second);
+KeyFrame.cc:405:        pKFmax->AddConnection(this,nmax);
+KeyFrame.cc:428:            mpParent->AddChild(this);
+KeyFrame.cc:451:    pKF->AddChild(this);
+KeyFrame.cc:521:        mit->first->EraseConnection(this);
+KeyFrame.cc:525:            mvpMapPoints[i]->EraseObservation(this);
+KeyFrame.cc:543:            int max = -1;
+KeyFrame.cc:550:                if(pKF->isBad())
+KeyFrame.cc:554:                vector<KeyFrame*> vpConnected = pKF->GetVectorCovisibleKeyFrames();
+KeyFrame.cc:559:                        if(vpConnected[i]->mnId == (*spcit)->mnId)
+KeyFrame.cc:561:                            int w = pKF->GetWeight(vpConnected[i]);
+KeyFrame.cc:576:                pC->ChangeParent(pP);
+KeyFrame.cc:588:                (*sit)->ChangeParent(mpParent);
+KeyFrame.cc:591:        mpParent->EraseChild(this);
+KeyFrame.cc:592:        mTcp = Tcw*mpParent->GetPoseInverse();
+KeyFrame.cc:597:    mpMap->EraseKeyFrame(this);
+KeyFrame.cc:598:    mpKeyFrameDB->erase(this);
+KeyFrame.cc:628:    const int nMinCellX = max(0,(int)floor((x-mnMinX-r)*mfGridElementWidthInv));
+KeyFrame.cc:632:    const int nMaxCellX = min((int)mnGridCols-1,(int)ceil((x-mnMinX+r)*mfGridElementWidthInv));
+KeyFrame.cc:636:    const int nMinCellY = max(0,(int)floor((y-mnMinY-r)*mfGridElementHeightInv));
+KeyFrame.cc:640:    const int nMaxCellY = min((int)mnGridRows-1,(int)ceil((y-mnMinY+r)*mfGridElementHeightInv));
+KeyFrame.cc:652:                const float distx = kpUn.pt.x-x;
+KeyFrame.cc:653:                const float disty = kpUn.pt.y-y;
+KeyFrame.cc:676:        const float x = (u-cx)*z*invfx;
+KeyFrame.cc:677:        const float y = (v-cy)*z*invfy;
+KeyFrame.cc:708:            cv::Mat x3Dw = pMP->GetWorldPos();
+KeyFrame.cc:716:    return vDepths[(vDepths.size()-1)/q];
