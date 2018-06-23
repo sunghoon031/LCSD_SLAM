@@ -1,0 +1,13 @@
+*.pro
+*.pro.user
+*.pro.user*
+build*
+build-*
+*.o
+*.so
+*.a
+*.so.*
+thirdparty/libzip-1.1.1
+*.classpath
+*.cproject
+*.project
