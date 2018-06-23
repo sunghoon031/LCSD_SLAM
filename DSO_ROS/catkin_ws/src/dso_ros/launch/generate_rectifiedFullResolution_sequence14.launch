@@ -1,0 +1,23 @@
+<launch>
+  <group ns="dso">
+    <node pkg="dso_ros" type="dso_node" name="dso_ros" output="screen">
+        <!--remap from="image" to="/image_raw"/-->
+        <param name="debug" type="bool" value="false"/>
+        <param name="display_GUI" type="bool" value="false"/>
+        <param name="mode" type="int" value="2"/>
+        <param name="dataset" type="int" value="2"/>
+        <param name="sequence" type="int" value="14"/>
+
+        <param name="image_file_path" type="string" value="/media/seonghunlee/wdMyBook/TUM_monoVO/sequence_14/images"/>
+        <param name="calib_file_path" type="string" value="/media/seonghunlee/wdMyBook/TUM_monoVO/sequence_14/camera.txt"/>
+        <param name="vignette_file_path" type="string" value="/media/seonghunlee/wdMyBook/TUM_monoVO/sequence_14/vignette.png"/>
+        <param name="gamma_file_path" type="string" value="/media/seonghunlee/wdMyBook/TUM_monoVO/sequence_14/pcalib.txt"/>
+        <param name="rectified_file_path" type="string" value="/media/seonghunlee/wdMyBook/TUM_monoVO/sequence_"/>
+
+        <param name="dso_frame_id" type="string" value="dso_odom"/>
+        <param name="odom_frame_id" type="string" value="odom"/>
+        <param name="base_frame_id" type="string" value="base_link"/>
+        <param name="camera_frame_id" type="string" value="base_link"/>
+    </node>
+ </group>
+</launch>
