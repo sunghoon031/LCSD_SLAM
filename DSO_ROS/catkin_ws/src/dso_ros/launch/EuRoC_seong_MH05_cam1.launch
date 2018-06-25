@@ -4,6 +4,7 @@
         <!--remap from="image" to="/image_raw"/-->
         <param name="debug" type="bool" value="false"/>
         <param name="display_GUI" type="bool" value="false"/>
+        <param name="playback_speed" type="double" value="1"/>
         <param name="mode" type="int" value="1"/>
         <param name="dataset" type="int" value="1"/>
 
