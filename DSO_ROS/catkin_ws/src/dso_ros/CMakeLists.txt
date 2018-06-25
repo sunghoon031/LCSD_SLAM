@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
 #  message_generation
 )
 
-set(DSO_PATH "\home\seonghunlee\ros\dso_private")
+set(DSO_PATH ${PROJECT_SOURCE_DIR}/../../../../DSO)
 message("\n\n---- LOOKING FOR DSO at\n\"${DSO_PATH}\"")
 
 
