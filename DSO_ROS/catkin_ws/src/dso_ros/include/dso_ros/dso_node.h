@@ -114,7 +114,7 @@ public:
 
   int original_setting_photometricCalibration;
 
-  float playbackSpeed;
+  double playbackSpeed;
   int nSkippedFrames;
   int nTotalFramesAfterInit;
   std::vector<double> trackingTimes; //in ms

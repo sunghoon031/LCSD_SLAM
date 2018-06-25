@@ -34,7 +34,6 @@ dso_ros::DsoNode::DsoNode(ros::NodeHandle &n, ros::NodeHandle &n_private)
   , stats_file("")
   , initial_timestamp(0)
   , display_GUI_for_my_system(false)
-  , playbackSpeed(1)
   //, full_system(new dso::FullSystem())
   //, undistorter()
 {
@@ -867,7 +866,9 @@ void dso_ros::DsoNode::initParams()
      dso::setting_debugout_runquiet = true;
      dso::setting_logStuff = false;
     }
+
     nh_private.param<bool>("display_GUI", display_GUI, false);
+    nh_private.param<double>("playback_speed", playbackSpeed, 1);
     nh_private.param<std::string>("image_file_path", image_file, "");
     nh_private.param<std::string>("calib_file_path", calib_file, "");
     nh_private.param<std::string>("vignette_file_path", vignette_file, "");
@@ -903,16 +904,19 @@ void dso_ros::DsoNode::initParams()
 
     if (dataset == 2 && mode == 1)
     {
-       std::cout << "Do Photometric Calibration !" << std::endl;
+       std::cout << "     Do Photometric Calibration !" << std::endl;
        dso::setting_photometricCalibration = 2;
     }
     else
     {
-       std::cout << "Don't Do Photometric Calibration !" << std::endl;
+       std::cout << "     Don't Do Photometric Calibration !" << std::endl;
        dso::setting_photometricCalibration = 0;
        dso::setting_affineOptModeA = 0;
        dso::setting_affineOptModeB = 0;
     }
+
+    std::cout << "     playback speed = x" << playbackSpeed << std::endl;
+
     std::cout << "!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
 
 
