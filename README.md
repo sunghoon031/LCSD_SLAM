@@ -30,7 +30,7 @@ We tested our code using Ubuntu 14.04 (ROS Indigo) and Ubuntu 16.04 (ROS Kinetic
 Note that enabling both GUIs can slow down the performance. The results reported in the paper were obtained by running the system with both GUIs disabled. If you really want the optimal result with the visualization, reduce the playback speed by half (see next) and enable the GUI of ORB-SLAM only. 
 
 #### (2) Set the playback speed:
-This can be done by setting the initialization value of `playbackSpeed` in the constructor initialization in `dso_node.cpp`. The default is 1 (original speed). Make sure you build `dso_ros` afterwards to apply the change.
+This can be done by setting the parameter value of `playback_speed` in the launch file (see [Step 1](https://github.com/sunghoon031/LSV-SLAM/blob/master/README.md#3-set-paths)). The default is 1 (original speed).
 
 #### (3) Set paths:
 Open `dso_ros/catkin_ws/src/dso_ros/launch/euroc_seong_***.launch` (for the EuRoC MAV dataset) or `dso_ros/catkin_ws/src/dso_ros/launch/monoVO_***.launch` (for the TUM monoVO dataset) and edit the input paths (`image_file_path`, `calib_file_path`, `vignette_file_path`, `gamma_file_path`) and the output path (`stats_file_path`).
