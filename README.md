@@ -19,6 +19,10 @@ We tested our code using Ubuntu 14.04 (ROS Indigo) and Ubuntu 16.04 (ROS Kinetic
 
 ### 2.3. How to build:
 
+````
+echo "export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/LCSD-SLAM/Examples/ROS" >> ~/.bashrc
+source ~/.bashrc
+````
 
 ### 2.4. How to run: 
 
