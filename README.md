@@ -36,15 +36,27 @@ make
 sudo make install
 sudo cp lib/zipconf.h /usr/local/include/zipconf.h  
 ````
-4. Build ORB-SLAM2:
+4. Build ORB-SLAM2 and its ROS wrapper:
 ````
 cd ~/LCSD-SLAM/ORB_SLAM2
 chmod +x build.sh
 ./build.sh
+
 echo "export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/LCSD-SLAM/Examples/ROS" >> ~/.bashrc
 source ~/.bashrc
 chmod +x build_ros.sh
 ./build_ros.sh
+````
+5. Build DSO and its ROS wrapper:
+````
+cd ~/LCSD-SLAM/DSO
+mkdir build
+cd build
+cmake ..
+make -j
+
+cd ~/LCSD-SLAM/DSO_ROS/catkin_ws
+catkin_make
 ````
 
 ### 2.4. How to run: 
