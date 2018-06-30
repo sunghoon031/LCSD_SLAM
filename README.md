@@ -19,9 +19,24 @@ We tested our code using Ubuntu 14.04 (ROS Indigo) and Ubuntu 16.04 (ROS Kinetic
 
 ### 2.3. How to build:
 
-1. Install ROS
-2. Install [Pangolin](https://github.com/stevenlovegrove/Pangolin)
-3. Build ORB-SLAM2:
+1. Install ROS.
+2. Install dependencies:
+````
+	sudo apt-get install libsuitesparse-dev libeigen3-dev libboost-all-dev libopencv-dev
+````
+2. Install [Pangolin](https://github.com/stevenlovegrove/Pangolin).
+3. Install [ziplib](https://github.com/JakobEngel/dso#ziplib-recommended) (recommended)
+````
+sudo apt-get install zlib1g-dev
+cd ~/LCSD-SLAM/DSO/thirdparty
+tar -zxvf libzip-1.1.1.tar.gz
+cd libzip-1.1.1/
+./configure
+make
+sudo make install
+sudo cp lib/zipconf.h /usr/local/include/zipconf.h  
+````
+4. Build ORB-SLAM2:
 ````
 cd ~/LCSD-SLAM/ORB_SLAM2
 chmod +x build.sh
