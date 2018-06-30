@@ -28,7 +28,7 @@ We tested our code using Ubuntu 14.04 (ROS Indigo) and Ubuntu 16.04 (ROS Kinetic
 3. Install [ziplib](https://github.com/JakobEngel/dso#ziplib-recommended) (recommended)
 ````
 sudo apt-get install zlib1g-dev
-cd ~/LCSD-SLAM/DSO/thirdparty
+cd ~/LCSD_SLAM/DSO/thirdparty
 tar -zxvf libzip-1.1.1.tar.gz
 cd libzip-1.1.1/
 ./configure
@@ -38,31 +38,31 @@ sudo cp lib/zipconf.h /usr/local/include/zipconf.h
 ````
 4. Build ORB-SLAM2 and its ROS wrapper:
 ````
-cd ~/LCSD-SLAM/ORB_SLAM2
+cd ~/LCSD_SLAM/ORB_SLAM2
 chmod +x build.sh
 ./build.sh
 
-echo "export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/LCSD-SLAM/Examples/ROS" >> ~/.bashrc
+echo "export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/LCSD_SLAM/Examples/ROS" >> ~/.bashrc
 source ~/.bashrc
 chmod +x build_ros.sh
 ./build_ros.sh
 ````
 5. Build DSO and its ROS wrapper:
 ````
-cd ~/LCSD-SLAM/DSO
+cd ~/LCSD_SLAM/DSO
 mkdir build
 cd build
 cmake ..
 make -j
 
-cd ~/LCSD-SLAM/DSO_ROS/catkin_ws
+cd ~/LCSD_SLAM/DSO_ROS/catkin_ws
 catkin_make
 ````
 
 ### 2.4. How to run: 
 
 #### (1) Enable/Disable visualization (GUI):
-&nbsp;&nbsp;&nbsp;&nbsp;(a) GUI for the direct module (DSO): Go to `dso_ros/catkin_ws/src/dso_ros/launch/euroc_***.launch` (for the EuRoC MAV dataset) or `dso_ros/catkin_ws/src/dso_ros/launch/monoVO_***.launch` (for the TUM monoVO dataset) and set `display_GUI` to either true or false.
+&nbsp;&nbsp;&nbsp;&nbsp;(a) GUI for the direct module (DSO): Go to `DSO_ROS/catkin_ws/src/dso_ros/launch/euroc_***.launch` (for the EuRoC MAV dataset) or `DSO_ROS/catkin_ws/src/dso_ros/launch/monoVO_***.launch` (for the TUM monoVO dataset) and set `display_GUI` to either true or false.
 
 &nbsp;&nbsp;&nbsp;&nbsp;(b) GUI for the feature-based module (ORB-SLAM): Go to `ORB_SLAM2/Examples/Monocular/EuRoC_seong_***.yaml` (for the EuRoC MAV dataset) or `ORB_SLAM2/Examples/Monocular/TUMmonoVO_yaml/TUM_monoVO_***.yaml` (for the TUM monoVO dataset) and set `GUI` to either 1 or 0.
 
@@ -91,7 +91,7 @@ Examples/Monocular/TUMmonoVO_yaml/monoVO_ORB_[VO/SLAM]_full_[SEQUENCE_NUMBER].ya
 ````
 &nbsp;&nbsp;&nbsp;&nbsp;(iii) In the third terminal, run
 ````
-cd [APPROPRIATE_PATH]/dso_ros/catkin_ws
+cd [APPROPRIATE_PATH]/DSO_ROS/catkin_ws
 source devel/setup.bash
 
 // For the EuRoC MAV dataset:
