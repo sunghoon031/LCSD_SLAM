@@ -48,7 +48,11 @@ This can be done by setting the parameter value of `playback_speed` in the launc
 Open the launch file in DSO_ROS (see [Step 1(a)](https://github.com/sunghoon031/LCSD-SLAM/blob/master/README.md#1-enabledisable-visualization-gui)) and edit the input paths (`image_file_path`, `calib_file_path`, `vignette_file_path`, `gamma_file_path`) and the output path (`stats_file_path`).
 
 #### (4) Run:
-&nbsp;&nbsp;&nbsp;&nbsp;(i) In the first terminal, run
+&nbsp;&nbsp;&nbsp;&nbsp;(i) In the first terminal, run `roscore`
+
+&nbsp;&nbsp;&nbsp;&nbsp;(ii) In the second terminal, run
+
+
 ````
 // For the EuRoC MAV dataset:
 rosrun ORB_SLAM2 Mono Vocabulary/ORBvoc.txt \
@@ -58,7 +62,7 @@ Examples/Monocular/EuRoC_seong_[VO/SLAM]_cam[0/1].yaml
 rosrun ORB_SLAM2 Mono Vocabulary/ORBvoc.txt \
 Examples/Monocular/TUMmonoVO_yaml/monoVO_ORB_[VO/SLAM]_full_[SEQUENCE_NUMBER].yaml 
 ````
-&nbsp;&nbsp;&nbsp;&nbsp;(ii) In the second terminal, run
+&nbsp;&nbsp;&nbsp;&nbsp;(iii) In the third terminal, run
 ````
 cd [APPROPRIATE_PATH]/dso_ros/catkin_ws
 source devel/setup.bash
