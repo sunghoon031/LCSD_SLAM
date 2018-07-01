@@ -55,11 +55,10 @@ chmod +x build.sh
 
 Note that enabling both GUIs can slow down the performance. The results reported in the paper were obtained by running the system with both GUIs disabled. If you really want the optimal result with the visualization, reduce the playback speed by half (see next) and enable the GUI of ORB-SLAM only. 
 
-#### (2) Set the playback speed:
+#### (2) Set the playback speed andpaths:
 This can be done by setting the parameter value of `playback_speed` in the launch file in DSO_ROS (see [Step 1(a)](https://github.com/sunghoon031/LCSD-SLAM/blob/master/README.md#1-enabledisable-visualization-gui)). The default is 1 (original speed).
 
-#### (3) Set paths:
-Open the launch file in DSO_ROS (see [Step 1(a)](https://github.com/sunghoon031/LCSD-SLAM/blob/master/README.md#1-enabledisable-visualization-gui)) and edit the input paths (`image_file_path`, `calib_file_path`, `vignette_file_path`, `gamma_file_path`) and the output path (`stats_file_path`).
+Also, edit the input paths (`image_file_path`, `calib_file_path`, `vignette_file_path`, `gamma_file_path`) and the output path (`stats_file_path`).
 
 #### (4) Run:
 &nbsp;&nbsp;&nbsp;&nbsp;(i) In the first terminal, run `roscore`
