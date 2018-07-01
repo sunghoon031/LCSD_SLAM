@@ -25,7 +25,7 @@
 namespace ORB_SLAM2
 {
 
-Map::Map():use_dso_pose_as_final(false), use_orb_pose_as_final(false),percentage_kfs_with_collinear_covlinks(0.0f), mnMaxKFid(0),mnBigChangeIdx(0)
+Map::Map(): mnMaxKFid(0),mnBigChangeIdx(0),use_dso_pose_as_final(false), use_orb_pose_as_final(false),percentage_kfs_with_collinear_covlinks(0.0f)
 {
 }
 
