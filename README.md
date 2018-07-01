@@ -36,7 +36,7 @@ make
 sudo make install
 sudo cp lib/zipconf.h /usr/local/include/zipconf.h  
 ````
-4. Build !
+4. Build!
 ````
 cd [YOUR_PATH]/LCSD_SLAM
 chmod +x build.sh
@@ -60,12 +60,10 @@ This can be done by setting the parameter value of `playback_speed` in the launc
 
 Also, edit the input paths (`image_file_path`, `calib_file_path`, `vignette_file_path`, `gamma_file_path`) and the output path (`stats_file_path`).
 
-#### (4) Run:
+#### (3) Run:
 &nbsp;&nbsp;&nbsp;&nbsp;(i) In the first terminal, run `roscore`
 
 &nbsp;&nbsp;&nbsp;&nbsp;(ii) In the second terminal, run
-
-
 ````
 // For the EuRoC MAV dataset:
 rosrun ORB_SLAM2 Mono Vocabulary/ORBvoc.txt \
