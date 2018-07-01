@@ -1,6 +1,6 @@
-echo "###################"
-echo "[1] Build ORB-SLAM2"
-echo "###################"
+printf "\n##################"
+printf "[1] Build ORB-SLAM2"
+printf "##################\n"
 cd ~/LCSD_SLAM
 
 echo "Configuring and building Thirdparty/DBoW2 ..."
@@ -29,9 +29,9 @@ cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
 
-echo "#######################"
-echo "[2] Build ORB-SLAM2 ROS"
-echo "#######################"
+printf "\n####################"
+printf "[2] Build ORB-SLAM2 ROS"
+printf "####################\n"
 
 echo "Building ROS nodes"
 
@@ -44,18 +44,18 @@ cd build
 cmake .. -DROS_BUILD_TYPE=Release
 make -j$(nproc)
 
-echo "##############"
-echo "[3] Build DSO "
-echo "##############"
+printf "\n#############"
+printf "[3] Build DSO "
+printf "#############\n"
 
-cd ../../../../DSO
+cd ../../../../../DSO
 mkdir build
 cd build
 cmake ..
 make -j$(nproc)
 
-echo "##################"
-echo "[4] Build DSO ROS "
-echo "##################"
+printf "\n#################"
+printf "[4] Build DSO ROS "
+printf "#################\n"
 cd ../../DSO_ROS/catkin_ws
 catkin_make -DCMAKE_BUILD_TYPE=Release
