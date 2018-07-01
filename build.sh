@@ -1,7 +1,8 @@
+cd ~/LCSD_SLAM
+
 printf "\n##################\n"
 printf "[1] Build ORB-SLAM2"
 printf "\n##################\n\n"
-cd ~/LCSD_SLAM
 
 echo "Configuring and building Thirdparty/DBoW2 ..."
 cd ORB_SLAM2/Thirdparty/DBoW2
