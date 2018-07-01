@@ -22,7 +22,7 @@ We tested our code using Ubuntu 14.04 (ROS Indigo) and Ubuntu 16.04 (ROS Kinetic
 1. Install ROS.
 2. Install dependencies:
 ````
-	sudo apt-get install libsuitesparse-dev libeigen3-dev libboost-all-dev libopencv-dev
+sudo apt-get install libsuitesparse-dev libeigen3-dev libboost-all-dev libopencv-dev
 ````
 2. Install [Pangolin](https://github.com/stevenlovegrove/Pangolin).
 3. Install [ziplib](https://github.com/JakobEngel/dso#ziplib-recommended) (recommended)
@@ -78,7 +78,7 @@ Examples/Monocular/TUMmonoVO_yaml/monoVO_ORB_[VO/SLAM]_full_[SEQUENCE_NUMBER].ya
 ````
 &nbsp;&nbsp;&nbsp;&nbsp;(iii) In the third terminal, run
 ````
-cd [APPROPRIATE_PATH]/DSO_ROS/catkin_ws
+cd [YOUR_PATH]/DSO_ROS/catkin_ws
 source devel/setup.bash
 
 // For the EuRoC MAV dataset:
