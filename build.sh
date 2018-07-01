@@ -38,6 +38,7 @@ echo "Building ROS nodes"
 
 # Add ROS_PACKAGE_PATH to .bashrc unless you've already done it.
 grep -q -F 'export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/LCSD_SLAM/Examples/ROS' ~/.bashrc || echo 'export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/LCSD_SLAM/Examples/ROS' >> ~/.bashrc
+source ~/.bashrc
 
 cd ../Examples/ROS/ORB_SLAM2
 mkdir build
@@ -60,3 +61,4 @@ printf "[4] Build DSO ROS "
 printf "\n#################\n\n"
 cd ../../DSO_ROS/catkin_ws
 catkin_make -DCMAKE_BUILD_TYPE=Release
+source devel/setup.bash
