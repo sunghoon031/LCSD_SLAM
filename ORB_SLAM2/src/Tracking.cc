@@ -1412,15 +1412,18 @@ bool Tracking::TrackWithMotionModel()
 
     fill(mCurrentFrame.mvpMapPoints.begin(),mCurrentFrame.mvpMapPoints.end(),static_cast<MapPoint*>(NULL));
 
-//    // Project points seen in previous frame
-//    int th;
-//    if(mSensor!=System::STEREO)
-//        th=15;
-//    else
-//        th=7;
-//
-//    int nmatches = matcher.SearchByProjection(mCurrentFrame,mLastFrame,th,mSensor==System::MONOCULAR);
-//
+    // Project points seen in previous frame
+    int th;
+    if(mSensor!=System::STEREO)
+        th=15;
+    else
+        th=7;
+
+    int nmatches = matcher.SearchByProjection(mCurrentFrame,mLastFrame,th,mSensor==System::MONOCULAR);
+    // Seong: nmatches may not be used, but you MUST still call this method to update map points projection!
+    // Simply to avoid warning, just do the following:
+    if (nmatches>0){}
+
 //    // If few matches, uses a wider window search
 //    if(nmatches<20)
 //    {
