@@ -65,6 +65,8 @@ Also, edit the input paths (`image_file_path`, `calib_file_path`, `vignette_file
 
 &nbsp;&nbsp;&nbsp;&nbsp;(ii) In the second terminal, run
 ````
+cd [YOUR_PATH]/LCSD_SLAM/ORB_SLAM2
+
 // For the EuRoC MAV dataset:
 rosrun ORB_SLAM2 Mono Vocabulary/ORBvoc.txt \
 Examples/Monocular/EuRoC_seong_[VO/SLAM]_cam[0/1].yaml 
