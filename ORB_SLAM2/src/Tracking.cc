@@ -971,6 +971,9 @@ bool Tracking::DsoBasedInitialization(const bool &reinit)
                 mvpLocalMapPoints.push_back(pNewMP);
 
             // For reinitialization, add a few fake map point to the last KF
+            // This prevents the spanning tree from breaking apart,
+            // allowing the pose graph optimization to cover the entire keyframe trajectory
+            // in the presence of loop closures.
             if (reinit && !fake_covisibility_established)
             {
                 int nFakePoints = 0;
