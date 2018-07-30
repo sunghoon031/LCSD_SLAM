@@ -1,5 +1,9 @@
 #  **Loosely-Coupled Semi-Direct Monocular SLAM**
 
+Paper: https://arxiv.org/abs/1807.10073
+
+Video demo: https://youtu.be/j7WnU7ZpZ8c
+
 ## :large_blue_diamond: 1. Raw Results and MATLAB Scripts (for figures).
 Run `main.m` after setting appropriate paths and mode:
 - Mode 1: Plot pre-evaluated results to make the same figures in the paper.
