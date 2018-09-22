@@ -107,3 +107,14 @@ roslaunch dso_ros EuRoC_seong_[SEQUENCE_NAME]_cam[0/1].launch
 roslaunch dso_ros monoVO_seong_[SEQUENCE_NUMBER].launch
 ````
 The keyframe trajectory will be saved as `KeyFrameTrajectory_seong.txt` in `ORB_SLAM2` folder, and additional tracking statistics will be saved as `trackingStats.txt` in the path you set (`stats_file_path`) in [Step 3](https://github.com/sunghoon031/LCSD-SLAM/blob/master/README.md#3-set-paths).
+
+### 2.4. Important source files: 
+1. [ros_output_wraper.cpp](https://github.com/sunghoon031/LCSD_SLAM/blob/master/DSO_ROS/catkin_ws/src/dso_ros/src/ros_output_wrapper.cpp): Collects the marginalized data from DSO
+
+2. [dso_node.cpp](https://github.com/sunghoon031/LCSD_SLAM/blob/master/DSO_ROS/catkin_ws/src/dso_ros/src/dso_node.cpp): Runs DSO and sends the marginalized data to ORB-SLAM.
+
+3. [ros_mono.cc](https://github.com/sunghoon031/LCSD_SLAM/blob/master/ORB_SLAM2/Examples/ROS/ORB_SLAM2/src/ros_mono.cc): Runs ORB-SLAM and receives the marginalized data from DSO.
+
+4. [Tracking.cc](https://github.com/sunghoon031/LCSD_SLAM/blob/master/ORB_SLAM2/src/Tracking.cc): Performs motion-only geometric BA using the initial pose estimate from DSO. Also, it decides whether or not the new keyframe should be inserted (and more points from DSO be added).
+
+5. [LocalMapping.cc](https://github.com/sunghoon031/LCSD_SLAM/blob/master/ORB_SLAM2/src/LocalMapping.cc): Performs joint geometric BA and checks the collinearity of the covisibility links between keyframes.
