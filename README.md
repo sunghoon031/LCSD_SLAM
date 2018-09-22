@@ -64,7 +64,23 @@ This can be done by setting the parameter value of `playback_speed` in the launc
 
 Also, edit the input paths (`image_file_path`, `calib_file_path`, `vignette_file_path`, `gamma_file_path`) and the output path (`stats_file_path`).
 
-#### (3) Run:
+#### (3) [For datasets other than TUM_monoVO only, e.g., EuRoC MAV or KITTI] Create times.txt 
+You need to provide the timestamp data separately. Create `times.txt` and write the image timestamps in one column (the unit doesn't matter). Make sure you have the same number of timestamps as the number of images in `image_file_path`. Then move this file to the same directory where your `image_file_path` is located. 
+
+Example with EuRoC_MAV dataset:
+````
+MH_01_easy
+|
+└─── cam0
+     |    times.txt
+     |
+     └─── data  #This is your image_file_path
+          |   img0.png
+          |   img1.png
+          |   ...
+````
+
+#### (4) Run:
 &nbsp;&nbsp;&nbsp;&nbsp;(i) In the first terminal, run `roscore`
 
 &nbsp;&nbsp;&nbsp;&nbsp;(ii) In the second terminal, run
