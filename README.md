@@ -2,6 +2,8 @@
 
 Paper: https://arxiv.org/abs/1807.10073
 
+Supplementary Material: [Here](https://github.com/sunghoon031/LCSD_SLAM/blob/master/Supplementary_material.pdf)
+
 Video demo: https://youtu.be/j7WnU7ZpZ8c
 
 ## :large_blue_diamond: 1. Raw Results and MATLAB Scripts (for figures).
