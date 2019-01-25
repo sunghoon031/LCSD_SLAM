@@ -47,7 +47,7 @@ sudo cp lib/zipconf.h /usr/local/include/zipconf.h
 cd [YOUR_PATH]/LCSD_SLAM
 chmod +x build.sh
 
-// Change the first line of build.sh to "cd [YOUR_PATH]/LCSD_SLAM"
+// In build.sh, change line 1 and 40 by replacing "~/LCSD_SLAM" to "[YOUR_PATH]/LCSD_SLAM"
 ./build.sh
 ````
 
@@ -102,10 +102,10 @@ Examples/Monocular/TUMmonoVO_yaml/monoVO_ORB_[VO/SLAM]_full_[SEQUENCE_NUMBER].ya
 cd [YOUR_PATH]/DSO_ROS/catkin_ws
 source devel/setup.bash
 
-// For the EuRoC MAV dataset:
-roslaunch dso_ros EuRoC_seong_[SEQUENCE_NAME]_cam[0/1].launch
+// For the EuRoC MAV dataset (see launch files in LCSD_SLAM/DSO_ROS/catkin_ws/src/dso_ros/launch):
+roslaunch dso_ros EuRoC_seong_[SEQUENCE_NAME]_cam[0/1].launch 
 
-// For the TUM monoVO dataset:
+// For the TUM monoVO dataset (see launch files in LCSD_SLAM/DSO_ROS/catkin_ws/src/dso_ros/launch):
 roslaunch dso_ros monoVO_seong_[SEQUENCE_NUMBER].launch
 ````
 The keyframe trajectory will be saved as `KeyFrameTrajectory_seong.txt` in `ORB_SLAM2` folder, and additional tracking statistics will be saved as `trackingStats.txt` in the path you set (`stats_file_path`) in [Step 3](https://github.com/sunghoon031/LCSD-SLAM/blob/master/README.md#3-set-paths).
