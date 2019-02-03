@@ -37,7 +37,7 @@ printf "\n####################\n\n"
 echo "Building ROS nodes"
 
 # Add ROS_PACKAGE_PATH to .bashrc unless you've already done it.
-grep -q -F 'export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/LCSD_SLAM/Examples/ROS' ~/.bashrc || echo 'export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/LCSD_SLAM/Examples/ROS' >> ~/.bashrc
+grep -q -F 'export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/LCSD_SLAM/ORB_SLAM2/Examples/ROS' ~/.bashrc || echo 'export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/LCSD_SLAM/ORB_SLAM2/Examples/ROS' >> ~/.bashrc
 source ~/.bashrc
 
 cd ../Examples/ROS/ORB_SLAM2
