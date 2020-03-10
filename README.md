@@ -66,6 +66,10 @@ This can be done by setting the parameter value of `playback_speed` in the launc
 
 Also, edit the input paths (`image_file_path`, `calib_file_path`, `vignette_file_path`, `gamma_file_path`) and the output path (`stats_file_path`).
 
+For TUM_monoVO dataset, the four input paths should be directed to `images.zip`, `camera.txt`, `vignette.png`, `pcalib.txt` provided by the [dataset](https://vision.cs.tum.edu/data/datasets/mono-dataset).
+
+For EuRoC dataset, the `image_file_path` should be directed to the folder containg the images, and `calib_file_path` should be directed to either `cam0_calib_for_dso.txt` or `cam1_calib_for_dso.txt` provided [here](cam0_calib_for_dso.txt) and [here](cam1_calib_for_dso.txt). 
+
 #### (3) [For datasets other than TUM_monoVO only, e.g., EuRoC MAV or KITTI] Create times.txt 
 You need to provide the timestamp data separately. Create `times.txt` and write the image timestamps in one column (the unit doesn't matter). Make sure you have the same number of timestamps as the number of images in `image_file_path`. Then move this file to the same directory where your `image_file_path` is located. 
 
